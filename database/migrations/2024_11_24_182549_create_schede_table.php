@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('abilitata')->nullable(); // bit NULL
 
             // Chiavi esterne
-            $table->foreign('id_utente')->references('id')->on('utenti')->onDelete('cascade');
+            $table->foreign('id_utente')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
