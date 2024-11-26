@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('gymcard_id')->nullable(); // int NULL
             $table->unsignedBigInteger('exercise_id')->nullable(); // int NULL
             $table->smallInteger('day')->nullable(); // smallint NULL
-            $table->smallInteger('order')->nullable(); // smallint NULL
-            $table->smallInteger('set')->nullable(); // smallint NULL
+            $table->smallInteger('sequence')->nullable(); // smallint NULL
+            $table->smallInteger('series')->nullable(); // smallint NULL
             $table->string('repetitions', 10)->nullable(); // nvarchar(10) NULL
             $table->decimal('rest', 5, 2)->nullable(); // decimal(5, 2) NULL
             $table->timestamps();

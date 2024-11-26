@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable(); // int NULL, chiave esterna verso utenti
             $table->unsignedBigInteger('exercise_id')->nullable(); // int NULL, chiave esterna verso esercizi
-            $table->integer('set')->nullable(); // int NULL
+            $table->integer('sets')->nullable(); // int NULL
             $table->decimal('used_kg', 3, 2)->nullable(); // decimal(3,2) NULL
             $table->date('date')->nullable(); // date NULL
             $table->timestamps();
