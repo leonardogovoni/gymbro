@@ -12,7 +12,12 @@
         <!-- Gender -->
         <div class="mt-4">
             <x-input-label for="gender" :value="__('Sesso')" />
-            <x-text-input id="gender" class="block mt-1 w-full" type="text" name="gender" :value="old('gender')" required autofocus autocomplete="gender" />
+                <select id="gender" name="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <option selected disabled>Seleziona un sesso</option>
+                  <option value="M">Uomo</option>
+                  <option value="F">Donna</option>
+                  <option value="N">Non Specificato</option>
+                </select>
             <x-input-error :messages="$errors->get('gender')" class="mt-2" />
         </div>
 
