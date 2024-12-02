@@ -17,6 +17,10 @@ Route::get('/training', function () {
     return view('training');
 })->middleware(['auth', 'verified'])->name('training');
 
+Route::get('/training/edit', function () {
+    return view('training/edit');
+})->middleware(['auth', 'verified'])->name('training.edit');
+
 // Pagina delle schede, raggiungibile solo dopo aver effettuato il login
 // GET | HEAD
 Route::get('/schede', [SchedeController::class, 'index'])->middleware(['auth', 'verified'])->name('schede');
