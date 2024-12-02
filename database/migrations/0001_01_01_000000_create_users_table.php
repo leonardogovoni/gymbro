@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('tax_id_code', 50)->nullable(); // nvarchar(50) NULL
+            //$table->string('tax_id_code', 50)->nullable(); // nvarchar(50) NULL
             $table->char('gender', 1)->nullable(); // char(1) NULL
             $table->date('date_of_birth')->nullable(); // date NULL
             $table->integer('gym_card')->nullable(); // int NULL

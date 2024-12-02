@@ -97,11 +97,11 @@
                                 @foreach ($schede as $scheda)
                                     <tr>
                                         <td class="px-4 py-2">{{ $scheda->id }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->titolo }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->descrizione }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->inizio }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->fine }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->abilitata ? 'Sì' : 'No' }}</td>
+                                        <td class="px-4 py-2">{{ $scheda->title }}</td>
+                                        <td class="px-4 py-2">{{ $scheda->description }}</td>
+                                        <td class="px-4 py-2">{{ $scheda->start }}</td>
+                                        <td class="px-4 py-2">{{ $scheda->end }}</td>
+                                        <td class="px-4 py-2">{{ $scheda->enabled ? 'Sì' : 'No' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

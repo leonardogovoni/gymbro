@@ -10,14 +10,14 @@ class Scheda extends Model
 	use HasFactory;
 
 	// Aggiungi qualsiasi altra configurazione, come la tabella specifica, se necessario
-	protected $table = 'schede';
+	protected $table = 'gymcards';
 
 	// Disabilita automaticamente l'uso dei campi created_at e updated_at
 	public $timestamps = false;
 
 	// Aggiungi i campi che possono essere popolati in massa
 	protected $fillable = [
-		'id_utente', 'titolo', 'descrizione', 'inizio', 'fine', 'abilitata',
+		'user_id', 'title', 'description', 'start', 'end', 'enabled',
 	];
 
 	// Se l'ID non è 'id', specifica il nome della colonna dell'ID (opzionale)
