@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exercisesdata', function (Blueprint $table) {
+        Schema::create('exercises_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable(); // int NULL, chiave esterna verso utenti
-            $table->unsignedBigInteger('exercise_id')->nullable(); // int NULL, chiave esterna verso esercizi
-            $table->integer('sets')->nullable(); // int NULL
-            $table->decimal('used_kg', 3, 2)->nullable(); // decimal(3,2) NULL
-            $table->date('date')->nullable(); // date NULL
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('exercise_id')->nullable();
+            // Sarebbe il numero del set in tale esericizio,
+            // ma se mettiamo set si incasina con l'ORM
+            $table->integer('sets')->nullable();
+            $table->integer('reps')->nullable();
+            $table->decimal('used_kg', 3, 2)->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
 
             // Chiavi esterne
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exercisesdata');
+        Schema::dropIfExists('exercises_data');
     }
 };
