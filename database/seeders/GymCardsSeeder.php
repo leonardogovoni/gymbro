@@ -20,7 +20,7 @@ class GymCardsSeeder extends Seeder
                 'start' => '07/12/2024',
                 'end' => '07/12/2025',
                 'enabled' => true,
-            ]
+            ],
         ]);
     }
 }
