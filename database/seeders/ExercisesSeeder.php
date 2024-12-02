@@ -15,37 +15,37 @@ class ExercisesSeeder extends Seeder
         DB::table('exercises')->insert([
             [
                 'name' => 'Leg Extension',
-                'image' => 'legextension.png',
+                'image' => 'leg_extension.png',
                 'description' => 'Placeholder',
                 'muscle' => 'Quadricipiti',
             ],
             [
                 'name' => 'Pressa 45°',
-                'image' => 'pressa45.png',
+                'image' => 'pressa_45.png',
                 'description' => 'Placeholder',
                 'muscle' => 'Quadricipiti',
             ],
             [
                 'name' => 'Hack Squat',
-                'image' => 'hacksquat.png',
+                'image' => 'hack_squat.png',
                 'description' => 'Placeholder',
                 'muscle' => 'Quadricipiti',
             ],
             [
                 'name' => 'Leg Curl',
-                'image' => 'legcurl.png',
+                'image' => 'leg_curl.png',
                 'description' => 'Placeholder',
                 'muscle' => 'ischio-crurali',
             ],
             [
                 'name' => 'Leg Curl Seduto',
-                'image' => 'legcurlseduto.png',
+                'image' => 'leg_curl_seduto.png',
                 'description' => 'Placeholder',
                 'muscle' => 'ischio-crurali',
             ],
             [
                 'name' => 'Calf Machine In Piedi',
-                'image' => 'calfmachine.png',
+                'image' => 'calf_machine.png',
                 'description' => 'Placeholder',
                 'muscle' => 'Polpacci',
             ],
