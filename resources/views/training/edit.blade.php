@@ -1,11 +1,11 @@
 <x-app-layout>
-    <x-modal name="prova">
+    <x-modal name="prova" maxWidth="max-w-[120rem]" show="true">
          <!-- Modal content -->
          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Terms of Service
+                    Aggiungi esercizio
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -16,51 +16,12 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-4 justify-center z-50 w-full">
-                <div class="grid grid-cols-1">
-                {{-- <div class="fixed inset-0 bg-black bg-opacity-50 "> --}}
-                    <!-- Modal -->
-                    {{-- <div class="bg-white rounded-lg shadow-lg w-[90%]  p-6"> --}}
-                      <!-- Barra di ricerca -->
-                      <div class="flex mb-4 w-2/3">
-                        <input
-                          type="text"
-                          placeholder="Cerca"
-                          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                      <!-- Contenuto principale -->
-                      <div class="flex">
-                        <!-- Colonna delle categorie -->
-                        <div class="w-1/3 pr-4">
-                          <h3 class="font-bold mb-2">Categorie</h3>
-                          <ul class="space-y-2">
-                            <li class="bg-gray-100 p-2 rounded-lg">Categoria 1</li>
-                            <li class="bg-gray-100 p-2 rounded-lg">Categoria 2</li>
-                            <li class="bg-gray-100 p-2 rounded-lg">Categoria 3</li>
-                          </ul>
-                        </div>
-                        <!-- Colonna degli esercizi -->
-                        <div class="w-2/3 grid grid-cols-2 gap-4">
-                          <div class="bg-blue-100 p-4 rounded-lg text-center">Esercizio 1</div>
-                          <div class="bg-blue-100 p-4 rounded-lg text-center">Esercizio 2</div>
-                          <div class="bg-blue-100 p-4 rounded-lg text-center">Esercizio 3</div>
-                          <div class="bg-blue-100 p-4 rounded-lg text-center">Esercizio 4</div>
-                        </div>
-                      {{-- </div> --}}
-                    </div>
-                  </div>
-                  
-            </div>
-            <!-- Modal footer -->
-            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                @livewire('search-exercises')
             </div>
          </div>
     </x-modal>
 
     <x-slot name="header">
-        
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             Prova
         </h2>
@@ -76,7 +37,7 @@
                     {{ __('Delete Account') }}
                 </x-danger-button>
 
-                <div class=" w-full sm:w-5/6 mx-auto grid grid-cols-1 gap-4">
+                <div class="w-full sm:w-5/6 mx-auto grid grid-cols-1 gap-4">
                     <div class="flex">
                         <h2 class="flex-grow text-xl">Giorno 1</h2>
                         <div class="flow-grow-0"> X </div>
