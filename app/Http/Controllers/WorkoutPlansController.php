@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Scheda;
+use App\Models\WorkoutPlan;
 use Illuminate\Http\Request;
 
-class SchedeController extends Controller
+class WorkoutPlansController extends Controller
 {
 	// Metodo per visualizzare la pagina e recuperare le schede
-	public function index()
+	public function index(Request $request)
 	{
 		// Recupera tutte le schede dal database
-		$schede = Scheda::all();
+		$schede = $request->user()->workout_plans;
 
 		// Passa i dati alla vista
-		return view('schede', compact('schede'));
+		return view('schede', [
+			'schede' => $schede
+		]);
     }
 
 	// Metodo per gestire i dati inviati dal form
@@ -29,20 +31,25 @@ class SchedeController extends Controller
 		]);
 
 		// Inserimento dei dati nel database
-        Scheda::create([
+        WorkoutPlan::create([
 			// L'utente e' sempre loggato, quindi l'ID deve esistere
-			'id_utente' => auth()->id(),
+			'user_id' => auth()->id(),
 
 			// Valori inseriti nel form
-			'titolo' => $validatedData['data1'],
-			'descrizione' => $validatedData['data2'],
-			'inizio' => $validatedData['data3'],
-			'fine' => $validatedData['data4'],
+			'title' => $validatedData['data1'],
+			'description' => $validatedData['data2'],
+			'start' => $validatedData['data3'],
+			'end' => $validatedData['data4'],
 
 			// default: false
-			'abilitata' => false
+			'enabled' => false
 		]);
 
 		return redirect()->route('schede');
+	}
+
+	public function editor()
+	{
+
 	}
 }

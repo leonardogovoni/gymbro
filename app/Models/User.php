@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -46,5 +47,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected function workout_plans(): HasMany
+    {
+        // Secondo parametro: nome chiave nella classe workout (relazione n)
+        // Terzo parametro: nome chiave nella classe user (relazione 1)
+        return $this->hasMany(WorkoutPlan::class, 'user_id', 'id');
     }
 }
