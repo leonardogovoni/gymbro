@@ -49,7 +49,7 @@ class User extends Authenticatable
         ];
     }
 
-    protected function workout_plans(): HasMany
+    public function workout_plans(): HasMany
     {
         // Secondo parametro: nome chiave nella classe workout (relazione n)
         // Terzo parametro: nome chiave nella classe user (relazione 1)

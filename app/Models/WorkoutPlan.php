@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class WorkoutPlan extends Model
 {
@@ -24,8 +25,14 @@ class WorkoutPlan extends Model
 	// Se l'ID non è 'id', specifica il nome della colonna dell'ID (opzionale)
 	// protected $primaryKey = 'nome_colonna_id';
 
-	protected function user(): BelongsTo
+	public function user(): BelongsTo
 	{
 	    return $this->belongsTo(User::class, 'user_id', 'id');
+	}
+
+	public function exercises(): BelongsToMany
+	{
+		return $this->belongsToMany(Exercise::class, 'workout_plan_exercises', 'workout_plan_id', 'exercise_id')
+			->withPivot('day', 'sequence', 'series', 'repetitions', 'rest');
 	}
 }

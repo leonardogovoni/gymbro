@@ -11,11 +11,11 @@ class WorkoutPlansController extends Controller
 	public function index(Request $request)
 	{
 		// Recupera tutte le schede dal database
-		$schede = $request->user()->workout_plans;
+		$workout_plans = $request->user()->workout_plans;
 
 		// Passa i dati alla vista
-		return view('schede', [
-			'schede' => $schede
+		return view('workout_plans.list', [
+			'workout_plans' => $workout_plans
 		]);
     }
 
@@ -45,11 +45,25 @@ class WorkoutPlansController extends Controller
 			'enabled' => false
 		]);
 
-		return redirect()->route('schede');
+		return redirect()->route('workout_plans.list');
 	}
 
-	public function editor()
+	public function edit(Request $request)
 	{
+		$id = $request->input('id');
 
+		// if ($workoutPlan->user_id !== auth()->id()) {
+		// 	abort(403, 'Non autorizzato.');
+		// }
+
+		$workout_plan = $request->user()->workout_plans()->where('id', $id)->firstOrFail();
+		$exercises = $workout_plan->exercises()->orderBy('day')->orderBy('sequence')->get();
+		$grouped_exercises = $exercises->groupBy(function ($exercise) {
+			return $exercise->pivot->day;
+		});
+		
+		return view('workout_plans.edit', [
+			'grouped_exercises' => $grouped_exercises
+		]);
 	}
 }

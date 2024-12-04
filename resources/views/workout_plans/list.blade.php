@@ -22,7 +22,7 @@
                         <h2 class="text-lg font-bold mb-4">Inserisci i dati</h2>
 
                         <!-- Form -->
-                        <form action="{{ route('schede.store') }}" method="POST">
+                        <form action="{{ route('workout_plans.create') }}" method="POST">
                             @csrf
                             <!-- Aggiungi margine tra ogni campo -->
                             <div class="space-y-4">
@@ -79,7 +79,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h2 class="text-xl font-semibold">Elenco delle schede</h2>
 
-                    @if ($schede->isEmpty())
+                    @if ($workout_plans->isEmpty())
                         <p>Non ci sono schede da mostrare.</p>
                     @else
                         <table class="min-w-full table-auto">
@@ -91,17 +91,25 @@
                                     <th class="px-4 py-2 text-left">Inizio</th>
                                     <th class="px-4 py-2 text-left">Fine</th>
                                     <th class="px-4 py-2 text-left">Abilitata</th>
+                                    <th class="px-4 py-2 text-left">Modifica</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($schede as $scheda)
+                                @foreach ($workout_plans as $workout_plan)
                                     <tr>
-                                        <td class="px-4 py-2">{{ $scheda->id }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->title }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->description }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->start }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->end }}</td>
-                                        <td class="px-4 py-2">{{ $scheda->enabled ? 'Sì' : 'No' }}</td>
+                                        <td class="px-4 py-2">{{ $workout_plan->id }}</td>
+                                        <td class="px-4 py-2">{{ $workout_plan->title }}</td>
+                                        <td class="px-4 py-2">{{ $workout_plan->description }}</td>
+                                        <td class="px-4 py-2">{{ $workout_plan->start }}</td>
+                                        <td class="px-4 py-2">{{ $workout_plan->end }}</td>
+                                        <td class="px-4 py-2">{{ $workout_plan->enabled ? 'Sì' : 'No' }}</td>
+                                        <td class="px-4 py-2">
+                                            <form action="{{ route('workout_plans.edit') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $workout_plan->id }}">
+                                                <button type="submit">Modifica</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

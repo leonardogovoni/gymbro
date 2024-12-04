@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SchedeController;
+use App\Http\Controllers\WorkoutPlansController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,16 +23,14 @@ Route::get('/training/edit', function () {
     return view('training/edit');
 })->middleware(['auth', 'verified'])->name('training.edit');
 
-// Pagina delle schede, raggiungibile solo dopo aver effettuato il login
-// GET | HEAD
-Route::get('/schede', [SchedeController::class, 'index'])->middleware(['auth', 'verified'])->name('schede');
-// POST, inserimento
-Route::post('/schede', [SchedeController::class, 'store'])->name('schede.store');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/workout_plans', [WorkoutPlansController::class, 'index'])->name('workout_plans.list');
+    Route::post('/workout_plans', [WorkoutPlansController::class, 'store'])->name('workout_plans.create');
+    Route::post('/workout_plans/edit', [WorkoutPlansController::class, 'edit'])->name('workout_plans.edit');
 });
 
 require __DIR__.'/auth.php';

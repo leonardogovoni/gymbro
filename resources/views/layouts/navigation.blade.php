@@ -22,7 +22,7 @@
                     </x-nav-link>
                 </div>
 				<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('schede')" :active="request()->routeIs('schede')">
+                    <x-nav-link :href="route('workout_plans.list')" :active="request()->routeIs('workout_plan.list')">
                         {{ __('Schede') }}
                     </x-nav-link>
                 </div>
@@ -87,7 +87,7 @@
 			</x-responsive-nav-link>
 		</div>
 		<div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('schede')" :active="request()->routeIs('schede')">
+            <x-responsive-nav-link :href="route('workout_plans.list')" :active="request()->routeIs('workout_plan.list')">
                 {{ __('Schede') }}
             </x-responsive-nav-link>
         </div>
