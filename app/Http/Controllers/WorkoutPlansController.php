@@ -57,13 +57,12 @@ class WorkoutPlansController extends Controller
 		// }
 
 		$workout_plan = $request->user()->workout_plans()->where('id', $id)->firstOrFail();
-		$exercises = $workout_plan->exercises()->orderBy('day')->orderBy('sequence')->get();
-		$grouped_exercises = $exercises->groupBy(function ($exercise) {
-			return $exercise->pivot->day;
-		});
-		
+		$days = $workout_plan->exercises()->max('day');
+		// dd($days);
+
 		return view('workout_plans.edit', [
-			'grouped_exercises' => $grouped_exercises
+			'workout_plan_id' => $id,
+			'days' => $days
 		]);
 	}
 }

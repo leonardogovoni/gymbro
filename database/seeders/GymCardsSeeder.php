@@ -18,8 +18,8 @@ class GymCardsSeeder extends Seeder
                 'user_id' => 1,
                 'title' => 'Scheda Principiante',
                 'description' => 'Placeholder',
-                'start' => '07/12/2024',
-                'end' => '07/12/2025',
+                'start' => '2024-02-12',
+                'end' => '2025-02-12',
                 'enabled' => true,
             ],
         ]);
