@@ -1,0 +1,19 @@
+/* Stile per gli elementi esercizio */
+.exercise-item {
+    min-height: 50px;
+}
+
+/* Abilita il comportamento di scroll-snap */
+.scroll-snap-y {
+    scroll-snap-type: y mandatory;
+}
+
+.scroll-snap-start {
+    scroll-snap-align: start;
+}
+
+/* Stile per le frecce */
+a {
+    font-size: 1.5rem;
+    text-decoration: none;
+}
