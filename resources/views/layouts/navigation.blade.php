@@ -87,7 +87,7 @@
 			</x-responsive-nav-link>
 		</div>
 		<div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('workout_plans.list')" :active="request()->routeIs('workout_plan.list')">
+            <x-responsive-nav-link :href="route('workout_plans.list')" :active="request()->routeIs('workout_plans.list')">
                 {{ __('Schede') }}
             </x-responsive-nav-link>
         </div>

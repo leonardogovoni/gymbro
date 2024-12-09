@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-modal name="prova" maxWidth="max-w-[120rem]">
+    <x-modal name="add_exercise" maxWidth="max-w-[120rem]">
          <!-- Modal content -->
          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
@@ -16,7 +16,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-4 justify-center z-50 w-full">
-                @livewire('search-exercises')
+                <livewire:add-exercise-modal :workout_plan_id="$workout_plan_id" />
             </div>
          </div>
     </x-modal>
@@ -24,21 +24,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex items-center justify-center p-0 py-4 sm:p-4">
-                {{-- <div class="w-full">
-                    Giorno 1
-                </div> --}}
-
-
                 <div class="w-full sm:w-5/6 mx-auto grid grid-cols-1 gap-4">
                     @foreach(range(1, $days) as $day)
-                        @livewire('workout-day-editor', ['workout_plan_id' => $workout_plan_id, 'day' => $day])
+                        <livewire:workout-day-editor :workout_plan_id="$workout_plan_id" :day="$day" />
                     @endforeach
                 </div>
             </div>
-            
-                {{-- <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div> --}}
         </div>
     </div>
 </x-app-layout>
