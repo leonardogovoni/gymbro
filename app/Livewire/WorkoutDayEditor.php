@@ -46,9 +46,10 @@ class WorkoutDayEditor extends Component
         $this->exercises = WorkoutPlan::find($this->workout_plan_id)->exercises()->where('day', $this->day)->orderBy('sequence')->get();
     }
 
-    public function delete($exercise_sequence)
+    public function delete($pivot_id)
     {
-        DB::table('workout_plan_exercises')->where('workout_plan_id', $this->workout_plan_id)->where('day', $this->day)->where('sequence', $exercise_sequence)->delete();
+        $exercise_sequence = WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $pivot_id)->value('sequence');
+        WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $pivot_id)->detach();
         WorkoutPlan::find($this->workout_plan_id)->exercises()->where('day', $this->day)->where('sequence', '>', $exercise_sequence)->decrement('sequence');
         // Reload component exercises
         $this->reloadExercises();
