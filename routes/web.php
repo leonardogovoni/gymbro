@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/workout_plans', [WorkoutPlansController::class, 'index'])->name('workout_plans.list');
     Route::post('/workout_plans', [WorkoutPlansController::class, 'store'])->name('workout_plans.create');
     Route::post('/workout_plans/edit', [WorkoutPlansController::class, 'edit'])->name('workout_plans.edit');
+	Route::delete('/workout_plans/delete', [WorkoutPlansController::class, 'delete'])->name('workout_plans.delete');
 });
 
 require __DIR__.'/auth.php';

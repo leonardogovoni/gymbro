@@ -65,4 +65,18 @@ class WorkoutPlansController extends Controller
 			'days' => $days
 		]);
 	}
+
+	public function delete(Request $request)
+	{
+		$id = $request->input('id');
+
+		// Trova la scheda da eliminare in base all'ID ricevuto
+        $workoutPlan = WorkoutPlan::findOrFail($id);
+        
+        // Elimina la scheda
+        $workoutPlan->delete();
+
+        // Reindirizza alla stessa view con un messaggio di successo
+        return redirect()->route('workout_plans.list');
+	}
 }

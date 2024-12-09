@@ -29,14 +29,14 @@
                                 <div>
                                     <label for="data1" class="block text-sm font-medium text-gray-700">Nome
                                         scheda</label>
-                                    <input type="text" name="data1" id="data1" placeholder="Nome scheda"
+                                    <input type="text" name="data1" id="data1" placeholder="Nome scheda" maxlength="255"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                 </div>
 
                                 <div>
                                     <label for="data2"
                                         class="block text-sm font-medium text-gray-700">Descrizione</label>
-                                    <input type="text" name="data2" id="data2" placeholder="Descrizione"
+                                    <input type="text" name="data2" id="data2" placeholder="Descrizione" maxlength="255"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                 </div>
 
@@ -74,49 +74,90 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h2 class="text-xl font-semibold">Elenco delle schede</h2>
+		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+			<div class="bg-gray-200 dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg">
+				<div class="p-6 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+					@if ($workout_plans->isEmpty())
+						<p>Non ci sono schede da mostrare.</p>
+					@else
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+							@foreach ($workout_plans as $workout_plan)
+							<div class="border rounded-lg p-4 shadow-md bg-white dark:bg-gray-900 max-w-full">
+								<div class="flex justify-between items-center mb-2">
+									<h3 class="text-lg font-bold truncate max-w-[85%]" title="{{ $workout_plan->title }}">
+										{{ $workout_plan->title }}
+									</h3>
+							
+									<div class="flex items-center">
+										<!-- Form per la prima icona (Modifica) -->
+										<form action="{{ route('workout_plans.edit') }}" method="POST">
+											@csrf
+											<input type="hidden" name="id" value="{{ $workout_plan->id }}">
+											<button type="submit" class="text-blue-500 hover:text-blue-700">
+												<i class="mdi mdi-pen mdi-24px" title="Modifica"></i>
+											</button>
+										</form>
+										
+										<!-- Inizializza Alpine.js con l'attributo x-data -->
+										<div x-data="{ deleteWorkout: false }">
+											<!-- Form per la seconda icona (Elimina) -->
+											<input type="hidden" name="id" value="{{ $workout_plan->id }}">
+											<button @click="deleteWorkout = true" class="text-red-500 hover:text-red-700 ml-3">
+												<i class="mdi mdi-trash-can-outline mdi-24px" title="Elimina"></i>
+											</button>
 
-                    @if ($workout_plans->isEmpty())
-                        <p>Non ci sono schede da mostrare.</p>
-                    @else
-                        <table class="min-w-full table-auto">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2 text-left">ID</th>
-                                    <th class="px-4 py-2 text-left">Titolo</th>
-                                    <th class="px-4 py-2 text-left">Descrizione</th>
-                                    <th class="px-4 py-2 text-left">Inizio</th>
-                                    <th class="px-4 py-2 text-left">Fine</th>
-                                    <th class="px-4 py-2 text-left">Abilitata</th>
-                                    <th class="px-4 py-2 text-left">Modifica</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($workout_plans as $workout_plan)
-                                    <tr>
-                                        <td class="px-4 py-2">{{ $workout_plan->id }}</td>
-                                        <td class="px-4 py-2">{{ $workout_plan->title }}</td>
-                                        <td class="px-4 py-2">{{ $workout_plan->description }}</td>
-                                        <td class="px-4 py-2">{{ $workout_plan->start }}</td>
-                                        <td class="px-4 py-2">{{ $workout_plan->end }}</td>
-                                        <td class="px-4 py-2">{{ $workout_plan->enabled ? 'Sì' : 'No' }}</td>
-                                        <td class="px-4 py-2">
-                                            <form action="{{ route('workout_plans.edit') }}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{ $workout_plan->id }}">
-                                                <button type="submit">Modifica</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
+											<!-- Modale di conferma -->
+											<div x-show="deleteWorkout" x-transition class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+												<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
+													<h2 class="text-lg font-bold mb-4">Sei sicuro di voler eliminare questa scheda?</h2>
+
+													<!-- Contenuti del Modale -->
+													<div class="flex justify-between">
+														<!-- Pulsante Annulla -->
+														<button @click="deleteWorkout = false" class="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded">
+															Annulla
+														</button>
+
+														<!-- Form di eliminazione -->
+														<form action="{{ route('workout_plans.delete', ['id' => $workout_plan->id]) }}" method="POST">
+															@csrf
+															@method('DELETE')
+															<button type="submit" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded">
+																Elimina
+															</button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							
+								<p class="text-sm text-gray-700 dark:text-gray-300 mb-2 line-clamp-2" title="{{ $workout_plan->description }}">
+									{{ $workout_plan->description }}
+								</p>
+							
+								<div class="text-sm mb-2">
+									<span class="font-semibold">Inizio:</span>
+									<span class="truncate">{{ $workout_plan->start }}</span>
+								</div>
+							
+								<div class="text-sm mb-2">
+									<span class="font-semibold">Fine:</span>
+									<span class="truncate">{{ $workout_plan->end }}</span>
+								</div>
+							
+								<div class="text-sm mb-4">
+									<span class="font-semibold">Default:</span>
+									<span>{{ $workout_plan->enabled ? 'Sì' : 'No' }}</span>
+								</div>
+							</div>
+							@endforeach
+						</div>
+					@endif
+				</div>
+			</div>
+		</div>
+	</div>	
 </x-app-layout>
