@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
+            {{ __('Informazioni del Profilo') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Aggiorna le informazioni del tuo Account.") }}
         </p>
     </header>
 
@@ -18,10 +18,26 @@
         @method('patch')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Nome')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
+
+        <div>
+            <x-input-label for="gender" :value="__('Sesso')" />
+            <x-gender-select id="gender" name="gender" :value="old('gender', $user->gender)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('gender')" />
+        </div>
+        
+        <div>
+            <x-input-label for="date_of_birth" :value="__('Data di nascita')" />
+            <input type="date" id="date_of_birth" name="date_of_birth" 
+                   class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   value="{{ old('date_of_birth', $user->date_of_birth ? \Carbon\Carbon::parse($user->date_of_birth)->format('Y-m-d') : '') }}" 
+                   required autocomplete="date_of_birth"
+                   max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+            <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
+        </div>    
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
@@ -31,16 +47,16 @@
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
+                        {{ __('Il tuo indirizzo email non è verificato.') }}
 
                         <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
+                            {{ __('Clicca qui per rispedire la email di verifica.') }}
                         </button>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
                         <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
+                            {{ __('Un nuovo link di verifica è stato spedito alla tua email.') }}
                         </p>
                     @endif
                 </div>
@@ -48,7 +64,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Salva') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p

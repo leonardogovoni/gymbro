@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Carbon\Carbon;
 
 class RegisteredUserController extends Controller
 {
@@ -33,7 +34,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'gender' => ['required', 'string', 'uppercase', 'max:1'],
-            'date_of_birth' => ['required', 'date'],
+            'date_of_birth' => 'required|date|before_or_equal:' . Carbon::today()->toDateString(),
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -50,5 +51,13 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
+    }
+
+    public function messages()
+    {
+        return [
+            'date_of_birth.before_or_equal' => 'La data di nascita non può essere successiva alla data di oggi.',
+            'date_of_birth.after_or_equal' => 'La data di nascita non può essere inferiore a 130 anni fa.',
+        ];
     }
 }

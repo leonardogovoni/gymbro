@@ -20,7 +20,10 @@
         <div class="mt-4">
             <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Data di nascita</label>
             <input type="date" name="date_of_birth" id="date_of_birth" 
-                   class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                   class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+            <!-- Errore per la data di nascita -->
+            <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
         </div>
 
         <!-- Email Address -->
