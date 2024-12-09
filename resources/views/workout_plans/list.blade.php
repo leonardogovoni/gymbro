@@ -93,8 +93,8 @@
 										<form action="{{ route('workout_plans.edit') }}" method="POST">
 											@csrf
 											<input type="hidden" name="id" value="{{ $workout_plan->id }}">
-											<button type="submit" class="text-blue-500 hover:text-blue-700">
-												<i class="mdi mdi-pen mdi-24px" title="Modifica"></i>
+											<button type="submit" title="Modifica">
+												<x-mdi-pen class="fill-blue-500 hover:fill-blue-700 h-6" />
 											</button>
 										</form>
 										
@@ -102,8 +102,8 @@
 										<div x-data="{ deleteWorkout: false }">
 											<!-- Form per la seconda icona (Elimina) -->
 											<input type="hidden" name="id" value="{{ $workout_plan->id }}">
-											<button @click="deleteWorkout = true" class="text-red-500 hover:text-red-700 ml-3">
-												<i class="mdi mdi-trash-can-outline mdi-24px" title="Elimina"></i>
+											<button @click="deleteWorkout = true">
+												<x-mdi-trash-can-outline class="fill-red-500 hover:fill-red-700 ml-3 h-6" title="Elimina" />
 											</button>
 
 											<!-- Modale di conferma -->
