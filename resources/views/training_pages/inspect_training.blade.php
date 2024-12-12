@@ -10,41 +10,46 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-gray-200 dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-                    <h2 class="text-center text-3xl text-gray-900 dark:text-white mb-4">
-                        Esercizi per il giorno {{ $day }}
-                    </h2>
-                    @if ($exercises->isEmpty())
-                        <p class="text-center">Non ci sono esercizi pianificati per questo giorno.</p>
-                    @else
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            @foreach ($exercises as $exercise)
-                                <div
-                                    class="exercise-item p-4 bg-white dark:bg-gray-900 rounded-lg shadow flex items-center justify-between">
-                                    <!-- Sezione immagine e nome esercizio -->
-                                    <div class="flex items-center space-x-4">
-                                        <img src="{{ asset('images/exercises/' . $exercise->image) }}"
-                                            alt="{{ $exercise->name }}"
-                                            class="w-20 h-20 object-contain rounded bg-gray-200">
-                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                            {{ $exercise->name }}
-                                        </h3>
-                                    </div>
+                    @if ($exercises->count() > 0)
+                        <div class="exercise-item p-4 bg-white dark:bg-gray-900 rounded-lg shadow">
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                {{ $exercises[$currentIndex]->name }}
+                            </h3>
 
-                                    <!-- Sezione serie e ripetizioni -->
-                                    <div class="text-right">
-                                        <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                                            {{ $exercise->pivot->series }} x {{ $exercise->pivot->repetitions }}
-                                        </p>
-                                    </div>
-                                </div>
-                            @endforeach
+                            <img src="{{ asset('images/exercises/' . $exercises[$currentIndex]->image) }}"
+                                alt="{{ $exercises[$currentIndex]->name }}"
+                                class="max-w-full h-auto object-contain rounded mb-4">
+
+                            <p class="text-left text-md text-gray-900 dark:text-white">
+                                {{ $exercises[$currentIndex]->pivot->series }} x
+                                {{ $exercises[$currentIndex]->pivot->repetitions }}
+                            </p>
                         </div>
+                    @else
+                        <p>Non ci sono esercizi per questo giorno.</p>
                     @endif
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Barra per il cambio esercizio (fissa in fondo alla pagina) -->
+    <div class="fixed bottom-0 w-full bg-white shadow-lg py-2 flex justify-center items-center">
+        <button class="text-white bg-blue-600 p-2 rounded-full"
+            @if ($currentIndex > 0) onclick="window.location='{{ route('training_pages.inspect_training', ['day' => $day, 'exercise' => $currentIndex - 1]) }}'"
+                @else
+                    disabled @endif>
+            &lt; Precedente
+        </button>
+        <span class="mx-4 text-gray-800">{{ $currentIndex + 1 }} / {{ $exercises->count() }}</span>
+        <button class="text-white bg-blue-600 p-2 rounded-full"
+            @if ($currentIndex < $exercises->count() - 1) onclick="window.location='{{ route('training_pages.inspect_training', ['day' => $day, 'exercise' => $currentIndex + 1]) }}'"
+                @else
+                    disabled @endif>
+            Successivo &gt;
+        </button>
     </div>
 </x-app-layout>

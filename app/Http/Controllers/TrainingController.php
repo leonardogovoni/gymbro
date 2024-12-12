@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\WorkoutPlan;
+use App\Models\WorkoutPlanExercise;
 
 class TrainingController extends Controller
 {
@@ -35,21 +36,23 @@ class TrainingController extends Controller
 
 	public function inspect($day, Request $request)
 	{
-		// Recupera la scheda attiva
 		$workout_plan_enabled = $request->user()->workout_plans()->where('enabled', true)->first();
 
-		// Recupera gli esercizi con informazioni su serie e ripetizioni
 		$exercises = WorkoutPlan::find($workout_plan_enabled->id)
 			->exercises()
 			->where('day', $day)
 			->orderBy('sequence')
-			->withPivot(['series', 'repetitions']) // Includi campi dalla tabella pivot
 			->get();
-	
-		// Passa gli esercizi alla vista
+
+		// Imposta l'esercizio corrente
+		$currentIndex = $request->input('exercise', 0);
+
 		return view('training_pages.inspect_training', [
 			'day' => $day,
-			'exercises' => $exercises
+			'exercises' => $exercises,
+			'currentIndex' => $currentIndex,
 		]);
 	}
+
+
 }
