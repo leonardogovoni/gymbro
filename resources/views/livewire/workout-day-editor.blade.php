@@ -3,9 +3,13 @@
     <li wire:sortable.item="{{ $exercise->pivot->id }}" class="flex items-center py-4 first:pt-0 last:pb-0">
         <x-mdi-reorder-horizontal class="fill-gray-400 h-10 w-10 flow-grow-0"/>
 
-        <p class="ml-3 font-medium text-slate-900 flex-grow">{{ $exercise->name }}</p>
+        <div class="flex-auto ml-3">
+            <p class="font-medium text-slate-900 flex-grow">{{ $exercise->name }}</p>
+            <p>{{ $exercise->pivot->series }}x{{ $exercise->pivot->repetitions }}</p>
+        </div>
 
-        <x-mdi-close class="h-8 fill-red-600" wire:click="delete({{ $exercise->pivot->id }})" />
+        <x-mdi-pen class="h-6 fill-blue-600 hover:fill-blue-800" wire:click="edit({{ $exercise->pivot->id }})" />
+        <x-mdi-close class="h-8 fill-red-600 hover:fill-red-800" wire:click="delete({{ $exercise->pivot->id }})" />
     </li>
     @endforeach
 </ul>

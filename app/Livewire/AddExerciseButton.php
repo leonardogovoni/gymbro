@@ -15,6 +15,6 @@ class AddExerciseButton extends Component
 
 	public function add()
 	{
-        $this->dispatch('send-data-modal', day: $this->day);
+        $this->dispatch('add-modal', day: $this->day);
 	}
 }

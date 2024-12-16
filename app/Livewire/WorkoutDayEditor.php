@@ -40,7 +40,7 @@ class WorkoutDayEditor extends Component
         $this->reloadExercises();
     }
 
-    #[On('exercise-added')]
+    #[On('exercise-updated')]
     public function reloadExercises()
     {
         $this->exercises = WorkoutPlan::find($this->workout_plan_id)->exercises()->where('day', $this->day)->orderBy('sequence')->get();
@@ -53,5 +53,11 @@ class WorkoutDayEditor extends Component
         WorkoutPlan::find($this->workout_plan_id)->exercises()->where('day', $this->day)->where('sequence', '>', $exercise_sequence)->decrement('sequence');
         // Reload component exercises
         $this->reloadExercises();
+    }
+
+    public function edit($pivot_id)
+    {
+        $this->reloadExercises();
+        $this->dispatch('edit-modal', pivot_id: $pivot_id);
     }
 }

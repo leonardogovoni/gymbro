@@ -25,11 +25,11 @@ class AddExerciseModal extends Component
     }
 
     // Recieves data from the add button component
-    #[On('send-data-modal')]
+    #[On('add-modal')]
     public function open($day)
     {
         $this->day = $day;
-        $this->dispatch('open-modal', 'add_exercise');
+        $this->dispatch('open-modal', 'add');
     }
 
     // Execute when you click on an exercise to add it
@@ -46,7 +46,7 @@ class AddExerciseModal extends Component
             'rest' => 1
         ]);
 
-        $this->dispatch('exercise-added');
+        $this->dispatch('exercise-updated');
         $this->dispatch('close-modal', 'add_exercise');
     }
 }
