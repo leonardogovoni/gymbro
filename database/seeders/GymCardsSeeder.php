@@ -33,7 +33,7 @@ class GymCardsSeeder extends Seeder
                 'sequence' => 1,
                 'series' => 4,
                 'repetitions' => 12,
-                'rest' => 1.30,
+                'rest' => 90,
             ],
             [
                 'workout_plan_id' => 1,
@@ -42,7 +42,7 @@ class GymCardsSeeder extends Seeder
                 'sequence' => 2,
                 'series' => 4,
                 'repetitions' => 15,
-                'rest' => 1.30,
+                'rest' => 90,
             ],
             [
                 'workout_plan_id' => 1,
@@ -51,7 +51,7 @@ class GymCardsSeeder extends Seeder
                 'sequence' => 3,
                 'series' => 4,
                 'repetitions' => 12,
-                'rest' => 1.30,
+                'rest' => 90,
             ],
             // Giorno 2
             [
@@ -61,7 +61,7 @@ class GymCardsSeeder extends Seeder
                 'sequence' => 1,
                 'series' => 4,
                 'repetitions' => 12,
-                'rest' => 1.30,
+                'rest' => 90,
             ],
         ]);
     }
