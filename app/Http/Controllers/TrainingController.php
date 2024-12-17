@@ -39,7 +39,7 @@ class TrainingController extends Controller
 		$exercises_by_day = $exercises->groupBy('day');
 	
 		// Giorno selezionato, predefinito a 1 se non specificato
-		$selected_day = $request->get('day', 1);
+		$selected_day = $request->get('day_', 1);
 	
 		// Filtra gli esercizi per il giorno selezionato
 		$selected_exercises = $exercises_by_day[$selected_day] ?? collect();
