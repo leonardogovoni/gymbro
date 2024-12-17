@@ -1,8 +1,3 @@
-/* Stile per gli elementi esercizio */
-.exercise-item {
-    min-height: 50px;
-}
-
 /* Abilita il comportamento di scroll-snap */
 .scroll-snap-y {
     scroll-snap-type: y mandatory;
@@ -12,8 +7,20 @@
     scroll-snap-align: start;
 }
 
-/* Stile per le frecce */
-a {
-    font-size: 1.5rem;
-    text-decoration: none;
+/*
+	Mantiene il campo di testo numerico ma rimuove le frecce
+	di incremento/decremento che sono inguardabili
+*/
+
+/* Rimuovere le frecce su Firefox */
+input[type='number'] {
+	appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+/* Rimuovere le frecce su WebKit (Chrome, Safari, Edge) */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
