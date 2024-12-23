@@ -29,7 +29,9 @@ Route::middleware('auth')->group(function () {
 	
 	// Pagina 'allenamento'
 	Route::get('/training', [TrainingController::class, 'index'])->name('training');
-    Route::get('/training/inspect/day_{day}', [TrainingController::class, 'inspect'])->name('training_pages.inspect_training');
+    Route::get('/training/inspect/{day}', [TrainingController::class, 'inspect'])->name('training_pages.inspect_training');
+
+    
 
 	Route::get('/training/edit', [TrainingController::class, 'edit'])->name('training.edit');
 });
