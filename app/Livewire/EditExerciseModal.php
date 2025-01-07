@@ -27,7 +27,7 @@ class EditExerciseModal extends Component
 		return view('livewire.edit-exercise-modal');
     }
 
-    // Recieves data from the add button component
+    // Recieves data from the edit button component
     #[On('edit-modal')]
     public function open($pivot_id)
     {

@@ -55,9 +55,16 @@ class WorkoutDayEditor extends Component
         $this->reloadExercises();
     }
 
+    //  Idk why if I don't call reloadExercises it does not work
     public function edit($pivot_id)
     {
         $this->reloadExercises();
         $this->dispatch('edit-modal', pivot_id: $pivot_id);
     }
+
+    public function add()
+	{
+        $this->reloadExercises();
+        $this->dispatch('add-modal', day: $this->day);
+	}
 }

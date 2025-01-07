@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-modal name="add" maxWidth="max-w-[120rem]">
+    <x-modal name="add" maxWidth="max-w-[96rem]">
          <!-- Modal content -->
          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
@@ -50,13 +50,8 @@
                     @foreach(range(1, $days) as $day)
                     <div>
                         <h2 class="flex-grow text-xl pb-4">Giorno {{ $day }}</h2>
-                        <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded border shadow-sm divide-y divide-slate-200">
-                            <livewire:workout-day-editor :workout_plan_id="$workout_plan_id" :day="$day" />
 
-                            <div class="pt-4 flex flex-col items-center">
-                                <livewire:add-exercise-button :workout_plan_id="$workout_plan_id" :day="$day" />
-                            </div>
-                        </div>
+                        <livewire:workout-day-editor :workout_plan_id="$workout_plan_id" :day="$day" />
                     </div>
                     @endforeach
                 </div>
