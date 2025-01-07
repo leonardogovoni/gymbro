@@ -38,18 +38,10 @@ class TrainingController extends Controller
 		// Organizza gli esercizi per giorno
 		$exercises_by_day = $exercises->groupBy('day');
 	
-		// Giorno selezionato, predefinito a 1 se non specificato
-		$selected_day = $request->get('day_', 1);
-	
-		// Filtra gli esercizi per il giorno selezionato
-		$selected_exercises = $exercises_by_day[$selected_day] ?? collect();
-	
 		return view('training_pages.training', [
 			'workout_plan_enabled' => $exercises,
 			'exercises_by_day' => $exercises_by_day,
-			'workout_plan_title' => $workout_plan_title,
-			'selected_day' => $selected_day,
-			'selected_exercises' => $selected_exercises
+			'workout_plan_title' => $workout_plan_title
 		]);
 	}
 
