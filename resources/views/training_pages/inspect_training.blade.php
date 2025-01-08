@@ -77,8 +77,8 @@
 					</div>
 				</div> --}}
 
-				<livewire:exercise-data-form :exercise-id="$exercises[$currentIndex]->id" :series="$exercises[$currentIndex]->pivot->series" :repetitions="$exercises[$currentIndex]->pivot->repetitions" :day="$day" />
-
+				{{-- <livewire:exercise-data-form :exercise-id="$exercises[$currentIndex]->id" :series="$exercises[$currentIndex]->pivot->series" :repetitions="$exercises[$currentIndex]->pivot->repetitions" :day="$day" /> --}}
+                <livewire:test-component :exercise-id="$exercises[$currentIndex]->id" :series="$exercises[$currentIndex]->pivot->series" :repetitions="$exercises[$currentIndex]->pivot->repetitions" :day="$day" />
 			</div>
 		</div>
 	</div>
