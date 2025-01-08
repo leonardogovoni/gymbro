@@ -74,13 +74,13 @@
     </x-slot>
 
     <div class="py-12">
-		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+		<div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
 			<div class="bg-gray-200 dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg">
 				<div class="p-6 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
 					@if ($workout_plans->isEmpty())
 						<p>Non ci sono schede da mostrare.</p>
 					@else
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div class="grid grid-cols-1 gap-6">
 							@foreach ($workout_plans as $workout_plan)
 							<div class="border rounded-lg p-4 shadow-md bg-white dark:bg-gray-900 max-w-full">
 								<div class="flex justify-between items-center mb-2">

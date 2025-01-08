@@ -17,13 +17,13 @@ class EditExerciseModal extends Component
 
 	public $rest;
 	public $sets;
+	public $maximal;
 	public $same_reps;
 	public $reps = [];
 
     // Executed only when component is created
     public function render()
     {
-		$exercise_data = WorkoutPlan::find(1)->exercises()->wherePivot('id', 20)->first();
 		return view('livewire.edit-exercise-modal');
     }
 
@@ -44,8 +44,9 @@ class EditExerciseModal extends Component
 
 	public function save()
 	{
-		$reps_str = $this->same_reps ? $this->reps[0] : implode('-', $this->reps);
-		WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $this->pivot_id)->update([
+		// Kinda sus, da controllare TODO
+		$reps_str = $this->maximal ? 'MAX' : ($this->same_reps ? $this->reps[0] : implode('-', $this->reps));
+		WorkoutPlan::find($this->workout_plan_id)->exercises()->updateExistingPivot($this->pivot_id, [
 			'rest' => $this->rest,
 			'series' => $this->sets,
 			'repetitions' => $reps_str

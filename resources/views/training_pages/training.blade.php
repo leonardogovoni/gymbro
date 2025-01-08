@@ -10,15 +10,15 @@
 	</x-slot>
 
 	<div class="py-12">
-		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+		<div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
 			<div class="bg-gray-200 dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg">
-				<div class="p-6 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+				<div class="p-6 grid gap-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
 					@if ($workout_plan_enabled == null)
 						<p>Non hai una scheda attiva.</p>
 					@else
 						@foreach ($exercises_by_day as $day => $exercises)
 							<a href="{{ route('training_pages.inspect_training', ['day' => $day]) }}">
-								<div class="hover:bg-blue-100 border rounded-lg p-4 shadow-md bg-white dark:bg-gray-900 max-w-full mb-3 exercise-container"
+								<div class="hover:bg-blue-100 border rounded-lg p-4 shadow-md bg-white dark:bg-gray-900 max-w-full exercise-container"
 									id="exercise-container-{{ $day }}">
 									<p class="text-left text-lg text-gray-900 dark:text-white"> Giorno:
 										{{ $day }}
