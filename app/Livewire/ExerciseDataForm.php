@@ -22,7 +22,6 @@ class ExerciseDataForm extends Component
 
     public function submit()
     {
-        // Salvare i dati nel DB
         foreach ($this->usedKg as $index => $kg) {
             ExerciseData::create([
                 'user_id' => auth()->id(),
@@ -33,8 +32,7 @@ class ExerciseDataForm extends Component
                 'date' => now(),
             ]);
         }
-        
-        // Aggiungi un messaggio di conferma, se necessario
+
         session()->flash('message', 'Dati salvati con successo!');
     }
 

@@ -31,7 +31,7 @@
 					@endif
 				</div>
 
-				<div class="p-4 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+				{{-- <div class="p-4 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
 					<h4 class="text-lg font-bold mb-4 text-gray-900 dark:text-white">Risultati allenamento</h4>
 
 					<table class="w-full border-collapse border border-gray-300 dark:border-gray-600">
@@ -75,9 +75,9 @@
 							Invia Dati
 						</button>
 					</div>
-				</div>
+				</div> --}}
 
-				{{-- <livewire:exercise-data-form :exercise-id="$exercises[$currentIndex]->id" :series="$exercises[$currentIndex]->pivot->series" :repetitions="$exercises[$currentIndex]->pivot->repetitions" :day="$day" /> --}}
+				<livewire:exercise-data-form :exercise-id="$exercises[$currentIndex]->id" :series="$exercises[$currentIndex]->pivot->series" :repetitions="$exercises[$currentIndex]->pivot->repetitions" :day="$day" />
 
 			</div>
 		</div>
