@@ -7,13 +7,19 @@ use App\Models\ExerciseData;
 
 class ExerciseDataModal extends Component
 {
+	public $count;
+	public $name;
+	public $image;
 	public $exerciseId;
 	public $series;
 	public $repetitions;
 	public $usedKg = [];
 
-	public function mount($exerciseId, $series, $repetitions)
+	public function mount($count, $name, $image, $exerciseId, $series, $repetitions)
 	{
+		$this->count = $count;
+		$this->name = $name;
+		$this->image = $image;
 		$this->exerciseId = $exerciseId;
 		$this->series = $series;
 		$this->repetitions = $repetitions;
