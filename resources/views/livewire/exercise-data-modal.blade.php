@@ -22,7 +22,7 @@
 								@if ($repetitions != "MAX")
 									<input type="number" class="w-full p-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white" value="{{ $repetitions }}">
 								@else
-									<input type="number" class="w-full p-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+									<input type="number" class="w-full p-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white" placeholder="{{ $repetitions }}">
 								@endif
 							</td>
 							<td class="p-2 border border-gray-300 dark:border-gray-600">

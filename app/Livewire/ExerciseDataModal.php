@@ -5,7 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\ExerciseData;
 
-class TestComponent extends Component
+class ExerciseDataModal extends Component
 {
 	public $exerciseId;
 	public $series;
@@ -22,7 +22,7 @@ class TestComponent extends Component
 
 	public function render()
 	{
-		return view('livewire.test-component');
+		return view('livewire.exercise-data-modal');
 	}
 
 	public function submit()
