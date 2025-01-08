@@ -17,22 +17,20 @@
 			@if ($currentIndex > 0) class="text-black dark:text-white bg-white dark:bg-gray-800 p-2 rounded"
 				onclick="window.location='{{ route('training_pages.inspect_training', ['day' => $day, 'exercise' => $currentIndex - 1]) }}'"
 			@else
-				class="text-gray-400 dark:text-gray-500 bg-white dark:bg-gray-800 p-2 rounded"
-				disabled
-			@endif>
-			<x-mdi-arrow-left class="h-6 text-black dark:text-white" />
+				class="text-white bg-white dark:text-gray-800 dark:bg-gray-800 p-2 rounded"
+				disabled @endif>
+			<x-mdi-arrow-left class="h-6" />
 		</button>
-	
+
 		<span class="mx-4 text-gray-800 dark:text-white">{{ $currentIndex + 1 }} / {{ $exercises->count() }}</span>
-	
+
 		<button
 			@if ($currentIndex < $exercises->count() - 1) class="text-black dark:text-white bg-white dark:bg-gray-800 p-2 rounded"
 				onclick="window.location='{{ route('training_pages.inspect_training', ['day' => $day, 'exercise' => $currentIndex + 1]) }}'"
 			@else
-				class="text-gray-400 dark:text-gray-500 bg-white dark:bg-gray-800 p-2 rounded"
-				disabled
-			@endif>
-			<x-mdi-arrow-right class="h-6 text-black dark:text-white" />
+				class="text-white bg-white dark:text-gray-800 dark:bg-gray-800 p-2 rounded"
+				disabled @endif>
+			<x-mdi-arrow-right class="h-6" />
 		</button>
 	</div>
 </x-app-layout>
