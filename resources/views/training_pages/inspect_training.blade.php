@@ -12,25 +12,27 @@
 	<livewire:exercise-data-modal :count="$exercises->count()" :name="$exercises[$currentIndex]->name" :image="$exercises[$currentIndex]->image" :exercise-id="$exercises[$currentIndex]->id" :series="$exercises[$currentIndex]->pivot->series" :repetitions="$exercises[$currentIndex]->pivot->repetitions" :day="$day" />
 	
 	<!-- Barra per il cambio esercizio (fissa in fondo alla pagina) -->
-	<div class="fixed bottom-0 w-full bg-white shadow-lg py-2 flex justify-center items-center">
+	<div class="fixed bottom-0 w-full bg-white dark:bg-gray-800 shadow-lg py-2 flex justify-center items-center">
 		<button
-			@if ($currentIndex > 0) class="text-black bg-white p-2 rounded"
+			@if ($currentIndex > 0) class="text-black dark:text-white bg-white dark:bg-gray-800 p-2 rounded"
 				onclick="window.location='{{ route('training_pages.inspect_training', ['day' => $day, 'exercise' => $currentIndex - 1]) }}'"
 			@else
-				class="text-white bg-white p-2 rounded"
-				disabled @endif>
-			<x-mdi-arrow-left class="h-6" />
+				class="text-gray-400 dark:text-gray-500 bg-white dark:bg-gray-800 p-2 rounded"
+				disabled
+			@endif>
+			<x-mdi-arrow-left class="h-6 text-black dark:text-white" />
 		</button>
-
-		<span class="mx-4 text-gray-800">{{ $currentIndex + 1 }} / {{ $exercises->count() }}</span>
-
+	
+		<span class="mx-4 text-gray-800 dark:text-white">{{ $currentIndex + 1 }} / {{ $exercises->count() }}</span>
+	
 		<button
-			@if ($currentIndex < $exercises->count() - 1) class="text-black bg-white p-2 rounded"
+			@if ($currentIndex < $exercises->count() - 1) class="text-black dark:text-white bg-white dark:bg-gray-800 p-2 rounded"
 				onclick="window.location='{{ route('training_pages.inspect_training', ['day' => $day, 'exercise' => $currentIndex + 1]) }}'"
 			@else
-				class="text-white bg-white p-2 rounded"
-				disabled @endif>
-			<x-mdi-arrow-right class="h-6" />
+				class="text-gray-400 dark:text-gray-500 bg-white dark:bg-gray-800 p-2 rounded"
+				disabled
+			@endif>
+			<x-mdi-arrow-right class="h-6 text-black dark:text-white" />
 		</button>
 	</div>
 </x-app-layout>
