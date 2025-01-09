@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     let timer;
-    let rest = parseInt(document.getElementById('timerDisplay').textContent) * 60; // Tempo iniziale in secondi
+    let rest = parseTime(document.getElementById('timerDisplay').textContent); // Converti il tempo iniziale in secondi
     let isRunning = false; // Per verificare se il timer è in esecuzione
     let timeRemaining = rest; // Tempo rimanente in secondi
     const progressBar = document.getElementById('progressBar');
@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('timerModal');
     const reduceButton = document.getElementById('reduceButton');
     const closeButton = document.getElementById('closeButton');
+
+    // Funzione per convertire il formato minuti:secondi in secondi totali
+    function parseTime(timeStr) {
+        let parts = timeStr.split(':');
+        let minutes = parseInt(parts[0], 10); // Ottieni i minuti
+        let seconds = parseInt(parts[1], 10); // Ottieni i secondi
+        return minutes * 60 + seconds; // Ritorna il totale in secondi
+    }
 
     // Funzione per avviare il timer
     function startTimer() {
