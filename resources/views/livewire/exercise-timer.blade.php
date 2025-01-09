@@ -8,7 +8,7 @@
     </a>
     
     <!-- Modale Timer -->
-    <div id="timerModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+    <div id="timerModal" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-50 justify-center items-center hidden">
         <div class="bg-white p-8 rounded-lg shadow-xl max-w-xs w-full text-center">
             <div id="modalTimer" class="text-4xl font-bold mb-4">{{ $rest }}</div>
             <!-- Barra di progresso -->

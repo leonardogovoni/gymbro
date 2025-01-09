@@ -44,8 +44,8 @@ class EditExerciseModal extends Component
 
 	public function save()
 	{
-		// Kinda sus, da controllare TODO
 		$reps_str = $this->maximal ? 'MAX' : ($this->same_reps ? $this->reps[0] : implode('-', $this->reps));
+		
 		WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $this->pivot_id)->update([
 			'rest' => $this->rest,
 			'series' => $this->sets,

@@ -24,3 +24,8 @@ input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+/* Previene lo switch del cursore da "default" a "text" */
+#scrollNumber {
+	cursor: default;
+}

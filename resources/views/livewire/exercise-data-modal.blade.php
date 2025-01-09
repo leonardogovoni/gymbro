@@ -40,11 +40,11 @@
 										{{ $i + 1 }}
 									</td>
 									<td class="p-2 border border-gray-300 dark:border-gray-600">
-										@if ($repetitions != "MAX")
+										@unless (strpos($repetitions, 'MAX') !== false)
 											<input type="number" class="w-full p-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white" value="{{ $repetitions }}">
 										@else
 											<input type="number" class="w-full p-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white" placeholder="{{ $repetitions }}">
-										@endif
+										@endunless
 									</td>
 									<td class="p-2 border border-gray-300 dark:border-gray-600">
 										<input type="number"
