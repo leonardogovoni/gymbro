@@ -38,7 +38,7 @@ class EditExerciseModal extends Component
 		$this->sets = $this->exercise_data->pivot['series'];
 		$this->same_reps = !str_contains($this->exercise_data->pivot['repetitions'], '-');
 		$this->reps = explode('-', $this->exercise_data->pivot['repetitions']);
-		// dd($this->reps);
+
         $this->dispatch('open-modal', 'edit');
     }
 
@@ -46,7 +46,7 @@ class EditExerciseModal extends Component
 	{
 		// Kinda sus, da controllare TODO
 		$reps_str = $this->maximal ? 'MAX' : ($this->same_reps ? $this->reps[0] : implode('-', $this->reps));
-		WorkoutPlan::find($this->workout_plan_id)->exercises()->updateExistingPivot($this->pivot_id, [
+		WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $this->pivot_id)->update([
 			'rest' => $this->rest,
 			'series' => $this->sets,
 			'repetitions' => $reps_str
