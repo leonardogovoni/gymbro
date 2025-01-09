@@ -15,7 +15,7 @@
         @endforeach
 
         <li class="flex flex-col items-center py-4 first:pt-0 last:pb-0">
-            <x-primary-button type="button" class="bg-green-600 hover:bg-green-700" wire:click="add()">
+            <x-primary-button type="button" class="bg-green-600 hover:bg-green-700" wire:click="add">
                 Aggiungi esercizio
             </x-primary-button>
         </li>

@@ -58,9 +58,9 @@ class WorkoutPlansController extends Controller
 
 		$workout_plan = $request->user()->workout_plans()->where('id', $id)->firstOrFail();
 		$days = $workout_plan->exercises()->max('day');
-		// dd($days);
 
 		return view('workout_plans.edit', [
+			'workout_plan' => $workout_plan,
 			'workout_plan_id' => $id,
 			'days' => $days
 		]);

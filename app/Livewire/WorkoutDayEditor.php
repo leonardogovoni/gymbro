@@ -9,7 +9,7 @@ use Livewire\Attributes\On;
 
 class WorkoutDayEditor extends Component
 {
-	public $workout_plan_id;
+	public $workout_plan;
 	public $day;
 	public $exercises;
 
@@ -43,14 +43,14 @@ class WorkoutDayEditor extends Component
 	#[On('exercise-updated')]
 	public function reloadExercises()
 	{
-		$this->exercises = WorkoutPlan::find($this->workout_plan_id)->exercises()->where('day', $this->day)->orderBy('sequence')->get();
+		$this->exercises = $this->workout_plan->exercises()->where('day', $this->day)->orderBy('sequence')->get();
 	}
 
 	public function delete($pivot_id)
 	{
-		$exercise_sequence = WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $pivot_id)->value('sequence');
-		WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $pivot_id)->detach();
-		WorkoutPlan::find($this->workout_plan_id)->exercises()->where('day', $this->day)->where('sequence', '>', $exercise_sequence)->decrement('sequence');
+		$exercise_sequence = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('sequence');
+		$this->workout_plan->exercises()->wherePivot('id', $pivot_id)->detach();
+		$this->workout_plan->exercises()->where('day', $this->day)->where('sequence', '>', $exercise_sequence)->decrement('sequence');
 		// Reload component exercises
 		$this->reloadExercises();
 	}
