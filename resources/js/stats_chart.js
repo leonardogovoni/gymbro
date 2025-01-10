@@ -3,7 +3,7 @@ import Chart from 'chart.js/auto'; // Importa Chart.js
 // Assicurati che il documento sia pronto prima di iniziare a creare il grafico
 document.addEventListener('DOMContentLoaded', function () {
     // Dati passati dalla vista
-    const exerciseData = @json($exerciseData); // Array di oggetti ExerciseData
+    const exerciseData = ($exerciseData); // Array di oggetti ExerciseData
     
     // Prepara i dati per il grafico
     const labels = exerciseData.map(data => data.date); // Etichette per l'asse X (date)
