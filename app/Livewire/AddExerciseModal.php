@@ -25,7 +25,7 @@ class AddExerciseModal extends Component
 	}
 
 	// Recieves data from the add button component
-	#[On('add-modal')]
+	#[On('add')]
 	public function open($day)
 	{
 		$this->day = $day;
@@ -36,17 +36,17 @@ class AddExerciseModal extends Component
 	public function add($new_exercise_id)
 	{
 		$last_exercise = WorkoutPlan::find($this->workout_plan_id)->exercises()->where('day', $this->day)->orderBy('sequence', 'desc')->first();
-		$new_exercise_sequence = $last_exercise ? $last_exercise->pivot->sequence + 1 : 1;
+		$new_exercise_sequence = !is_null($last_exercise) ? $last_exercise->pivot->sequence + 1 : 1;
 
 		WorkoutPlan::find($this->workout_plan_id)->exercises()->attach($new_exercise_id, [
 			'day' => $this->day,
 			'sequence' => $new_exercise_sequence,
 			'series' => 3,
 			'repetitions' => 10,
-			'rest' => 1
+			'rest' => 30
 		]);
 
 		$this->dispatch('exercise-updated');
-		$this->dispatch('close-modal', 'add_exercise');
+		$this->dispatch('close-modal', 'add');
 	}
 }

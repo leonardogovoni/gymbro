@@ -28,7 +28,7 @@ class EditExerciseModal extends Component
     }
 
     // Recieves data from the edit button component
-    #[On('edit-modal')]
+    #[On('edit')]
     public function open($pivot_id)
     {
 		$this->pivot_id = $pivot_id;

@@ -47,23 +47,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex items-center justify-center p-0 py-4 sm:p-4">
                 <div class="w-full sm:w-5/6 mx-auto grid grid-cols-1 gap-4">
-                    @if($days == 0)
-                        <h2 class="flex-grow text-xl pb-1">Nessun giorno presente</h2>
-                    @else
-                        @foreach (range(1, $days) as $day)
-                            <div>
-                                <h2 class="flex-grow text-xl pb-1">Giorno {{ $day }}</h2>
-
-                                <livewire:workout-day-editor :workout_plan="$workout_plan" :day="$day" />
-                            </div>
-                        @endforeach
-                    @endif
-
-                    <div class="flex flex-col items-center py-4 first:pt-0 last:pb-0">
-                        <x-primary-button type="button" class="bg-green-600 hover:bg-green-700" wire:click="add">
-                            Aggiungi giornata
-                        </x-primary-button>
-                    </div>
+                    <livewire:workout-editor :workout_plan="$workout_plan" />
                 </div>
             </div>
         </div>
