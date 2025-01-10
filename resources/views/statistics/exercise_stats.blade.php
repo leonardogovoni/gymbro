@@ -1,5 +1,5 @@
 <x-app-layout>
-    @vite(['resources/js/chart.js'])
+    @vite(['resources/js/stats_chart.js'])
 
     <x-slot name="header">
         <div class="flex items-center justify-between h-6">

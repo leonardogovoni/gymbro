@@ -1,4 +1,4 @@
-import { Chart } from 'chart.js';
+import Chart from 'chart.js/auto';  // Importa la libreria Chart.js
 
 document.addEventListener('DOMContentLoaded', function () {
     const chartData = @json($chartData);  // I dati passati dal controller

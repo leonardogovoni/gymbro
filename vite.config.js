@@ -7,13 +7,5 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),
-        vue(),
-        require('@vitejs/plugin-vue')(),
     ],
-    build: {
-        outDir: 'public/build',
-    },
-    optimizeDeps: {
-        include: ['chart.js'],
-    },
 });
