@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\ExercisesListController;
+use App\Http\Controllers\ExerciseStatsSelectionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\WorkoutPlansController;
@@ -31,7 +33,8 @@ Route::middleware('auth')->group(function () {
 	Route::get('/training', [TrainingController::class, 'index'])->name('training');
     Route::get('/training/inspect/{day}', [TrainingController::class, 'inspect'])->name('training_pages.inspect_training');
 
-    
+    // Pagina statistiche
+    Route::get('/statistics/exercises-list', [ExercisesListController::class, 'index'])->name('exercises-list');
 
 	Route::get('/training/edit', [TrainingController::class, 'edit'])->name('training.edit');
 });
