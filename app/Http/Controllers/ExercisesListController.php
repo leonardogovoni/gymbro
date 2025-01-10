@@ -18,21 +18,15 @@ class ExercisesListController extends Controller
     {
         $selectedExercise = Exercise::find($exercise);
 
-        // Recupera i dati dell'esercizio per l'utente autenticato
+        // Recupera i dati dell'esercizio filtrando per exercise_id
         $exerciseData = ExerciseData::where('exercise_id', $exercise)
-            ->where('user_id', $request->user()->id)
-            ->orderBy('date')
+            ->orderBy('date', 'asc')
             ->get();
 
-        // Prepara i dati per il grafico (data per l'asse X e Y)
-        $chartData = $exerciseData->map(function ($data) {
-            return [
-                'date' => $data->date,
-                'used_kg' => $data->used_kg,
-            ];
-        });
-
-        // Passa i dati alla vista
-        return view('statistics.exercise_stats', compact('selectedExercise', 'chartData'));
+        // Passa i dati al view come JSON
+        return view('statistics.exercise_stats', [
+            'selectedExercise' => $selectedExercise,
+            'exerciseData' => $exerciseData
+        ]);
     }
 }
