@@ -33,7 +33,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-4 justify-center z-50 w-full">
-                <livewire:edit-exercise-modal :workout_plan_id="$workout_plan_id" />
+                <livewire:edit-exercise-modal :workout_plan="$workout_plan" />
             </div>
         </div>
     </x-modal>

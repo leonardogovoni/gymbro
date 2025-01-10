@@ -6,7 +6,6 @@ use Livewire\Component;
 use Livewire\Attributes\On; 
 
 use App\Models\Exercise;
-use App\Models\WorkoutPlan;
 
 class AddExerciseModal extends Component
 {

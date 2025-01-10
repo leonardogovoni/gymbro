@@ -53,8 +53,7 @@ class WorkoutPlansController extends Controller
 		$workout_plan = $request->user()->workout_plans()->where('id', $id)->firstOrFail();
 
 		return view('workout_plans.edit', [
-			'workout_plan' => $workout_plan,
-			'workout_plan_id' => $id
+			'workout_plan' => $workout_plan
 		]);
 	}
 

@@ -5,12 +5,9 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\On; 
 
-use App\Models\Exercise;
-use App\Models\WorkoutPlan;
-
 class EditExerciseModal extends Component
 {
-	public $workout_plan_id;
+	public $workout_plan;
 	public $pivot_id;
 
 	public $exercise_data = NULL;
@@ -32,7 +29,7 @@ class EditExerciseModal extends Component
     public function open($pivot_id)
     {
 		$this->pivot_id = $pivot_id;
-		$this->exercise_data = WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $pivot_id)->first();
+		$this->exercise_data = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
 
 		$this->rest = $this->exercise_data->pivot['rest'];
 		$this->sets = $this->exercise_data->pivot['series'];
@@ -46,7 +43,7 @@ class EditExerciseModal extends Component
 	{
 		$reps_str = $this->maximal ? 'MAX' : ($this->same_reps ? $this->reps[0] : implode('-', $this->reps));
 		
-		WorkoutPlan::find($this->workout_plan_id)->exercises()->wherePivot('id', $this->pivot_id)->update([
+		$this->workout_plan->exercises()->wherePivot('id', $this->pivot_id)->update([
 			'rest' => $this->rest,
 			'series' => $this->sets,
 			'repetitions' => $reps_str
