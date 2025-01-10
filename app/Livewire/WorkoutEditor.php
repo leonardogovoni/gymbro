@@ -43,8 +43,7 @@ class WorkoutEditor extends Component
 	{
 		return $this->workout_plan->exercises()->where('day', $day)->orderBy('sequence')->get();
 	}
-
-	// OKAY
+	
 	public function delete($pivot_id)
 	{
 		$exercise_sequence = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('sequence');
