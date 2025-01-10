@@ -10,16 +10,31 @@ use App\Models\WorkoutPlan;
 
 class AddExerciseModal extends Component
 {
-	public $workout_plan_id;
+	public $workout_plan;
 	public $day;
-	public $search_parameter = '';
-	public $categories =  ['muscolo 1', 'muscolo 2'];
+
+	public $categories;
+	public $search_parameter;
+	public $category_parameter;
 
 	// Executed only when component is created
+	public function mount()
+	{
+		$this->categories = Exercise::orderBy('muscle')->distinct()->pluck('muscle');
+	}
+
+	// Executed everytime a variable gets updated
 	public function render()
 	{
+		if(is_null($this->category_parameter) || $this->category_parameter == 'all')
+			$result = Exercise::where('name', 'like', '%'.$this->search_parameter.'%')->get();
+		else
+			$result = Exercise::where('name', 'like', '%'.$this->search_parameter.'%')
+						->where('muscle', '=', $this->categories[$this->category_parameter])
+						->get();
+
 		return view('livewire.add-exercise-modal', [
-			'results' => Exercise::where('name', 'like', '%'.$this->search_parameter.'%')->get(),
+			'results' => $result,
 			'categories' => $this->categories
 		]);
 	}
@@ -32,13 +47,13 @@ class AddExerciseModal extends Component
 		$this->dispatch('open-modal', 'add');
 	}
 
-	// Execute when you click on an exercise to add it
+	// Executed when you click on an exercise to add it
 	public function add($new_exercise_id)
 	{
-		$last_exercise = WorkoutPlan::find($this->workout_plan_id)->exercises()->where('day', $this->day)->orderBy('sequence', 'desc')->first();
+		$last_exercise = $this->workout_plan->exercises()->where('day', $this->day)->orderBy('sequence', 'desc')->first();
 		$new_exercise_sequence = !is_null($last_exercise) ? $last_exercise->pivot->sequence + 1 : 1;
 
-		WorkoutPlan::find($this->workout_plan_id)->exercises()->attach($new_exercise_id, [
+		$this->workout_plan->exercises()->attach($new_exercise_id, [
 			'day' => $this->day,
 			'sequence' => $new_exercise_sequence,
 			'series' => 3,

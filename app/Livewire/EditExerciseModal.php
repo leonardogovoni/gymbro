@@ -21,7 +21,7 @@ class EditExerciseModal extends Component
 	public $same_reps;
 	public $reps = [];
 
-    // Executed only when component is created
+    // Executed everytime a variable gets updated
     public function render()
     {
 		return view('livewire.edit-exercise-modal');
