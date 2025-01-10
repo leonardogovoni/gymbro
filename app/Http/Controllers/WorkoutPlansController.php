@@ -48,14 +48,8 @@ class WorkoutPlansController extends Controller
 		return redirect()->route('workout_plans.list');
 	}
 
-	public function edit(Request $request)
+	public function edit($id, Request $request)
 	{
-		$id = $request->input('id');
-
-		// if ($workoutPlan->user_id !== auth()->id()) {
-		// 	abort(403, 'Non autorizzato.');
-		// }
-
 		$workout_plan = $request->user()->workout_plans()->where('id', $id)->firstOrFail();
 
 		return view('workout_plans.edit', [

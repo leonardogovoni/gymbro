@@ -89,14 +89,9 @@
 									</h3>
 							
 									<div class="flex items-center">
-										<!-- Form per la prima icona (Modifica) -->
-										<form action="{{ route('workout_plans.edit') }}" method="POST">
-											@csrf
-											<input type="hidden" name="id" value="{{ $workout_plan->id }}">
-											<button type="submit" title="Modifica">
-												<x-mdi-pen class="fill-blue-500 hover:fill-blue-700 h-6" />
-											</button>
-										</form>
+										<a href="{{ route('workout_plans.edit', $workout_plan->id) }}">
+											<x-mdi-pen class="fill-blue-500 hover:fill-blue-700 h-6" />
+										</a>
 										
 										<!-- Inizializza Alpine.js con l'attributo x-data -->
 										<div x-data="{ deleteWorkout: false }">
