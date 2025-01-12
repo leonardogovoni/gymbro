@@ -35,7 +35,8 @@ Route::middleware('auth')->group(function () {
 
     // Pagina statistiche
     Route::get('/statistics/exercises-list', [ExercisesListController::class, 'index'])->name('exercises-list');
-    Route::get('/statistics/exercises-list/{exercise}', [ExercisesListController::class, 'inspect'])->name('exercises-list.exercise-stats');
+    Route::get('/exercises/{exercise}/stats', [ExercisesListController::class, 'inspect'])->name('exercises-list.exercise-stats');
+
 
 	Route::get('/training/edit', [TrainingController::class, 'edit'])->name('training.edit');
 });
