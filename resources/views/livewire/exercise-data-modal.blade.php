@@ -41,7 +41,7 @@
 									</td>
 									<td class="p-2 border border-gray-300 dark:border-gray-600">
 										@unless (strpos($repetitions, 'MAX') !== false)
-											<input type="number" class="w-full p-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white" value="{{ $repetitions }}">
+											<input type="number" class="w-full p-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white" placeholder="{{ $repetitions }}">
 										@else
 											<input type="number" class="w-full p-1 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white" placeholder="{{ $repetitions }}">
 										@endunless
