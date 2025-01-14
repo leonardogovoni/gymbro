@@ -12,8 +12,8 @@ class DataModel extends Component
 {
 	public $workout_plan;
 	public $day;
-	public $exercises;
-	public $index_current;
+	public $current_index;
+	public $max_index;
 
 	// public $name;
 	// public $image;
@@ -27,8 +27,8 @@ class DataModel extends Component
 	{
 		$this->workout_plan = $workout_plan;
 		$this->day = $day;
-		$this->exercises = $this->workout_plan->exercises()->where('day', $day)->orderBy('sequence')->get();
-		$this->index_current = 0;
+		$this->current_index = 0;
+		$this->max_index = $this->workout_plan->exercises()->where('day', $this->day)->max('sequence')-1;
 
 
 
@@ -47,7 +47,7 @@ class DataModel extends Component
 		return view('livewire.training.data-model', [
 			'day' => $this->day,
 			'exercises' => $this->exercises,
-			'index_current' => $this->index_current
+			'current_index' => $this->current_index
 		]);
 	}
 
@@ -68,16 +68,11 @@ class DataModel extends Component
 		session()->flash('message', 'Dati salvati con successo!');
 	}
 
-	#[On('previous')]
-	public function previous()
+	#[On('change-index')]
+	public function changeIndex($new_index)
 	{
-		$this->index_current--;
-	}
-
-	#[On('next')]
-	public function next()
-	{
-		$this->index_current++;
+		if ($new_index > 0 || $new_index < $this->max_index)
+			$this->current_index = $new_index;
 	}
 
 	#[Computed]
