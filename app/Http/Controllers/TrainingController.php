@@ -45,28 +45,21 @@ class TrainingController extends Controller
 		]);
 	}
 
-	public function inspect($day, Request $request)
+	public function inspect($workout_plan_id, $day, Request $request)
 	{
-		$workout_plan_enabled = $request->user()->workout_plans()->where('enabled', true)->first();
+		$workout_plan = $request->user()->workout_plans()->where('id', $workout_plan_id)->firstOrFail();
 
-		// Recupera il titolo della scheda attiva
-		$workout_plan_title = $workout_plan_enabled->title;
+		// // Recupera il titolo della scheda attiva
+		// $workout_plan_title = $workout_plan->title;
 
-		$exercises = WorkoutPlan::find($workout_plan_enabled->id)
-			->exercises()
-			->where('day', $day)
-			->orderBy('sequence')
-			->get();
+		// $exercises = $workout_plan->exercises()->where('day', $day)->orderBy('sequence')->get();
 
-		// Imposta l'esercizio corrente
-		$currentIndex = $request->input('exercise', 0);
+		// // Imposta l'esercizio corrente
+		// $currentIndex = $request->input('exercise', 0);
 
-		return view('training.inspect_training', [
-			'workout_plan_title' => $workout_plan_title,
-			'day' => $day,
-			'exercises' => $exercises,
-			'currentIndex' => $currentIndex,
+		return view('training.inspect', [
+			'workout_plan' => $workout_plan,
+			'day' => $day
 		]);
 	}
-	
 }

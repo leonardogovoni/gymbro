@@ -2,8 +2,6 @@
 
 namespace App\Livewire\WorkoutPlans;
 
-use App\Models\WorkoutPlan;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\On; 
 use Livewire\Attributes\Computed;
