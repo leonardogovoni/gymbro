@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\WorkoutPlans;
 
 use Livewire\Component;
 use Livewire\Attributes\On; 
@@ -9,8 +9,6 @@ class EditExerciseModal extends Component
 {
 	public $workout_plan;
 	public $pivot_id;
-
-	public $exercise_data = NULL;
 
 	public $rest;
 	public $sets;
@@ -21,7 +19,7 @@ class EditExerciseModal extends Component
     // Executed everytime a variable gets updated
     public function render()
     {
-		return view('livewire.edit-exercise-modal');
+		return view('livewire.workout_plans.edit-exercise-modal');
     }
 
     // Recieves data from the edit button component
@@ -29,12 +27,12 @@ class EditExerciseModal extends Component
     public function open($pivot_id)
     {
 		$this->pivot_id = $pivot_id;
-		$this->exercise_data = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
-
-		$this->rest = $this->exercise_data->pivot['rest'];
-		$this->sets = $this->exercise_data->pivot['series'];
-		$this->same_reps = !str_contains($this->exercise_data->pivot['repetitions'], '-');
-		$this->reps = explode('-', $this->exercise_data->pivot['repetitions']);
+		$exercise_data = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
+		// dump($exercise_data->pivot['rest']);
+		$this->rest = str($exercise_data->pivot['rest']);
+		$this->sets = $exercise_data->pivot['series'];
+		$this->same_reps = !str_contains($exercise_data->pivot['repetitions'], '-');
+		$this->reps = explode('-', $exercise_data->pivot['repetitions']);
 
         $this->dispatch('open-modal', 'edit');
     }

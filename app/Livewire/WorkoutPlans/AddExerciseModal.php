@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\WorkoutPlans;
 
 use Livewire\Component;
 use Livewire\Attributes\On; 
@@ -32,7 +32,7 @@ class AddExerciseModal extends Component
 						->where('muscle', '=', $this->categories[$this->category_parameter])
 						->get();
 
-		return view('livewire.add-exercise-modal', [
+		return view('livewire.workout_plans.add-exercise-modal', [
 			'results' => $result,
 			'categories' => $this->categories
 		]);

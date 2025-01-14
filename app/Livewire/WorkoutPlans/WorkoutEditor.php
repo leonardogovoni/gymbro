@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\WorkoutPlans;
 
 use App\Models\WorkoutPlan;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +24,7 @@ class WorkoutEditor extends Component
 	#[On('exercise-updated')]
 	public function render()
 	{
-		return view('livewire.workout-editor', [
+		return view('livewire.workout_plans.workout-editor', [
 			'days' => $this->days
 		]);
 	}

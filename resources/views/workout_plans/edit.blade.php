@@ -13,7 +13,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-4 justify-center z-50 w-full">
-                <livewire:add-exercise-modal :workout_plan="$workout_plan" />
+                <livewire:workout_plans.add-exercise-modal :workout_plan="$workout_plan" />
             </div>
         </div>
     </x-modal>
@@ -33,7 +33,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-4 justify-center z-50 w-full">
-                <livewire:edit-exercise-modal :workout_plan="$workout_plan" />
+                <livewire:workout_plans.edit-exercise-modal :workout_plan="$workout_plan" />
             </div>
         </div>
     </x-modal>
@@ -42,7 +42,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex items-center justify-center p-0 py-4 sm:p-4">
                 <div class="w-full sm:w-5/6 mx-auto grid grid-cols-1 gap-4">
-                    <livewire:workout-editor :workout_plan="$workout_plan" />
+                    <livewire:workout_plans.workout-editor :workout_plan="$workout_plan" />
                 </div>
             </div>
         </div>
