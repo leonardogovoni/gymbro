@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Training;
 
 use Livewire\Component;
 
-class ExerciseTimer extends Component
+class Timer extends Component
 {
     public $rest;
 
@@ -22,6 +22,6 @@ class ExerciseTimer extends Component
 
     public function render()
     {
-        return view('livewire.exercise-timer');
+        return view('livewire.training.timer');
     }
 }

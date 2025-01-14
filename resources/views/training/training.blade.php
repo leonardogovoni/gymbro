@@ -17,7 +17,7 @@
 						<p>Non hai una scheda attiva.</p>
 					@else
 						@foreach ($exercises_by_day as $day => $exercises)
-							<a href="{{ route('training_pages.inspect_training', ['day' => $day]) }}">
+							<a href="{{ route('training.inspect_training', ['day' => $day]) }}">
 								<div class="hover:bg-blue-100 border rounded-lg p-4 shadow-md bg-white dark:bg-gray-900 max-w-full exercise-container"
 									id="exercise-container-{{ $day }}">
 									<p class="text-left text-lg text-gray-900 dark:text-white"> Giorno:

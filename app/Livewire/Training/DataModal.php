@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Training;
 
 use Livewire\Component;
 use App\Models\ExerciseData;
 
-class ExerciseDataModal extends Component
+class DataModal extends Component
 {
 	public $count;
 	public $name;
@@ -28,7 +28,7 @@ class ExerciseDataModal extends Component
 
 	public function render()
 	{
-		return view('livewire.exercise-data-modal');
+		return view('livewire.training.data-modal');
 	}
 
 	public function submit()

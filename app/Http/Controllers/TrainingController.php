@@ -16,7 +16,7 @@ class TrainingController extends Controller
 
 		// Se non esiste una scheda attiva, restituisci una vista con un messaggio appropriato
 		if (!$workout_plan_enabled) {
-			return view('training_pages.training', [
+			return view('training.training', [
 				'workout_plan_enabled' => null,
 				'exercises_by_day' => collect(),
 				'workout_plan_title' => 'Nessuna scheda attiva',
@@ -38,7 +38,7 @@ class TrainingController extends Controller
 		// Organizza gli esercizi per giorno
 		$exercises_by_day = $exercises->groupBy('day');
 	
-		return view('training_pages.training', [
+		return view('training.training', [
 			'workout_plan_enabled' => $exercises,
 			'exercises_by_day' => $exercises_by_day,
 			'workout_plan_title' => $workout_plan_title
@@ -61,7 +61,7 @@ class TrainingController extends Controller
 		// Imposta l'esercizio corrente
 		$currentIndex = $request->input('exercise', 0);
 
-		return view('training_pages.inspect_training', [
+		return view('training.inspect_training', [
 			'workout_plan_title' => $workout_plan_title,
 			'day' => $day,
 			'exercises' => $exercises,
