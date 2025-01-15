@@ -9,23 +9,25 @@
         </div>
     </x-slot>
 
-    <!-- Legend Indicator -->
-<div class="flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6">
-    <div class="inline-flex items-center">
-      <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
-      <span class="text-[13px] text-gray-600 dark:text-neutral-400">
-        Income
-      </span>
-    </div>
-    <div class="inline-flex items-center">
-      <span class="size-2.5 inline-block bg-purple-600 rounded-sm me-2"></span>
-      <span class="text-[13px] text-gray-600 dark:text-neutral-400">
-        Outcome
-      </span>
-    </div>
-  </div>
-  <!-- End Legend Indicator -->
-  
-  <div id="hs-multiple-area-charts-compare-two-tooltip-alt"></div>
+    <!-- Div per il grafico -->
+    <div class="p-6 rounded-lg shadow">
+        <div class="w-[90%]">
+            <canvas id="exerciseChart"></canvas>
+        </div>
 
+        <!-- Filtro per periodo -->
+        <div class="mt-4">
+            <label for="timeFilter" class="mr-2">Filtra per periodo:</label>
+            <select id="timeFilter">
+                <option value="3">Ultimi 3 mesi</option>
+                <option value="6">Ultimi 6 mesi</option>
+                <option value="12">Ultimi 12 mesi</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Passa i dati a JavaScript -->
+    <script>
+        window.exerciseData = @json($exerciseData); // Passa i dati come JSON
+    </script>
 </x-app-layout>
