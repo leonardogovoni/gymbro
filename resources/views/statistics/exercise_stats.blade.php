@@ -9,9 +9,23 @@
         </div>
     </x-slot>
 
-    <!-- Div per il grafico -->
-    <div class="p-6 bg-white border-b border-gray-200 rounded-lg shadow">
-        <canvas id="exerciseChart"></canvas>
+    <!-- Legend Indicator -->
+<div class="flex justify-center sm:justify-end items-center gap-x-4 mb-3 sm:mb-6">
+    <div class="inline-flex items-center">
+      <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
+      <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+        Income
+      </span>
     </div>
+    <div class="inline-flex items-center">
+      <span class="size-2.5 inline-block bg-purple-600 rounded-sm me-2"></span>
+      <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+        Outcome
+      </span>
+    </div>
+  </div>
+  <!-- End Legend Indicator -->
+  
+  <div id="hs-multiple-area-charts-compare-two-tooltip-alt"></div>
 
 </x-app-layout>
