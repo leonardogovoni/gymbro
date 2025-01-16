@@ -1,5 +1,5 @@
 <x-app-layout>
-    @vite(['resources/js/stats_chart.js'])
+    {{-- @vite(['resources/js/stats_chart.js']) --}}
     
     <x-slot name="header">
         <div class="flex items-center justify-between h-6">
@@ -9,7 +9,13 @@
         </div>
     </x-slot>
 
-    <!-- Div per il grafico -->
+    @livewire('exercise-chart', ['exerciseId' => $selectedExercise->id])
+
+    
+</x-app-layout>
+
+{{-- BIAGIO - ERA DENTRO x-app-layout, ora ho spostato tutto in livewire --}}
+{{-- <!-- Div per il grafico -->
     <div class="p-6 rounded-lg shadow">
         <div class="w-[90%]">
             <canvas id="exerciseChart"></canvas>
@@ -29,5 +35,4 @@
     <!-- Passa i dati a JavaScript -->
     <script>
         window.exerciseData = @json($exerciseData); // Passa i dati come JSON
-    </script>
-</x-app-layout>
+    </script> --}}
