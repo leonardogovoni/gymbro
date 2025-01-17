@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\WorkoutPlan;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class WorkoutPlansController extends Controller
 {
 	// Metodo per visualizzare la pagina e recuperare le schede
 	public function index(Request $request)
 	{
-		// Recupera tutte le schede dal database
+		// Recupera tutte le schede dell'utente dal database
 		$workout_plans = $request->user()->workout_plans;
 
 		// Passa i dati alla vista
@@ -20,15 +21,18 @@ class WorkoutPlansController extends Controller
     }
 
 	// Metodo per gestire i dati inviati dal form
-	public function store(Request $request)
+	public function create(Request $request)
 	{
 		// Validazione dei dati
 		$validatedData = $request->validate([
-			'data1' => 'required|string|max:255',
-			'data2' => 'required|string|max:255',
-			'data3' => 'required|date',
-			'data4' => 'required|date',
+			'workout_plan_name' => 'required|string|max:50',
+			'workout_plan_description' => 'required|string|max:100',
+			'workout_plan_start_date' => 'required|date',
+			'workout_plan_end_date' => 'required|date',
 		]);
+
+		// Recupera tutte le schede dal database
+		$workout_plans = $request->user()->workout_plans->count();
 
 		// Inserimento dei dati nel database
         WorkoutPlan::create([
@@ -36,13 +40,13 @@ class WorkoutPlansController extends Controller
 			'user_id' => auth()->id(),
 
 			// Valori inseriti nel form
-			'title' => $validatedData['data1'],
-			'description' => $validatedData['data2'],
-			'start' => $validatedData['data3'],
-			'end' => $validatedData['data4'],
+			'title' => $validatedData['workout_plan_name'],
+			'description' => $validatedData['workout_plan_description'],
+			'start' => $validatedData['workout_plan_start_date'],
+			'end' => $validatedData['workout_plan_end_date'],
 
-			// default: false
-			'enabled' => false
+			// default: false, true se e' l'unica scheda creata
+			'enabled' => $workout_plans == 0 ? true : false
 		]);
 
 		return redirect()->route('workout_plans.list');

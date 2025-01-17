@@ -19,6 +19,8 @@
 				<div class="p-6 grid gap-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
 					@if ($workout_plan == null)
 						<p>Non hai una scheda attiva.</p>
+					@elseif ($grouped_exercises == null || $grouped_exercises->count() == 0)
+						<p>La scheda attiva non contiene esercizi.</p>
 					@else
 						@foreach ($grouped_exercises as $day => $exercises)
 							<a href="{{ route('training.inspect', ['workout_plan_id' => $workout_plan->id, 'day' => $day]) }}">

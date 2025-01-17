@@ -12,11 +12,17 @@ class TrainingController extends Controller
 	public function index(Request $request)
 	{
 		$workout_plan = $request->user()->workout_plans()->where('enabled', true)->first();
-		$grouped_exercises = $workout_plan->exercises()
-			->orderBy('day')
-			->orderBy('sequence')
-			->get(['day', 'name', 'sequence'])
-			->groupBy('day');
+		$grouped_exercises = null;
+
+		// Esegue l'operazione solo se $workout_plan e' definito e non null (Elvis)
+		// previene alcuni errori dopo l'eliminazione della scheda di default
+		if ($workout_plan ?: false) {
+			$grouped_exercises = $workout_plan->exercises()
+				->orderBy('day')
+				->orderBy('sequence')
+				->get(['day', 'name', 'sequence'])
+				->groupBy('day');
+		}
 
 		return view('training.training', [
 			'workout_plan' => $workout_plan,

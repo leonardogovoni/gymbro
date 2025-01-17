@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
 	
 	// Pagina di visualizzazione delle schede
     Route::get('/workout_plans', [WorkoutPlansController::class, 'index'])->name('workout_plans.list');
-    Route::post('/workout_plans', [WorkoutPlansController::class, 'store'])->name('workout_plans.create');
+    Route::post('/workout_plans', [WorkoutPlansController::class, 'create'])->name('workout_plans.create');
     Route::get('/workout_plans/edit/{id}', [WorkoutPlansController::class, 'edit'])->name('workout_plans.edit');
 	Route::delete('/workout_plans/delete', [WorkoutPlansController::class, 'delete'])->name('workout_plans.delete');
 	
