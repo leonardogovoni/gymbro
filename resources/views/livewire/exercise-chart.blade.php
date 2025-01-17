@@ -13,8 +13,8 @@
 
     <!-- Div per il grafico -->
     <div class="p-6 rounded-lg shadow">
-        <div class="w-[90%]">
-            <canvas id="exerciseChart"></canvas>
+        <div class="w-[100%]">
+            <canvas class="h-[600px]" id="exerciseChart"></canvas>
         </div>
     </div>
 
