@@ -27,7 +27,7 @@
 									<label for="workout_plan_name" class="block text-sm font-medium text-gray-700">
 										Nome scheda
 									</label>
-									<input type="text" name="workout_plan_name" id="workout_plan_name" placeholder="Nome scheda" maxlength="255"
+									<input type="text" name="workout_plan_name" id="workout_plan_name" placeholder="Nome scheda" maxlength="50" required
 										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
 								</div>
 
@@ -35,7 +35,7 @@
 									<label for="workout_plan_description" class="block text-sm font-medium text-gray-700">
 										Descrizione
 									</label>
-									<input type="text" name="workout_plan_description" id="workout_plan_description" placeholder="Descrizione" maxlength="255"
+									<input type="text" name="workout_plan_description" id="workout_plan_description" placeholder="Descrizione" maxlength="100" required
 										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
 								</div>
 
@@ -43,7 +43,7 @@
 									<label for="workout_plan_start_date" class="block text-sm font-medium text-gray-700">
 										Data di inizio
 									</label>
-									<input type="date" name="workout_plan_start_date" id="workout_plan_start_date"
+									<input type="date" name="workout_plan_start_date" id="workout_plan_start_date" required
 										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
 								</div>
 
@@ -51,7 +51,7 @@
 									<label for="workout_plan_end_date" class="block text-sm font-medium text-gray-700">
 										Data di fine
 									</label>
-									<input type="date" name="workout_plan_end_date" id="workout_plan_end_date"
+									<input type="date" name="workout_plan_end_date" id="workout_plan_end_date" required
 										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
 								</div>
 							</div>
@@ -153,43 +153,4 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Necessario per stampare gli errori di validazione nel caso di input errati durante la creazione della scheda -->
-	<!-- Overlay opacizzato -->
-	<div id="overlay" class="fixed inset-0 bg-gray-900 opacity-50 z-40 hidden"></div>
-
-	<!-- Contenitore principale dell'alert -->
-	<div id="alertContainer" class="fixed inset-0 flex items-start justify-center z-50 hidden">
-		<div class="relative w-11/12 md:w-1/3 mt-20">
-			<!-- Alert per gli errori -->
-			<div id="errorAlert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-				<strong class="font-bold">Oops!</strong>
-				<span class="block sm:inline">Ci sono dei problemi con i tuoi input.</span>
-				<ul class="mt-2">
-					@foreach ($errors->all() as $error)
-						<li>{{ $error }}</li>
-					@endforeach
-				</ul>
-			</div>
-			<!-- Icona di chiusura esterna -->
-			<span class="absolute top-0 right-0 mt-2 mr-2">
-				<svg id="closeAlert" class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 5.652a.5.5 0 0 1 0 .707L10.707 10l3.641 3.641a.5.5 0 0 1-.707.707L10 10.707l-3.641 3.641a.5.5 0 0 1-.707-.707L9.293 10 5.652 6.359a.5.5 0 1 1 .707-.707L10 9.293l3.641-3.641a.5.5 0 0 1 .707 0z"/></svg>
-			</span>
-		</div>
-	</div>
-
-	<!-- Inserito qui visto che si tratta di poco codice, tranquillamente inseribile in un file JS, va modificata la logica dell'if -->
-	<script>
-		// [TODO] Il controllo effettuato nell'if obbliga a mantenere un tag <script> nel codice, non eliminabile completamente se non con
-		// magheggi molto brutti da vedere, per il momento lascio qui.
-		if (@json($errors->any())) {
-			document.getElementById('alertContainer').classList.remove('hidden');
-			document.getElementById('overlay').classList.remove('hidden');
-		}
-
-		document.getElementById('closeAlert').onclick = function() {
-			document.getElementById('alertContainer').classList.add('hidden');
-			document.getElementById('overlay').classList.add('hidden');
-		};
-	</script>
 </x-app-layout>
