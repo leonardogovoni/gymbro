@@ -10,6 +10,7 @@ class ExerciseChart extends Component
     public $exerciseId;
     public $filter = '3'; // Default: 3 mesi
 
+
     public function render()
     {
         $startDate = now()->subMonths($this->filter);
@@ -20,8 +21,11 @@ class ExerciseChart extends Component
             ->orderBy('date')
             ->get();
 
+        $maxKg = $exerciseData->max('used_kg');
+        $minKg = $exerciseData->min('used_kg');
+
         $this->updatedFilter();
-        return view('livewire.exercise-chart', ['exerciseData' => $exerciseData,]);
+        return view('livewire.exercise-chart', ['exerciseData' => $exerciseData, 'maxKg'=> $maxKg, 'minKg'=> $minKg]);
     }
 
     public function updatedFilter()
@@ -38,8 +42,6 @@ class ExerciseChart extends Component
                 ->orderBy('date')
                 ->get();
         }
-
-
 
         $this->dispatch('updateChart', $exerciseData);
     }
