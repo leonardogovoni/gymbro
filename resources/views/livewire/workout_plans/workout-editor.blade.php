@@ -1,4 +1,17 @@
 <div>
+	<!-- Non appare troppo schifoso, pero' visto che ci tenevi alla grafica, te lo lascio commentato
+		e lo modifichi, se ti va, come piace a te, e' una funzione secondaria ma che andrebbe messa
+		visto che diamo la possibilita' di inserire una descrizione -->
+
+	{{-- <p>Descrizione</p>
+	<div class="w-full pb-4">
+		<textarea
+			class="w-full p-2 border border-gray-300 rounded-md resize-none overflow-hidden"
+			maxlength="500"
+			placeholder={{ $description }}
+			oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
+	</div> --}}
+	
 	@if($days == 0)
 		<div class="flex items-center justify-center pb-4">
 			<p>Nessun giorno presente in questa scheda</p>

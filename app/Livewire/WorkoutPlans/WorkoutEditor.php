@@ -23,7 +23,8 @@ class WorkoutEditor extends Component
 	public function render()
 	{
 		return view('livewire.workout_plans.workout-editor', [
-			'days' => $this->days
+			'days' => $this->days,
+			'description' => $this->workout_plan->description
 		]);
 	}
 
@@ -41,7 +42,7 @@ class WorkoutEditor extends Component
 	{
 		return $this->workout_plan->exercises()->where('day', $day)->orderBy('sequence')->get();
 	}
-	
+
 	public function delete($pivot_id)
 	{
 		$exercise_sequence = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('sequence');

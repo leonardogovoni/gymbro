@@ -15,7 +15,7 @@
 				<div x-show="openModal" x-transition
 					class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
 					style="display: none;">
-					<div class="bg-white w-1/3 rounded-lg shadow-lg p-6">
+					<div class="bg-white w-full max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl rounded-lg shadow-lg p-6 mx-4">
 						<h2 class="text-lg font-bold mb-4">Inserisci i dati</h2>
 
 						<!-- Form -->
@@ -27,16 +27,18 @@
 									<label for="workout_plan_name" class="block text-sm font-medium text-gray-700">
 										Nome scheda
 									</label>
-									<input type="text" name="workout_plan_name" id="workout_plan_name" placeholder="Nome scheda" maxlength="50" required
-										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+									<textarea name="workout_plan_name" id="workout_plan_name" placeholder="Nome scheda" maxlength="100" required 
+										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none overflow-hidden" 
+										oninput="this.style.height = '';this.style.height = this.scrollHeight+ 'px'"></textarea>
 								</div>
 
 								<div>
 									<label for="workout_plan_description" class="block text-sm font-medium text-gray-700">
 										Descrizione
 									</label>
-									<input type="text" name="workout_plan_description" id="workout_plan_description" placeholder="Descrizione" maxlength="100" required
-										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+									<textarea name="workout_plan_description" id="workout_plan_description" placeholder="Descrizione" maxlength="400" required 
+										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none overflow-hidden" 
+										oninput="this.style.height = '';this.style.height = this.scrollHeight+ 'px'"></textarea>
 								</div>
 
 								<div>
@@ -91,15 +93,8 @@
 
 									<!-- Inizializza Alpine.js con l'attributo x-data -->
 									<div class="flex items-center" x-data="{ deleteWorkout: false }">
-										<a href="{{ route('workout_plans.edit', $workout_plan->id) }}">
-											<x-mdi-pen class="fill-blue-500 hover:fill-blue-700 h-6" />
-										</a>
-
-										<!-- Form per la seconda icona (Elimina) -->
-										<input type="hidden" name="id" value="{{ $workout_plan->id }}">
-										<button @click="deleteWorkout = true">
-											<x-mdi-trash-can-outline class="fill-red-500 hover:fill-red-700 ml-3 h-6" title="Elimina" />
-										</button>
+										<!-- Pulsanti: Default, Edit, Delete -->
+										<livewire:workout_plans.button-option :wp="$workout_plan" />
 
 										<!-- Modale di conferma -->
 										<div x-show="deleteWorkout" x-cloak x-transition class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
@@ -127,7 +122,7 @@
 									</div>
 								</div>
 
-								<p class="text-sm text-gray-700 dark:text-gray-300 mb-2 line-clamp-2" title="{{ $workout_plan->description }}">
+								<p class="text-sm text-gray-700 dark:text-gray-300 mb-2 line-clamp-5" title="{{ $workout_plan->description }}">
 									{{ $workout_plan->description }}
 								</p>
 

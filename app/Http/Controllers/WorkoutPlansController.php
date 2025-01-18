@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\WorkoutPlan;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class WorkoutPlansController extends Controller
 {
@@ -25,8 +24,8 @@ class WorkoutPlansController extends Controller
 	{
 		// Validazione dei dati
 		$validatedData = $request->validate([
-			'workout_plan_name' => 'required|string|max:50',
-			'workout_plan_description' => 'required|string|max:100',
+			'workout_plan_name' => 'required|string|max:100',
+			'workout_plan_description' => 'required|string|max:400',
 			'workout_plan_start_date' => 'required|date',
 			'workout_plan_end_date' => 'required|date',
 		]);
