@@ -23,6 +23,8 @@ class WorkoutPlansController extends Controller
 	public function create(Request $request)
 	{
 		// Validazione dei dati
+		// Caso limite: il controllo dal frontend viene effettuato solo tramite 'required' che verifica esclusivamente la presenza o meno di caratteri,
+		// uno spam di spazi/invii bypassa quel check ma non questo, il che significa che la scheda non viene creata e l'utente non riceve notifiche.
 		$validatedData = $request->validate([
 			'workout_plan_name' => 'required|string|max:100',
 			'workout_plan_description' => 'required|string|max:400',
@@ -70,7 +72,7 @@ class WorkoutPlansController extends Controller
         // Elimina la scheda
         $workoutPlan->delete();
 
-        // Reindirizza alla stessa view con un messaggio di successo
+        // Reindirizza alla stessa view
         return redirect()->route('workout_plans.list');
 	}
 }

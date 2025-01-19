@@ -7,7 +7,7 @@
 	<div class="w-full pb-4">
 		<textarea
 			class="w-full p-2 border border-gray-300 rounded-md resize-none overflow-hidden"
-			maxlength="500"
+			maxlength="400"
 			placeholder={{ $description }}
 			oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
 	</div> --}}

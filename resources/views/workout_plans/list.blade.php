@@ -16,19 +16,20 @@
 					class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
 					style="display: none;">
 					<div class="bg-white w-full max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl rounded-lg shadow-lg p-6 mx-4">
-						<h2 class="text-lg font-bold mb-4">Inserisci i dati</h2>
+						<h2 class="text-lg font-bold mb-2">Inserisci i dati</h2>
 
 						<!-- Form -->
 						<form action="{{ route('workout_plans.create') }}" method="POST">
 							@csrf
 							<!-- Aggiungi margine tra ogni campo -->
-							<div class="space-y-4">
+							<div class="space-y-2">
 								<div>
 									<label for="workout_plan_name" class="block text-sm font-medium text-gray-700">
 										Nome scheda
 									</label>
 									<textarea name="workout_plan_name" id="workout_plan_name" placeholder="Nome scheda" maxlength="100" required 
-										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none overflow-hidden" 
+										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none overflow-y-auto" 
+										style="max-height: 15vh"
 										oninput="this.style.height = '';this.style.height = this.scrollHeight+ 'px'"></textarea>
 								</div>
 
@@ -37,7 +38,8 @@
 										Descrizione
 									</label>
 									<textarea name="workout_plan_description" id="workout_plan_description" placeholder="Descrizione" maxlength="400" required 
-										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none overflow-hidden" 
+										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none overflow-y-auto" 
+										style="max-height: 25vh"
 										oninput="this.style.height = '';this.style.height = this.scrollHeight+ 'px'"></textarea>
 								</div>
 
@@ -90,36 +92,9 @@
 									<h3 class="text-lg font-bold truncate max-w-[85%]" title="{{ $workout_plan->title }}">
 										{{ $workout_plan->title }}
 									</h3>
-
-									<!-- Inizializza Alpine.js con l'attributo x-data -->
-									<div class="flex items-center" x-data="{ deleteWorkout: false }">
-										<!-- Pulsanti: Default, Edit, Delete -->
-										<livewire:workout_plans.button-option :wp="$workout_plan" />
-
-										<!-- Modale di conferma -->
-										<div x-show="deleteWorkout" x-cloak x-transition class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-											<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
-												<h2 class="text-lg font-bold mb-4">Sei sicuro di voler eliminare questa scheda?</h2>
-
-												<!-- Contenuti del Modale -->
-												<div class="flex justify-between">
-													<!-- Pulsante Annulla -->
-													<button @click="deleteWorkout = false" class="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded">
-														Annulla
-													</button>
-
-													<!-- Form di eliminazione -->
-													<form action="{{ route('workout_plans.delete', ['id' => $workout_plan->id]) }}" method="POST">
-														@csrf
-														@method('DELETE')
-														<button type="submit" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded">
-															Elimina
-														</button>
-													</form>
-												</div>
-											</div>
-										</div>
-									</div>
+									
+									<!-- Pulsanti: Default, Edit, Delete -->
+									<livewire:workout_plans.button-option :wp="$workout_plan" />
 								</div>
 
 								<p class="text-sm text-gray-700 dark:text-gray-300 mb-2 line-clamp-5" title="{{ $workout_plan->description }}">
