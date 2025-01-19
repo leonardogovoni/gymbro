@@ -27,7 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/workout_plans', [WorkoutPlansController::class, 'index'])->name('workout_plans.list');
     Route::post('/workout_plans', [WorkoutPlansController::class, 'create'])->name('workout_plans.create');
     Route::get('/workout_plans/edit/{id}', [WorkoutPlansController::class, 'edit'])->name('workout_plans.edit');
-	Route::delete('/workout_plans/delete', [WorkoutPlansController::class, 'delete'])->name('workout_plans.delete');
 	
 	// Pagina 'allenamento'
 	Route::get('/training', [TrainingController::class, 'index'])->name('training');
