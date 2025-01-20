@@ -7,7 +7,7 @@ use Livewire\Component;
 use App\Models\WorkoutPlan;
 use Illuminate\Support\Facades\Auth;
 
-class WorkoutButtonMenu extends Component
+class WorkoutsList extends Component
 {
 	public $show_delete_modal = false;
 
@@ -18,7 +18,7 @@ class WorkoutButtonMenu extends Component
 		$workout_plans = $user->workout_plans;
 		$show_delete_modal = false;
 		
-		return view('livewire.workout_plans.workout-button-menu', [
+		return view('livewire.workout_plans.workouts-list', [
 			'workout_plans' => $workout_plans,
 			'show_delete_modal' => $this->show_delete_modal
 		]);
@@ -45,7 +45,7 @@ class WorkoutButtonMenu extends Component
 			$wp->save();
 		}
 
-		return view('livewire.workout_plans.workout-button-menu');
+		return view('livewire.workout_plans.workouts-list');
 	}
 
 	public function delete($wp) {
@@ -58,7 +58,7 @@ class WorkoutButtonMenu extends Component
 		if ($delete_wp)
 			$delete_wp->delete();
 
-		return view('livewire.workout_plans.workout-button-menu');
+		return view('livewire.workout_plans.workouts-list');
 	}
 }
 

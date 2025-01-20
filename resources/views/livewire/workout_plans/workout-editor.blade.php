@@ -1,17 +1,12 @@
 <div>
-	<!-- Non appare troppo schifoso, pero' visto che ci tenevi alla grafica, te lo lascio commentato
-		e lo modifichi, se ti va, come piace a te, e' una funzione secondaria ma che andrebbe messa
-		visto che diamo la possibilita' di inserire una descrizione -->
-
-	{{-- <p>Descrizione</p>
-	<div class="w-full pb-4">
-		<textarea
-			class="w-full p-2 border border-gray-300 rounded-md resize-none overflow-hidden"
+	<p>Descrizione</p>
+	<div class="w-full pb-4 pt-2">
+		<textarea class="w-full p-2 border border-gray-300 rounded-md resize-none overflow-auto min-h-[15vh] max-h-[70vh]"
 			maxlength="400"
-			placeholder={{ $description }}
-			oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
-	</div> --}}
-	
+			placeholder="Descrizione"
+			wire:model.live.debounce.250ms="description"></textarea>
+	</div>
+
 	@if($days == 0)
 		<div class="flex items-center justify-center pb-4">
 			<p>Nessun giorno presente in questa scheda</p>
@@ -31,18 +26,18 @@
 							@foreach($this->exercises($day) as $exercise)
 								<li wire:sortable.item="{{ $exercise->pivot->id }}" class="flex items-center py-4 first:pt-0 last:pb-0">
 									<x-mdi-reorder-horizontal class="fill-gray-400 h-10 w-10 flow-grow-0"/>
-								
+
 									<div class="flex-auto ml-3">
 										<p class="font-medium text-slate-900 flex-grow">{{ $exercise->name }}</p>
 										<p>{{ $exercise->pivot->series }}x{{ $exercise->pivot->repetitions }}</p>
 									</div>
-								
+
 									<x-mdi-pen class="h-6 fill-blue-600 hover:fill-blue-700" x-on:click="$dispatch('edit', { pivot_id: {{ $exercise->pivot->id }} })" />
 									<x-mdi-close class="h-8 fill-red-600 hover:fill-red-700" wire:click="delete({{ $exercise->pivot->id }})" />
 								</li>
 							@endforeach
 						@endif
-					
+
 						<li class="flex flex-col items-center py-4 first:pt-0 last:pb-0">
 							<x-primary-button type="button" class="bg-green-600 hover:bg-green-700" x-on:click="$dispatch('add', { day: {{ $day }} })">
 								Aggiungi esercizio
