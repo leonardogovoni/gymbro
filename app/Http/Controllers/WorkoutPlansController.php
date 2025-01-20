@@ -28,8 +28,6 @@ class WorkoutPlansController extends Controller
 		$validatedData = $request->validate([
 			'workout_plan_name' => 'required|string|max:100',
 			'workout_plan_description' => 'nullable|string|max:400',
-			'workout_plan_start_date' => 'required|date',
-			'workout_plan_end_date' => 'required|date',
 		]);
 
 		// Recupera tutte le schede dal database
@@ -43,11 +41,9 @@ class WorkoutPlansController extends Controller
 			// Valori inseriti nel form
 			'title' => $validatedData['workout_plan_name'],
 			'description' => $validatedData['workout_plan_description'],
-			'start' => $validatedData['workout_plan_start_date'],
-			'end' => $validatedData['workout_plan_end_date'],
 
 			// default: false, true se e' l'unica scheda creata
-			'enabled' => $workout_plans == 0 ? true : false
+			'enabled' => $workout_plans === 0 ? true : false
 		]);
 
 		return redirect()->route('workout_plans.list');
@@ -60,19 +56,5 @@ class WorkoutPlansController extends Controller
 		return view('workout_plans.edit', [
 			'workout_plan' => $workout_plan
 		]);
-	}
-
-	public function delete(Request $request)
-	{
-		$id = $request->input('id');
-
-		// Trova la scheda da eliminare in base all'ID ricevuto
-        $workoutPlan = WorkoutPlan::findOrFail($id);
-        
-        // Elimina la scheda
-        $workoutPlan->delete();
-
-        // Reindirizza alla stessa view
-        return redirect()->route('workout_plans.list');
 	}
 }

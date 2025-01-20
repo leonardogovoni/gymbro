@@ -61,13 +61,13 @@
 								</p>
 
 								<div class="text-sm mb-2">
-									<span class="font-semibold">Data di inizio:</span>
-									<span class="truncate">{{ $workout_plan->start }}</span>
+									<span class="font-semibold">Data di creazione:</span>
+									<span class="truncate">{{ $workout_plan->created_at->format('d-m-Y H:i:s') }}</span>
 								</div>
 
 								<div class="text-sm mb-2">
-									<span class="font-semibold">Data di fine:</span>
-									<span class="truncate">{{ $workout_plan->end }}</span>
+									<span class="font-semibold">Data di modifica:</span>
+									<span class="truncate">{{ $workout_plan->updated_at->format('d-m-Y H:i:s') }}</span>
 								</div>
 
 								<div class="text-sm mb-4">

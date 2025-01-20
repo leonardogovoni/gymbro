@@ -37,26 +37,10 @@
 									<label for="workout_plan_description" class="block text-sm font-medium text-gray-700">
 										Descrizione
 									</label>
-									<textarea name="workout_plan_description" id="workout_plan_description" placeholder="Descrizione" maxlength="400" 
+									<textarea name="workout_plan_description" id="workout_plan_description" placeholder="Descrizione" maxlength="500" 
 										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none overflow-y-auto" 
 										style="max-height: 25vh"
 										oninput="this.style.height = '';this.style.height = this.scrollHeight+ 'px'"></textarea>
-								</div>
-
-								<div>
-									<label for="workout_plan_start_date" class="block text-sm font-medium text-gray-700">
-										Data di inizio
-									</label>
-									<input type="date" name="workout_plan_start_date" id="workout_plan_start_date" required
-										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-								</div>
-
-								<div>
-									<label for="workout_plan_end_date" class="block text-sm font-medium text-gray-700">
-										Data di fine
-									</label>
-									<input type="date" name="workout_plan_end_date" id="workout_plan_end_date" required
-										class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
 								</div>
 							</div>
 
