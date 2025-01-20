@@ -19,8 +19,8 @@ class TrainingController extends Controller
 		if ($workout_plan ?: false) {
 			$grouped_exercises = $workout_plan->exercises()
 				->orderBy('day')
-				->orderBy('sequence')
-				->get(['day', 'name', 'sequence'])
+				->orderBy('order')
+				->get(['day', 'name', 'order'])
 				->groupBy('day');
 		}
 

@@ -29,7 +29,7 @@
 
 									<div class="flex-auto ml-3">
 										<p class="font-medium text-slate-900 flex-grow">{{ $exercise->name }}</p>
-										<p>{{ $exercise->pivot->series }}x{{ $exercise->pivot->repetitions }}</p>
+										<p>{{ $exercise->pivot->sets }}x{{ $exercise->pivot->reps }}</p>
 									</div>
 
 									<x-mdi-pen class="h-6 fill-blue-600 hover:fill-blue-700" x-on:click="$dispatch('edit', { pivot_id: {{ $exercise->pivot->id }} })" />

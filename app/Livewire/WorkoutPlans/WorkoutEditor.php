@@ -47,21 +47,21 @@ class WorkoutEditor extends Component
 		// Update DB
 		// TODO: Could be done with a single query
 		foreach($updated_order as $item)
-			$this->workout_plan->exercises()->wherePivot('id', $item['value'])->update(['sequence' => $item['order']]);
+			$this->workout_plan->exercises()->wherePivot('id', $item['value'])->update(['order' => $item['order']]);
 	}
 
 	#[Computed]
 	public function exercises($day)
 	{
-		return $this->workout_plan->exercises()->where('day', $day)->orderBy('sequence')->get();
+		return $this->workout_plan->exercises()->where('day', $day)->orderBy('order')->get();
 	}
 
 	public function delete($pivot_id)
 	{
-		$exercise_sequence = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('sequence');
+		$exercise_order = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('order');
 		$exercise_day = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('day');
 		$this->workout_plan->exercises()->wherePivot('id', $pivot_id)->detach();
-		$this->workout_plan->exercises()->where('day', $exercise_day)->where('sequence', '>', $exercise_sequence)->decrement('sequence');
+		$this->workout_plan->exercises()->where('day', $exercise_day)->where('order', '>', $exercise_order)->decrement('order');
 	}
 
 	public function add_day()
