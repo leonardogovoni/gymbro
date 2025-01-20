@@ -8,6 +8,7 @@ use Livewire\Attributes\Computed;
 
 class WorkoutEditor extends Component
 {
+	public $description;
 	public $workout_plan;
 	public $days;
 	public $exercises = [];
@@ -15,6 +16,7 @@ class WorkoutEditor extends Component
 	// Executed only when component is created
 	public function mount()
 	{
+		$this->description = $this->workout_plan->description;
 		$this->days = $this->workout_plan->exercises()->max('day');
 	}
 
@@ -26,6 +28,17 @@ class WorkoutEditor extends Component
 			'days' => $this->days,
 			'description' => $this->workout_plan->description
 		]);
+	}
+
+	// Executed everytime the 'description' gets updated
+	// TODO - sistemare il nome della funzione in snake_case, necessita di modifiche anche su workout-editor.blade.php in quanto il sistema
+	// adottato e' una convenzione specifica di Livewire e richiede espressamente il camelCase
+	public function updatedDescription($desc) {
+		// Aggiorna l'attributo 'description' sul database
+		$this->workout_plan->update(['description' => $desc]);
+
+		// Aggiorna la proprietà locale
+		$this->description = $desc;
 	}
 
 	// Executed everytime an exercise gets moved
