@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50)->nullable(); // nvarchar(50) NULL
-            $table->string('image', 50)->nullable(); // nvarchar(50) NULL
-            $table->string('description', 100)->nullable(); // nvarchar(100) NULL
-            $table->string('muscle', 50)->nullable(); // nvarchar(50) NULL
+            $table->string('name', 50);
+            $table->string('image', 100)->nullable();
+            $table->string('description', 200)->nullable();
+            $table->string('muscle', 50);
             $table->timestamps();
         });
     }

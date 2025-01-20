@@ -17,9 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->char('gender', 1)->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->integer('default_workout_plan')->nullable();
+            $table->char('gender', 1);
+            $table->date('date_of_birth');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -14,15 +14,16 @@ return new class extends Migration
         Schema::create('workout_plan_exercises', function (Blueprint $table) {
             $table->id();
             // Relazione N:M
-            $table->unsignedBigInteger('workout_plan_id')->nullable();
-            $table->unsignedBigInteger('exercise_id')->nullable();
-            $table->smallInteger('day')->nullable();
-            // Sarebbe l'ordine dell'esercizio nella scheda, ma non
-            // si può chiamare order altrimenti si rompe l'ORM
-            $table->smallInteger('sequence')->nullable();
-            $table->smallInteger('series')->nullable();
-            $table->string('repetitions', 10)->nullable();
-            $table->decimal('rest', 5, 2)->nullable();
+            $table->unsignedBigInteger('workout_plan_id');
+            $table->unsignedBigInteger('exercise_id');
+            $table->unsignedSmallInteger('day');
+            // Posizione dell'esercizio all'interno della giornata
+            $table->unsignedSmallInteger('order');
+            $table->unsignedSmallInteger('sets');
+            // Definita stringa, se le ripetizioni cambiano per ogni
+            // serie viene formattata come "10-8-6" es.
+            $table->string('reps', 100);
+            $table->unsignedSmallInteger('rest');
             $table->timestamps();
 
             //  Chiavi esterne

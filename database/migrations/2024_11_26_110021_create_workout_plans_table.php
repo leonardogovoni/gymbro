@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('workout_plans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('title', 50)->nullable();
-            $table->string('description', 100)->nullable();
-            $table->date('start')->nullable();
-            $table->date('end')->nullable();
-            $table->boolean('enabled')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->string('title', 100);
+            $table->string('description', 500)->nullable();
+            $table->boolean('enabled')->default(false);
             $table->timestamps();
 
             // Chiavi esterne
