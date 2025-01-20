@@ -49,14 +49,14 @@ class AddExerciseModal extends Component
 	// Executed when you click on an exercise to add it
 	public function add($new_exercise_id)
 	{
-		$last_exercise = $this->workout_plan->exercises()->where('day', $this->day)->orderBy('sequence', 'desc')->first();
-		$new_exercise_sequence = !is_null($last_exercise) ? $last_exercise->pivot->sequence + 1 : 1;
+		$last_exercise = $this->workout_plan->exercises()->where('day', $this->day)->orderBy('order', 'desc')->first();
+		$new_exercise_order = !is_null($last_exercise) ? $last_exercise->pivot->order + 1 : 1;
 
 		$this->workout_plan->exercises()->attach($new_exercise_id, [
 			'day' => $this->day,
-			'sequence' => $new_exercise_sequence,
-			'series' => 3,
-			'repetitions' => 10,
+			'order' => $new_exercise_order,
+			'sets' => 3,
+			'reps' => 10,
 			'rest' => 30
 		]);
 

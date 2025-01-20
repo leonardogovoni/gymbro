@@ -30,9 +30,9 @@ class EditExerciseModal extends Component
 		$exercise_data = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
 		// dump($exercise_data->pivot['rest']);
 		$this->rest = str($exercise_data->pivot['rest']);
-		$this->sets = $exercise_data->pivot['series'];
-		$this->same_reps = !str_contains($exercise_data->pivot['repetitions'], '-');
-		$this->reps = explode('-', $exercise_data->pivot['repetitions']);
+		$this->sets = $exercise_data->pivot['sets'];
+		$this->same_reps = !str_contains($exercise_data->pivot['reps'], '-');
+		$this->reps = explode('-', $exercise_data->pivot['reps']);
 
         $this->dispatch('open-modal', 'edit');
     }
@@ -40,11 +40,11 @@ class EditExerciseModal extends Component
 	public function save()
 	{
 		$reps_str = $this->maximal ? 'MAX' : ($this->same_reps ? $this->reps[0] : implode('-', $this->reps));
-		
+
 		$this->workout_plan->exercises()->wherePivot('id', $this->pivot_id)->update([
 			'rest' => $this->rest,
-			'series' => $this->sets,
-			'repetitions' => $reps_str
+			'sets' => $this->sets,
+			'reps' => $reps_str
 		]);
         $this->dispatch('exercise-updated');
         $this->dispatch('close-modal', 'edit');
