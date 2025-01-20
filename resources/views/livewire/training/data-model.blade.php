@@ -48,7 +48,7 @@
 									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" step="1" required wire:model="reps.{{ $set-1 }}" />
 								</td>
 								<td class="border border-gray-300 dark:border-gray-600">
-									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" required wire:model="used_kgs.{{ $set-1 }}" placeholder="Inserisci il carico" />
+									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" step=".01" required wire:model="used_kgs.{{ $set-1 }}" placeholder="Inserisci il carico" />
 								</td>
 								<td class="p-2 border border-gray-300 dark:border-gray-600 text-center">
 									<p class="text-gray-500">{{ $last_training_kgs[$set-1] }}</p>

@@ -17,12 +17,12 @@ class ExerciseChart extends Component
 
         // Ottieni i dati filtrati
         $exerciseData = ExerciseData::where('exercise_id', $this->exerciseId)
-            ->where('date', '>=', $startDate)
-            ->orderBy('date')
+            ->where('created_at', '>=', $startDate)
+            ->orderBy('created_at')
             ->get();
 
-        $maxKg = $exerciseData->max('used_kg');
-        $minKg = $exerciseData->min('used_kg');
+        $maxKg = $exerciseData->max('used_kgs');
+        $minKg = $exerciseData->min('used_kgs');
 
         $this->updatedFilter();
         return view('livewire.exercise-chart', ['exerciseData' => $exerciseData, 'maxKg'=> $maxKg, 'minKg'=> $minKg]);
@@ -32,14 +32,14 @@ class ExerciseChart extends Component
     {
         if ($this->filter == '0') {
             $exerciseData = ExerciseData::where('exercise_id', $this->exerciseId)
-                ->orderBy('date')
+                ->orderBy('created_at')
                 ->get();
         } else {
             $startDate = now()->subMonths($this->filter);
 
             $exerciseData = ExerciseData::where('exercise_id', $this->exerciseId)
-                ->where('date', '>=', $startDate)
-                ->orderBy('date')
+                ->where('created_at', '>=', $startDate)
+                ->orderBy('created_at')
                 ->get();
         }
 

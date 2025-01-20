@@ -19,13 +19,6 @@ class DataModel extends Component
 	public $reps;
 	public $used_kgs = [];
 	public $last_training_kgs;
-	
-	// public $name;
-	// public $image;
-	// public $exerciseId;
-	// public $sets;
-	// public $reps;
-	// public $usedKg = [];
 
 	// Executed only when component is created
 	public function mount($workout_plan, $day)
@@ -42,7 +35,6 @@ class DataModel extends Component
 		return view('livewire.training.data-model');
 	}
 
-	// DA FARE
 	public function submit()
 	{
 		foreach($this->used_kgs as $index => $kgs) {
@@ -91,6 +83,9 @@ class DataModel extends Component
 			return array_fill(0, $exercise->pivot->sets, "Non disponibile");
 		}
 		else {
+			foreach($result as $index => $kgs)
+				if((int)$kgs == $kgs)
+					$result[$index] = (int)$kgs;
 			return $result;
 		}
 	}

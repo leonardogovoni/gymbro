@@ -21,7 +21,7 @@ class ExercisesListController extends Controller
 
         // Recupera i dati dell'esercizio filtrando per exercise_id
         $exerciseData = ExerciseData::where('exercise_id', $exercise)
-            ->orderBy('date', 'asc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
         // Passa i dati al view come JSON
