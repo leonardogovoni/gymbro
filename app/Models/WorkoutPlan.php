@@ -33,6 +33,6 @@ class WorkoutPlan extends Model
 	public function exercises(): BelongsToMany
 	{
 		return $this->belongsToMany(Exercise::class, 'workout_plan_exercises', 'workout_plan_id', 'exercise_id')
-			->withPivot('id', 'day', 'sequence', 'series', 'repetitions', 'rest');
+			->withPivot('id', 'day', 'order', 'sets', 'reps', 'rest');
 	}
 }
