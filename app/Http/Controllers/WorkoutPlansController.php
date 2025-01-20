@@ -27,7 +27,7 @@ class WorkoutPlansController extends Controller
 		// uno spam di spazi/invii bypassa quel check ma non questo, il che significa che la scheda non viene creata e l'utente non riceve notifiche.
 		$validatedData = $request->validate([
 			'workout_plan_name' => 'required|string|max:100',
-			'workout_plan_description' => 'required|string|max:400',
+			'workout_plan_description' => 'nullable|string|max:400',
 			'workout_plan_start_date' => 'required|date',
 			'workout_plan_end_date' => 'required|date',
 		]);
