@@ -9,15 +9,9 @@
 		</div>
 	</x-slot>
 
-	<div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex items-center justify-center p-0 py-4 sm:p-4">
-                <div class="w-full sm:w-5/6 mx-auto grid grid-cols-1 gap-4">
-                    <livewire:training.data-model :workout_plan="$workout_plan" :day="$day" >
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="py-12 max-w-3xl mx-auto sm:px-6 lg:px-8">
+		<livewire:training.data-model :workout_plan="$workout_plan" :day="$day" >
+	</div>
 
 	{{-- <!-- Bottone flottante "Timer" --> 
 	<livewire:training.timer :rest="$exercises[$currentIndex]->pivot->rest"/>

@@ -17,7 +17,7 @@ class SwitchExerciseBar extends Component
 		$this->workout_plan = $workout_plan;
 		$this->day = $day;
 		$this->current_index = 0;
-		$this->max_index = $this->workout_plan->exercises()->where('day', $this->day)->max('sequence')-1;
+		$this->max_index = $this->workout_plan->exercises()->where('day', $this->day)->max('order')-1;
 	}
 
 	// Executed everytime a variable gets updated

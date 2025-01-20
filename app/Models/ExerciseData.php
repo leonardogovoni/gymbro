@@ -17,10 +17,10 @@ class ExerciseData extends Model
     protected $fillable = [
         'user_id',
         'exercise_id',
-        'sets',
+        'workout_plan_pivot_id',
+        'set',
         'reps',
-        'used_kg',
-        'date',
+        'used_kgs'
     ];
 
     // Se necessario, definisci le relazioni
