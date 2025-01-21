@@ -21,8 +21,8 @@ class ExerciseChart extends Component
             ->orderBy('created_at')
             ->get();
 
-        $maxKg = $exerciseData->max('used_kgs');
-        $minKg = $exerciseData->min('used_kgs');
+        $maxKg = $exerciseData->max('used_weights');
+        $minKg = $exerciseData->min('used_weights');
 
         $this->updatedFilter();
         return view('livewire.exercise-chart', ['exerciseData' => $exerciseData, 'maxKg'=> $maxKg, 'minKg'=> $minKg]);

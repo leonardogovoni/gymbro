@@ -50,7 +50,7 @@ class DataModel extends Component
 				'workout_plan_pivot_id' => $this->exercises()[$this->current_index]->pivot->id,
 				'set' => $index + 1,
 				'reps' => $this->reps[$index],
-				'used_kgs' => $weight
+				'used_weights' => $weight
 			]);
 		}
 
@@ -121,7 +121,7 @@ class DataModel extends Component
 			->take($exercise->pivot->sets)
 			->get()
 			->reverse()
-			->pluck('used_kgs');
+			->pluck('used_weights');
 
 		if($result->isEmpty() || $has_been_edited) {
 			return array_fill(0, $exercise->pivot->sets, "Non disponibile");

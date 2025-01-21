@@ -20,7 +20,7 @@ class ExerciseData extends Model
         'workout_plan_pivot_id',
         'set',
         'reps',
-        'used_kgs'
+        'used_weights'
     ];
 
     // Se necessario, definisci le relazioni
