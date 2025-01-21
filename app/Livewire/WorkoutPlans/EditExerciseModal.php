@@ -44,7 +44,8 @@ class EditExerciseModal extends Component
 		$this->workout_plan->exercises()->wherePivot('id', $this->pivot_id)->update([
 			'rest' => $this->rest,
 			'sets' => $this->sets,
-			'reps' => $reps_str
+			'reps' => $reps_str,
+			'edited' => true
 		]);
         $this->dispatch('exercise-updated');
         $this->dispatch('close-modal', 'edit');

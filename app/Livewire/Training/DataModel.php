@@ -54,6 +54,14 @@ class DataModel extends Component
 			]);
 		}
 
+		if($this->exercises()[$this->current_index]->pivot->edited) {
+			$pivot_id = $this->exercises()[$this->current_index]->pivot->id;
+
+			$this->workout_plan->exercises()->wherePivot('id', $pivot_id)->update([
+				'edited' => false
+			]);
+		}
+
 		$this->saved = true;
 	}
 
@@ -106,7 +114,8 @@ class DataModel extends Component
 	public function get_last_training_weights($pivot_id)
 	{
 		$exercise = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
-
+		
+		$has_been_edited = $exercise->pivot->edited;
 		$result = ExerciseData::where('workout_plan_pivot_id', $exercise->pivot->id)
 			->orderBy('id', 'desc')
 			->take($exercise->pivot->sets)
@@ -114,7 +123,7 @@ class DataModel extends Component
 			->reverse()
 			->pluck('used_kgs');
 
-		if($result->isEmpty()) {
+		if($result->isEmpty() || $has_been_edited) {
 			return array_fill(0, $exercise->pivot->sets, "Non disponibile");
 		}
 		else {
@@ -130,6 +139,7 @@ class DataModel extends Component
 	{
 		$exercise = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
 
+		$has_been_edited = $exercise->pivot->edited;
 		$result = ExerciseData::where('workout_plan_pivot_id', $exercise->pivot->id)
 			->orderBy('id', 'desc')
 			->take($exercise->pivot->sets)
@@ -137,7 +147,7 @@ class DataModel extends Component
 			->reverse()
 			->pluck('reps');
 
-		if($result->isEmpty())
+		if($result->isEmpty() || $has_been_edited)
 			return array_fill(0, $exercise->pivot->sets, "Non disponibile");
 		else
 			return $result;
