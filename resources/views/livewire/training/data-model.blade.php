@@ -7,6 +7,14 @@
 		</div>
 	@endif
 
+	@if($this->show_last_training_reps == true && $this->is_to_failure == false)
+	<div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
+		<x-mdi-exclamation-thick class="h-6 me-2" />
+
+		<p class="text-base">Ti mostriamo anche le ripetizioni svolte nell'ultimo allenamento in quanto non corrispondono a quelle segnate in scheda.</p>
+	</div>
+	@endif
+
 	<div class="bg-white shadow sm:rounded-lg">
 		<form class="p-4 dark:bg-gray-800 text-gray-900 dark:text-gray-100" wire:submit.prevent="submit">
 			@if($this->exercises()->isNotEmpty())
@@ -34,6 +42,9 @@
 						<tr class="bg-gray-200 dark:bg-gray-700">
 							<th class="p-2 border border-gray-300 dark:border-gray-600">#</th>
 							<th class="p-2 border border-gray-300 dark:border-gray-600">Ripetizioni</th>
+							@if($is_to_failure || $show_last_training_reps)
+								<th class="p-2 border border-gray-300 dark:border-gray-600">Ripetizioni ultimo allenamento</th>
+							@endif
 							<th class="p-2 border border-gray-300 dark:border-gray-600">Carico attuale (kg)</th>
 							<th class="p-2 border border-gray-300 dark:border-gray-600">Ultimo allenamento (kg)</th>
 						</tr>
@@ -47,11 +58,16 @@
 								<td class="border border-gray-300 dark:border-gray-600">
 									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" step="1" required wire:model="reps.{{ $set-1 }}" />
 								</td>
+								@if($is_to_failure || $show_last_training_reps)
+									<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100">
+										<p class="text-gray-500">{{ $last_training_reps[$set-1] }}</p>
+									</td>
+								@endif
 								<td class="border border-gray-300 dark:border-gray-600">
-									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" step=".01" required wire:model="used_kgs.{{ $set-1 }}" placeholder="Inserisci il carico" />
+									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" step=".01" required wire:model="used_weights.{{ $set-1 }}" placeholder="Inserisci carico" />
 								</td>
-								<td class="p-2 border border-gray-300 dark:border-gray-600 text-center">
-									<p class="text-gray-500">{{ $last_training_kgs[$set-1] }}</p>
+								<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100">
+									<p class="text-gray-500">{{ $last_training_weights[$set-1] }}</p>
 								</td>
 							</tr>
 						@endforeach
