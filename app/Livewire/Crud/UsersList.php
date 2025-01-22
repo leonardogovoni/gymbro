@@ -24,4 +24,9 @@ class UsersList extends Component
             'results' => $results
         ]);
     }
+
+    public function delete($id)
+    {
+        User::find($id)->delete();
+    }
 }
