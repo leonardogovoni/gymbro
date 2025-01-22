@@ -33,6 +33,9 @@ class EditExerciseModal extends Component
 		$this->sets = $exercise_data->pivot['sets'];
 		$this->same_reps = !str_contains($exercise_data->pivot['reps'], '-');
 		$this->reps = explode('-', $exercise_data->pivot['reps']);
+		
+		if ($this->reps[0] == 'MAX')
+			$this->maximal = true;
 
         $this->dispatch('open-modal', 'edit');
     }

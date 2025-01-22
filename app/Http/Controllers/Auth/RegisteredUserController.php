@@ -31,7 +31,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'gender' => ['required', 'string', 'uppercase', 'max:1'],
             'date_of_birth' => 'required|date|before_or_equal:' . Carbon::today()->toDateString(),
@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'first_name' => $request->name,
             'email' => $request->email,
             'gender' => $request->gender,
             'date_of_birth' => $request->date_of_birth,

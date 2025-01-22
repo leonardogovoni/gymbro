@@ -20,7 +20,7 @@ class ProfileUpdateRequest extends FormRequest
         $minDate = Carbon::now()->subYears(130)->toDateString(); // Data di 130 anni fa
 
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'string', 'in:M,F,N'], // M = Uomo, F = Donna, N = Non specificato
             'date_of_birth' => 'required|date|before_or_equal:' . $today . '|after_or_equal:' . $minDate,
             'email' => [

@@ -19,8 +19,8 @@
 
         <div>
             <x-input-label for="name" :value="__('Nome')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
         </div>
 
         <div>
