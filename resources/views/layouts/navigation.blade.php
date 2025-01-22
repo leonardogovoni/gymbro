@@ -5,35 +5,51 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
+                    @auth
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
+                    @else
+                    <a href="/">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    </a>
+                    @endauth
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-				<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('training')" :active="request()->routeIs('training')">
-                        {{ __('Allenamenti') }}
-                    </x-nav-link>
-                </div>
-				<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('workout_plans.list')" :active="request()->routeIs('workout_plans.list')">
-                        {{ __('Schede') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('exercises-list')" :active="request()->routeIs('exercises-list')">
-                        {{ __('Statistiche') }}
-                    </x-nav-link>
-                </div>
+                <!-- Navigation if logged in -->
+                @auth
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    </div>
+				    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('training')" :active="request()->routeIs('training')">
+                            {{ __('Allenamenti') }}
+                        </x-nav-link>
+                    </div>
+				    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('workout_plans.list')" :active="request()->routeIs('workout_plans.list')">
+                            {{ __('Schede') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('exercises-list')" :active="request()->routeIs('exercises-list')">
+                            {{ __('Statistiche') }}
+                        </x-nav-link>
+                    </div>
+                    @if(Auth::user()->is_admin)
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                                {{ __('Amministrazione') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endauth
             </div>
 
             <!-- Settings Dropdown -->
+            @auth
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -66,6 +82,14 @@
                     </x-slot>
                 </x-dropdown>
             </div>
+            @else
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
+                        {{ __('Login') }}
+                    </x-nav-link>
+                </div>
+            @endauth
+
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
@@ -102,6 +126,7 @@
             </x-responsive-nav-link>
         </div>
 
+        @auth
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
@@ -126,5 +151,6 @@
                 </form>
             </div>
         </div>
+        @endauth
     </div>
 </nav>
