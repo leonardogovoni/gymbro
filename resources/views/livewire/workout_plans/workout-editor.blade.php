@@ -1,7 +1,8 @@
 <div>
-	<p>Descrizione</p>
+	<label for="desc" class="block text-sm font-medium text-gray-700">Descrizione</label>
 	<div class="w-full pb-4 pt-2">
 		<textarea class="w-full p-2 border border-gray-300 rounded-md resize-none overflow-auto min-h-[15vh] max-h-[70vh]"
+			id="desc"
 			maxlength="500"
 			placeholder="Descrizione"
 			wire:model.live.debounce.250ms="description"></textarea>

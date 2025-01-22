@@ -13,7 +13,7 @@
 		</div>
 	</form>
 
-	<div class="grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4  overflow-y-auto">
+	<div class="grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 overflow-y-auto max-h-[calc(100vh-13rem)]">
 		@foreach($results as $result)
 			<div class="bg-blue-100 p-4 rounded-lg text-center cursor-pointer hover:bg-blue-300" wire:click="add({{ $result->id }})">
 				<div class="h-40 flex items-center justify-center">
