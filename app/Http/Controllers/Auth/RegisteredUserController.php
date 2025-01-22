@@ -15,49 +15,49 @@ use Carbon\Carbon;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): View
-    {
-        return view('auth.register');
-    }
+	/**
+	 * Display the registration view.
+	 */
+	public function create(): View
+	{
+		return view('auth.register');
+	}
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'gender' => ['required', 'string', 'uppercase', 'max:1'],
-            'date_of_birth' => 'required|date|before_or_equal:' . Carbon::today()->toDateString(),
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+	/**
+	 * Handle an incoming registration request.
+	 *
+	 * @throws \Illuminate\Validation\ValidationException
+	 */
+	public function store(Request $request): RedirectResponse
+	{
+		$request->validate([
+			'name' => ['required', 'string', 'max:255'],
+			'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+			'gender' => ['required', 'string', 'uppercase', 'max:1'],
+			'date_of_birth' => 'required|date|before_or_equal:' . Carbon::today()->toDateString(),
+			'password' => ['required', 'confirmed', Rules\Password::defaults()],
+		]);
 
-        $user = User::create([
-            'first_name' => $request->name,
-            'email' => $request->email,
-            'gender' => $request->gender,
-            'date_of_birth' => $request->date_of_birth,
-            'password' => Hash::make($request->password),
-        ]);
+		$user = User::create([
+			'first_name' => $request->name,
+			'email' => $request->email,
+			'gender' => $request->gender,
+			'date_of_birth' => $request->date_of_birth,
+			'password' => Hash::make($request->password),
+		]);
 
-        event(new Registered($user));
+		event(new Registered($user));
 
-        Auth::login($user);
+		Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
-    }
+		return redirect(route('training', absolute: false));
+	}
 
-    public function messages()
-    {
-        return [
-            'date_of_birth.before_or_equal' => 'La data di nascita non può essere successiva alla data di oggi.',
-            'date_of_birth.after_or_equal' => 'La data di nascita non può essere inferiore a 130 anni fa.',
-        ];
-    }
+	public function messages()
+	{
+		return [
+			'date_of_birth.before_or_equal' => 'La data di nascita non può essere successiva alla data di oggi.',
+			'date_of_birth.after_or_equal' => 'La data di nascita non può essere inferiore a 130 anni fa.',
+		];
+	}
 }
