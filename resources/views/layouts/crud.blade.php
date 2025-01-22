@@ -21,7 +21,7 @@
     <body class="font-sans antialiased">
         @include('layouts.crud_sidebar')
 
-		<div class="p-4 sm:ml-64">
+		<div class="sm:ml-64">
 			{{ $slot }}
 		</div>
         @livewireScripts
