@@ -73,6 +73,7 @@ class DataModel extends Component
 			$this->current_index = $new_index;
 			$this->saved = false;
 
+			// Parsing data for the new exercise to be displayed
 			$this->is_to_failure = $this->is_to_failure($this->exercises()[$this->current_index]->pivot->id);
 			$this->reps = $this->get_exercise_reps($this->exercises()[$this->current_index]->pivot->id);
 			$this->last_training_weights = $this->get_last_training_weights($this->exercises()[$this->current_index]->pivot->id);
@@ -82,6 +83,8 @@ class DataModel extends Component
 				$this->show_last_training_reps = true;
 			else
 				$this->show_last_training_reps = false;
+
+			$this->dispatch('newRestTime', $this->exercises()[$this->current_index]->pivot->rest);
 		}
 	}
 

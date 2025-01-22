@@ -1,102 +1,99 @@
-document.addEventListener('DOMContentLoaded', function() {
-	let timer;
+// TIMER VARIABLES
+let timer;
+var rest;
+var nextRest;
+let isRunning = false;
+let timeRemaining;
 
-	// Converti il tempo iniziale in secondi
-	let rest = parseTime(document.getElementById('timerDisplay').textContent);
-	// Per verificare se il timer è in esecuzione
-	let isRunning = false;
-	// Tempo rimanente in secondi
-	let timeRemaining = rest;
+// ========================================
 
-	const progressBar = document.getElementById('progressBar');
-	const modalTimer = document.getElementById('modalTimer');
-	const startButton = document.getElementById('startTimerButton');
-	const modal = document.getElementById('timerModal');
-	const reduceButton = document.getElementById('reduceButton');
-	const closeButton = document.getElementById('closeButton');
+// DOM ELEMENTS
+// Floating button elements
+const openButton = document.getElementById('timerFloatingButton');
+const floatingText = document.getElementById('timerFloatingText');
+// Modal elements
+const modal = document.getElementById('timerModal');
+const text = document.getElementById('timerText');
+const progressBar = document.getElementById('timerProgressBar');
+const reduceButton = document.getElementById('timerReduce');
+const stopButton = document.getElementById('timerStop');
 
-	// Funzione per convertire il formato minuti:secondi in secondi totali
-	function parseTime(timeStr) {
-		let parts = timeStr.split(':');
-		let minutes = parseInt(parts[0], 10);
-		let seconds = parseInt(parts[1], 10);
-		return minutes * 60 + seconds;
-	}
+// ========================================
 
-	// Funzione per avviare il timer
-	function startTimer() {
-		if (isRunning)
-			return;
-
-		isRunning = true;
-
-		timer = setInterval(function() {
-			if (timeRemaining <= 0) {
-				clearInterval(timer);
-				isRunning = false;
-				return;
-			}
-
-			timeRemaining--;
-			updateTimerDisplay();
-			updateProgressBar();
-		}, 1000);
-	}
-
-	// Funzione per aggiornare la visualizzazione del timer (in formato minuti:secondi)
-	function updateTimerDisplay() {
-		let minutes = Math.floor(timeRemaining / 60); // Ottieni i minuti
-		let seconds = timeRemaining % 60; // Ottieni i secondi
-		seconds = seconds < 10 ? '0' + seconds : seconds; // Aggiungi uno zero davanti ai secondi se è inferiore a 10
-		modalTimer.textContent = `${minutes}:${seconds}`;
-		document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
-	}
-
-	// Funzione per aggiornare la barra di progresso
-	function updateProgressBar() {
-		const percentage = (timeRemaining / rest) * 100;
-		progressBar.style.width = `${percentage}%`;
-	}
-
-	// Funzione per aprire il modale
-	startButton.addEventListener('click', function(event) {
-		event.preventDefault();
-
-		// Rimuove la classe 'hidden' per mostrare il modale e aggiunge la classe 'flex' per mantenerlo centrato. La classe non viene inserita
-		// direttamente nel Blade altrimenti VS Code restituisce un warning, se trovate un modo di sopprimerlo, potete eliminare l'add di 'flex'
-		modal.classList.add('flex');
-		modal.classList.remove('hidden');
-
-		if (!isRunning) {
-			// Mostra il tempo iniziale nel modale
-			updateTimerDisplay();
-			// Mostra la barra di progresso iniziale
-			updateProgressBar();
-
-			if (timeRemaining === rest)
-				// Inizializza solo se il timer non è stato ancora avviato
-				startTimer();
-		}
-	});
-
-	// Funzione per ridurre il modale
-	reduceButton.addEventListener('click', function() {
-		// Nasconde il modale
-		modal.classList.add('hidden');
-	});
-
-	// Funzione per chiudere il modale e fermare il timer
-	closeButton.addEventListener('click', function() {
-		// Ferma il timer
-		clearInterval(timer);
-
-		// Resetta il timer ai valori di default
-		isRunning = false;
+// EVENT LISTENERS FOR LIVEWIRE
+// Gets rest time from the form everytime the exercise changes
+Livewire.on('newRestTime', (restTime) => {
+	if(isRunning)
+		nextRest = restTime[0];
+	else {
+		rest = restTime[0];
 		timeRemaining = rest;
-		updateTimerDisplay();
-		updateProgressBar();
-
-		// Nasconde il modale
-		modal.classList.add('hidden');
-	});
+		updateText();
+	}
 });
+
+// ========================================
+
+// EVENT LISTENERS FOR BUTTONS
+openButton.addEventListener('click', function(event) {
+	modal.classList.remove('hidden');
+
+	if(!isRunning)
+		startTimer();
+});
+
+reduceButton.addEventListener('click', function() {
+	modal.classList.add('hidden');
+});
+
+stopButton.addEventListener('click', stopTimer());
+
+// ========================================
+
+// FUNCTIONS
+function startTimer() {
+	if (isRunning)
+		return;
+
+	isRunning = true;
+
+	timer = setInterval(function() {
+		if (timeRemaining == 0) {
+			stopTimer();
+			return;
+		}
+
+		timeRemaining--;
+
+		updateText();
+		updateProgressBar();
+	}, 1000);
+}
+
+function stopTimer() {
+	clearInterval(timer);
+
+	isRunning = false;
+	rest = nextRest;
+	timeRemaining = rest;
+	
+	updateText();
+	updateProgressBar();
+
+	modal.classList.add('hidden');
+}
+
+function updateText() {
+	let minutes = Math.floor(timeRemaining / 60);
+	let seconds = timeRemaining % 60;
+	// Adds a zero in front of seconds if lower than 10
+	seconds = seconds < 10 ? '0' + seconds : seconds;
+
+	text.textContent = `${minutes}:${seconds}`;
+	floatingText.textContent = `${minutes}:${seconds}`;
+}
+
+function updateProgressBar() {
+	const percentage = (timeRemaining / rest) * 100;
+	progressBar.style.width = `${percentage}%`;
+}
