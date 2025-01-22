@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function () {
 
     // Pagine CRUD
     Route::middleware([Admin::class])->group(function () {
-        Route::get('/admin', [CrudController::class, 'index'])->name('admin');
+        Route::get('/admin', [CrudController::class, 'index'])->name('admin.dashboard');
+        Route::get('/admin/users', [CrudController::class, 'users'])->name('admin.users');
     });
 });
 
