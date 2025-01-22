@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\CrudController;
 use App\Http\Controllers\ExercisesListController;
-use App\Http\Controllers\ExerciseStatsSelectionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\WorkoutPlansController;
+use App\Http\Middleware\Admin;
 
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +35,11 @@ Route::middleware('auth')->group(function () {
     // Pagina statistiche
     Route::get('/statistics/exercises-list', [ExercisesListController::class, 'index'])->name('exercises-list');
     Route::get('/exercises/{exercise}/stats', [ExercisesListController::class, 'inspect'])->name('exercises-list.exercise-stats');
+
+    // Pagine CRUD
+    Route::middleware([Admin::class])->group(function () {
+        Route::get('/admin', [CrudController::class, 'index'])->name('admin');
+    });
 });
 
 require __DIR__.'/auth.php';

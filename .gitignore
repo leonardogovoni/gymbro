@@ -21,4 +21,3 @@ yarn-error.log
 /.vscode
 /.zed
 composer.lock
-database/migrations/2024_12_02_142053_modify_users_table.php
