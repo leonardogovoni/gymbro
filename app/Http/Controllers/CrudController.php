@@ -16,6 +16,11 @@ class CrudController extends Controller
         return view('crud.users');
     }
 
+    public function workout_plans()
+    {
+        return view('crud.workout_plans');
+    }
+
     // public function inspect($exercise, Request $request)
     // {
     //     $selectedExercise = Exercise::find($exercise);

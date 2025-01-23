@@ -78,7 +78,7 @@
 	<!-- Using the same modal for create, edit and inspect -->
 	<div x-cloak x-show="showDetailsModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 z-50 backdrop-blur-sm flex justify-center items-center">
 		<form class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
-			<h5 id="drawer-label" class="inline-flex items-center mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">
+			<h4 class="inline-flex items-center mb-4 text-md font-semibold text-gray-600 uppercase dark:text-gray-500">
 				@if($new && !$edit && !$inspect)
 					Nuovo utente
 				@elseif(!$new && $edit && !$inspect)
@@ -86,13 +86,17 @@
 				@elseif(!$new && !$edit && $inspect)
 					Visualizza utente
 				@endif
-			</h5>
+			</h4>
 	
 			<button x-on:click="showDetailsModal = false" type="button" class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
 				<x-mdi-close class="w-5 h-5" />
 			</button>
 	
-			<div class="grid grid-cols-2 gap-4">
+			{{-- Anagrafica --}}
+			<div class="grid grid-cols-2 gap-4 pb-4 border-b">
+				<div class="col-span-2">
+					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400">Anagrafica</h5>
+				</div>
 				<div>
 					<label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
 					<input id="first_name" type="text" class="input-text" value="{{ $modal_user ? $modal_user->first_name : '' }}" @if($inspect) disabled @endif />
@@ -129,9 +133,45 @@
 					<label for="birth_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data di nascita</label>
 					<input id="birth_date" type="date" class="input-text" value="{{ $modal_user ? $modal_user->birth_date : '' }}" @if($inspect) disabled @endif />
 				</div>
-				<div>
-					<label for="is_admin" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amministratore</label>
-					<input type="switch">
+			</div>
+
+			{{-- Gestione utente --}}
+			@if($is_user_admin)
+				<div class="grid grid-cols-1 gap-4 pt-4">
+					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400">Gestione utente</h5>
+				
+					<div class="flex items-center">
+						<label for="is_admin" class="block text-sm font-medium text-gray-900 dark:text-white grow">Amministratore</label>
+						<label class="inline-flex items-center {{ $inspect ? 'cursor-default' : 'cursor-pointer' }}">
+							<input type="checkbox" class="sr-only peer" @if($modal_user && $modal_user->is_admin) checked @endif @if($inspect) disabled @endif />
+							<div class="switch peer"></div>
+						</label>
+					</div>
+				
+					<div class="flex items-center">
+						<label for="is_admin" class="block text-sm font-medium text-gray-900 dark:text-white grow">Palestra</label>
+						<label class="inline-flex items-center {{ $inspect ? 'cursor-default' : 'cursor-pointer' }}">
+							<input type="checkbox" class="sr-only peer" @if($modal_user && $modal_user->is_admin) checked @endif @if($inspect) disabled @endif />
+							<div class="switch peer"></div>
+						</label>
+					</div>
+				</div>
+			@endif
+
+			{{-- Azioni --}}
+			<div class="pt-4 flex justify-center gap-2">
+				@if($new && !$edit && !$inspect)
+					<button type="button" x-on:click="$wire.store()" class="primary-button">Salva</button>
+				@elseif(!$new && $edit && !$inspect)
+					<button type="button" x-on:click="$wire.update()" class="primary-button">Aggiorna</button>
+				@elseif(!$new && !$edit && $inspect)
+					<a href="{{ route('admin.workout_plans', ['user_id' => $modal_user->id]) }}">
+						<button type="button" x-on:click="$wire.edit()" class="primary-button">Mostra schede utente</button>
+					</a>
+					<a href="{{ route('admin.workout_plans', ['new_plan_user_id' => $modal_user->id]) }}">
+						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Crea scheda per questo utente</button>
+					</a>
+				@endif
 			</div>
 		</form>
 	</div>

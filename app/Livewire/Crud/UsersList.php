@@ -3,6 +3,7 @@
 namespace App\Livewire\Crud;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
@@ -11,6 +12,7 @@ class UsersList extends Component
 {
     use WithPagination;
 
+    public $is_user_admin;
     public $search_parameter;
 
     public $new = false;
@@ -22,6 +24,7 @@ class UsersList extends Component
 
     public function render()
     {
+        $this->is_user_admin = Auth::user()->is_admin;
         $results = User::where('first_name', 'like', "%{$this->search_parameter}%")
             ->orWhere('last_name', 'like', "%{$this->search_parameter}%")
             ->orWhere('email', 'like', "%{$this->search_parameter}%")

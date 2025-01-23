@@ -19,6 +19,7 @@ export default {
             },
             colors: {
                 primary: colors.emerald,
+                secondary: colors.slate,
             },
         },
     },

@@ -8,6 +8,7 @@ use Livewire\Attributes\Computed;
 
 class WorkoutEditor extends Component
 {
+	public $show_desc_editor = true;
 	public $description;
 	public $workout_plan;
 	public $days;

@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware([Admin::class])->group(function () {
         Route::get('/admin', [CrudController::class, 'index'])->name('admin.dashboard');
         Route::get('/admin/users', [CrudController::class, 'users'])->name('admin.users');
+        Route::get('/admin/workout_plans', [CrudController::class, 'workout_plans'])->name('admin.workout_plans');
     });
 });
 

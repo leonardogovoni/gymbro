@@ -10,6 +10,10 @@
 	@apply flex items-center justify-center text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 rounded-lg dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 border px-4 py-2 text-sm font-semibold uppercase transition ease-in-out duration-150
 }
 
+.secondary-button {
+	@apply flex items-center justify-center text-white bg-secondary-600 hover:bg-secondary-700 focus:ring-4 focus:ring-secondary-300 rounded-lg dark:bg-secondary-600 dark:hover:bg-secondary-700 focus:outline-none dark:focus:ring-secondary-800 border px-4 py-2 text-sm font-semibold uppercase transition ease-in-out duration-150
+}
+
 .switch {
 	/* 
 		USAGE:
