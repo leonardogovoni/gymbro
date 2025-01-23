@@ -13,6 +13,13 @@ class UsersList extends Component
 
     public $search_parameter;
 
+    public $new = false;
+    public $edit = false;
+    public $inspect = false;
+
+    public $modal_user;
+    public $showDetailsModal = false;
+
     public function render()
     {
         $results = User::where('first_name', 'like', "%{$this->search_parameter}%")
@@ -27,6 +34,29 @@ class UsersList extends Component
 
     public function delete($id)
     {
+        // DA CONTROLLARE, ma quando cancello un utente
+        // con schede dovrebbe eliminarle già così
         User::find($id)->delete();
+    }
+
+    public function create()
+    {
+        $this->modal_user = null;
+
+        $this->new = true;
+        $this->edit = false;
+        $this->inspect = false;
+        $this->showDetailsModal = true;
+    }
+
+    // Calling it inspect breaks the code
+    public function inspectUser($id)
+    {
+        $this->modal_user = User::find($id);
+
+        $this->new = false;
+        $this->edit = false;
+        $this->inspect = true;
+        $this->showDetailsModal = true;
     }
 }
