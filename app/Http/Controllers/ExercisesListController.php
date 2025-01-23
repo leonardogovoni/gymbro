@@ -21,6 +21,7 @@ class ExercisesListController extends Controller
 
         // Recupera i dati dell'esercizio filtrando per exercise_id
         $exerciseData = ExerciseData::where('exercise_id', $exercise)
+            ->where('user_id', auth()->id()) // Filtro per l'utente loggato
             ->orderBy('created_at', 'asc')
             ->get();
 
