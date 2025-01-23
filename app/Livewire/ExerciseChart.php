@@ -17,6 +17,7 @@ class ExerciseChart extends Component
 
         // Ottieni i dati filtrati
         $exerciseData = ExerciseData::where('exercise_id', $this->exerciseId)
+            ->where('user_id', auth()->id()) // Filtro per l'utente loggato
             ->where('created_at', '>=', $startDate)
             ->orderBy('created_at')
             ->get();
@@ -25,19 +26,21 @@ class ExerciseChart extends Component
         $minKg = $exerciseData->min('used_weights');
 
         $this->updatedFilter();
-        return view('livewire.exercise-chart', ['exerciseData' => $exerciseData, 'maxKg'=> $maxKg, 'minKg'=> $minKg]);
+        return view('livewire.exercise-chart', ['exerciseData' => $exerciseData, 'maxKg' => $maxKg, 'minKg' => $minKg]);
     }
 
     public function updatedFilter()
     {
         if ($this->filter == '0') {
             $exerciseData = ExerciseData::where('exercise_id', $this->exerciseId)
+                ->where('user_id', auth()->id()) // Filtro per l'utente loggato
                 ->orderBy('created_at')
                 ->get();
         } else {
             $startDate = now()->subMonths($this->filter);
 
             $exerciseData = ExerciseData::where('exercise_id', $this->exerciseId)
+                ->where('user_id', auth()->id()) // Filtro per l'utente loggato
                 ->where('created_at', '>=', $startDate)
                 ->orderBy('created_at')
                 ->get();
