@@ -9,19 +9,37 @@ document.addEventListener('livewire:init', function () {
     Livewire.on('updateChart', (exerciseData) => {
         console.log("Dati ricevuti:", exerciseData); // Controlla che i dati siano corretti
         const dataArray = exerciseData[0]; // Devo prendere l'array interno in indice 0 (vedi console)
-        const labels = [...new Set(dataArray.map(data => data.date))];
+        const labels = [...new Set(dataArray.map(data => {
+            const date = new Date(data.created_at);
+            return date.toLocaleDateString('it-IT', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }))];
         console.log("Labels:", labels); // Verifica le etichette
         const datasets = [];
-        const sets = [...new Set(dataArray.map(data => data.sets))];
+        const sets = [...new Set(dataArray.map(data => data.set))];
         console.log("Sets:", sets); // Verifica i set
 
         // Creo un dataset per ogni set
         sets.forEach(set => {
-            const dataForSet = labels.map(date => {
+            const dataForSet = labels.map(created_at => {
                 // Cerco i dati per la data e il set specificato :P
-                const entry = dataArray.find(data => data.date === date && data
-                    .sets === set);
-                return entry ? entry.used_kg : 0;
+                const entry = dataArray.find(data => {
+                    const entryDate = new Date(data.created_at).toLocaleDateString('it-IT', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    return entryDate === created_at && data.set === set;
+                });
+                const usedWeight = entry ? Number(entry.used_weights) : 0; // Assicurati che used_weights sia un numero
+
+                // Aggiungi questo log per vedere i valori di "used_weights"
+                console.log(`Set ${set} per la data ${created_at}: ${usedWeight} Kg`);
+
+                return usedWeight;
             });
 
             datasets.push({
@@ -33,6 +51,7 @@ document.addEventListener('livewire:init', function () {
                 tension: 0.1
             });
         });
+        console.log("Final datasets:", datasets); // Controllo il contenuto finale dei dataset
 
         if (chart) chart.destroy();
         chart = new Chart(ctx, {
