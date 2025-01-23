@@ -1,14 +1,11 @@
 import Chart from 'chart.js/auto'; // Importa Chart.js
 
 document.addEventListener('livewire:init', function () {
-    console.log("Livewire caricato, in ascolto dell'evento 'updateChart'"); // Debug Biagio
-
     const ctx = document.getElementById('exerciseChart').getContext('2d');
     let chart;
 
     Livewire.on('updateChart', (exerciseData) => {
-        console.log("Dati ricevuti:", exerciseData); // Controlla che i dati siano corretti
-        const dataArray = exerciseData[0]; // Devo prendere l'array interno in indice 0 (vedi console)
+        const dataArray = exerciseData[0];
         const labels = [...new Set(dataArray.map(data => {
             const date = new Date(data.created_at);
             return date.toLocaleDateString('it-IT', {
@@ -17,15 +14,12 @@ document.addEventListener('livewire:init', function () {
                 year: 'numeric'
             });
         }))];
-        console.log("Labels:", labels); // Verifica le etichette
+
         const datasets = [];
         const sets = [...new Set(dataArray.map(data => data.set))];
-        console.log("Sets:", sets); // Verifica i set
 
-        // Creo un dataset per ogni set
         sets.forEach(set => {
             const dataForSet = labels.map(created_at => {
-                // Cerco i dati per la data e il set specificato :P
                 const entry = dataArray.find(data => {
                     const entryDate = new Date(data.created_at).toLocaleDateString('it-IT', {
                         day: '2-digit',
@@ -34,24 +28,27 @@ document.addEventListener('livewire:init', function () {
                     });
                     return entryDate === created_at && data.set === set;
                 });
-                const usedWeight = entry ? Number(entry.used_weights) : 0; // Assicurati che used_weights sia un numero
-
-                // Aggiungi questo log per vedere i valori di "used_weights"
-                console.log(`Set ${set} per la data ${created_at}: ${usedWeight} Kg`);
-
+                const usedWeight = entry ? Number(entry.used_weights) : 0;
                 return usedWeight;
             });
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, `rgba(${getColorForSet(set)}, 0.4)`);
+            gradient.addColorStop(1, `rgba(${getColorForSet(set)}, 0)`);
 
             datasets.push({
                 label: `Set ${set}`,
                 data: dataForSet,
-                borderColor: `rgb(${getColorForSet(set)}, 0.1)`,
-                backgroundColor: `rgba(${getColorForSet(set)}, 0.1)`,
+                borderColor: `rgb(${getColorForSet(set)}, 1)`,
+                backgroundColor: gradient,
                 fill: true,
-                tension: 0.1
+                tension: 0.4,
+                borderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: `rgb(${getColorForSet(set)}, 1)`,
             });
         });
-        console.log("Final datasets:", datasets); // Controllo il contenuto finale dei dataset
 
         if (chart) chart.destroy();
         chart = new Chart(ctx, {
@@ -62,28 +59,65 @@ document.addEventListener('livewire:init', function () {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // BIAGIO, TEST
+                maintainAspectRatio: false,
                 scales: {
                     x: {
-                        type: 'category', // Tipo di scala per l'asse X
                         title: {
                             display: true,
-                            text: 'Data'
+                            text: 'Data',
+                            font: {
+                                size: 16,
+                                family: 'Arial',
+                                weight: 'bold',
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)',
                         }
                     },
                     y: {
-                        beginAtZero: true, // Inizio da zero sull'asse Y
+                        beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Kg'
+                            text: 'Kg',
+                            font: {
+                                size: 16,
+                                family: 'Arial',
+                                weight: 'bold',
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)',
                         }
                     }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `Kg: ${tooltipItem.raw}`;
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                family: 'Arial',
+                                size: 14,
+                                weight: 'bold',
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutQuart',
                 }
             }
         });
     });
 
-    // Funzione per ottenere un colore differente per ogni set
     function getColorForSet(set) {
         const colors = [
             '59, 130, 246', // blu
@@ -92,6 +126,6 @@ document.addEventListener('livewire:init', function () {
             '255, 99, 132', // rosso
             '75, 85, 99' // grigio
         ];
-        return colors[set - 1] || '59, 130, 246'; // Usa il blu come colore di default
+        return colors[set - 1] || '59, 130, 246';
     }
 });

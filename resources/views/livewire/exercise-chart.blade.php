@@ -21,5 +21,6 @@
     <div class="mb-4">
         <p>Kg Massimi: {{ $maxKg ?? 0 }} </p>
         <p>Kg Minimi: {{ $minKg ?? 0 }} </p>
+        <p>Kg Medii: {{ $averageKg ?? 0 }} </p>
     </div>
 </div>
