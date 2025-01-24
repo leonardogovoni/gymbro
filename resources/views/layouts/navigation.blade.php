@@ -96,6 +96,7 @@
 
 	<!-- Responsive Navigation Menu -->
 	<div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+		@auth
 		<div class="pt-2 pb-3 space-y-1">
 			<x-responsive-nav-link :href="route('training')" :active="request()->routeIs('training.training')">
 				{{ __('Allenamenti') }}
@@ -112,7 +113,7 @@
 			</x-responsive-nav-link>
 		</div>
 
-		@auth
+		
 		<!-- Responsive Settings Options -->
 		<div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
 			<div class="px-4">
@@ -138,5 +139,18 @@
 			</div>
 		</div>
 		@endauth
+
+		@guest
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('login')">
+                {{ __('Login') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('register')">
+                {{ __('Registrati') }}
+            </x-responsive-nav-link>
+        </div>
+    	@endguest
 	</div>
 </nav>
