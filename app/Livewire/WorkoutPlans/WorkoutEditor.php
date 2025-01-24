@@ -24,12 +24,20 @@ class WorkoutEditor extends Component
 	public $categories;
 	public $search_parameter;
 	public $category_parameter;
-	public $results = [];
-	public $add_day = 0;
+	public $results;
+	public $add_day;
 	public $show_add_modal = false;
 
+	// Variabili per modal di modifica
+	public $edit_pivot_id;
+	public $rest;
+	public $sets;
+	public $to_failure;
+	public $same_reps;
+	public $reps = [];
+	public $show_edit_modal = false;
+
 	// Eseguito ogni volta che una variabile cambia
-	#[On('exercise-updated')]
 	public function render()
 	{
 		// Ricerca esercizi
@@ -42,10 +50,7 @@ class WorkoutEditor extends Component
 
 		$this->description = $this->workout_plan->description;
 
-		return view('livewire.workout_plans.workout-editor', [
-			'days' => $this->days,
-			'description' => $this->workout_plan->description
-		]);
+		return view('livewire.workout_plans.workout-editor');
 	}
 
 	// Eseguito all'inizializzazione del componente
@@ -78,21 +83,12 @@ class WorkoutEditor extends Component
 		$this->description = $desc;
 	}
 
-	// Executed everytime an exercise gets moved
+	// Funzione per aggiornare l'ordine degli esercizi
 	public function updateOrder($updated_order)
 	{
-		// Update DB
-		// TODO: Could be done with a single query
+		// TODO: Probabilmente si può fare in un'unica query
 		foreach($updated_order as $item)
 			$this->workout_plan->exercises()->wherePivot('id', $item['value'])->update(['order' => $item['order']]);
-	}
-
-	public function delete($pivot_id)
-	{
-		$exercise_order = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('order');
-		$exercise_day = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('day');
-		$this->workout_plan->exercises()->wherePivot('id', $pivot_id)->detach();
-		$this->workout_plan->exercises()->where('day', $exercise_day)->where('order', '>', $exercise_order)->decrement('order');
 	}
 
 	public function incrementDay()
@@ -100,8 +96,19 @@ class WorkoutEditor extends Component
 		$this->days++;
 	}
 
+	public function delete($pivot_id)
+	{
+		// Necessario per decrementare l'ordine degli esercizi successivi
+		$exercise_order = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('order');
+		$exercise_day = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->value('day');
+		$this->workout_plan->exercises()->wherePivot('id', $pivot_id)->detach();
+		$this->workout_plan->exercises()->where('day', $exercise_day)->where('order', '>', $exercise_order)->decrement('order');
+	}
+
+	// Funzione per il modal di aggiunta
 	public function add($exercise_id)
 	{
+		// Ottengo l'order dell'ultimo esercizio del giorno per capire l'ordine del nuovo esercizio
 		$last_exercise = $this->workout_plan->exercises()->where('day', $this->add_day)->orderBy('order', 'desc')->first();
 		$new_exercise_order = !is_null($last_exercise) ? $last_exercise->pivot->order + 1 : 1;
 
@@ -114,5 +121,33 @@ class WorkoutEditor extends Component
 		]);
 
 		$this->show_add_modal = false;
+	}
+
+	// Funzioni per il modal di modifica
+	public function loadEdit($pivot_id)
+	{
+		$this->edit_pivot_id = $pivot_id;
+		$exercise_data = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
+
+		// Preparo i dati per il modal
+		$this->rest = $exercise_data->pivot->rest;
+		$this->sets = $exercise_data->pivot->sets;
+		$this->to_failure = $exercise_data->pivot->reps == 'MAX' ? true : false;
+		$this->same_reps = !str_contains($exercise_data->pivot->reps, '-');
+		$this->reps = explode('-', $exercise_data->pivot->reps);
+
+        $this->show_edit_modal = true;
+	}
+
+	public function edit()
+	{
+		$reps_str = $this->to_failure ? 'MAX' : ($this->same_reps ? $this->reps[0] : implode('-', $this->reps));
+		$this->workout_plan->exercises()->wherePivot('id', $this->edit_pivot_id)->update([
+			'rest' => $this->rest,
+			'sets' => $this->sets,
+			'reps' => $reps_str,
+			'edited' => true
+		]);
+		$this->show_edit_modal = false;
 	}
 }

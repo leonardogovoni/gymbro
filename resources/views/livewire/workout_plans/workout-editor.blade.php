@@ -1,4 +1,4 @@
-<div x-data="{showAddModal: $wire.entangle('show_add_modal'), addDay: $wire.entangle('add_day'), id: 0}">
+<div x-data="{showAddModal: $wire.entangle('show_add_modal'), addDay: $wire.entangle('add_day'), showEditModal: $wire.entangle('show_edit_modal')}">
 	@if($show_desc_editor)
 		<label for="desc" class="block text-sm font-medium text-gray-700">Descrizione</label>
 		<div class="w-full pb-4 pt-2">
@@ -34,7 +34,7 @@
 										<p>{{ $exercise->pivot->sets }}x{{ $exercise->pivot->reps }}</p>
 									</div>
 
-									<x-mdi-pen class="h-6 fill-blue-600 hover:fill-blue-700" x-on:click="$dispatch('edit', { pivot_id: {{ $exercise->pivot->id }} })" />
+									<x-mdi-pen class="h-6 fill-blue-600 hover:fill-blue-700" wire:click="loadEdit({{ $exercise->pivot->id }})" />
 									<x-mdi-close class="h-8 fill-red-600 hover:fill-red-700" wire:click="delete({{ $exercise->pivot->id }})" />
 								</li>
 							@endforeach
@@ -51,10 +51,10 @@
 		@endforeach
 	@endif
 
-	<div class="flex flex-col items-center pb-4 first:pt-0 last:pb-0">
-		<x-primary-button type="button" class="bg-blue-400 hover:bg-blue-500" wire:click="incrementDay">
+	<div class="flex flex-col items-center first:pt-0 last:pb-0">
+		<button type="button" class="secondary-button" wire:click="incrementDay">
 			Aggiungi giornata
-		</x-primary-button>
+		</button>
 	</div>
 
 	<!-- Modal aggiungi esercizio -->
@@ -102,5 +102,80 @@
 		</div>
 	</div>
 
+	<!-- Modal modifica esercizio -->
+	<div x-cloak x-show="showEditModal" x-transition.opacity class="modal-bg">
+		<div class="relative bg-white dark:bg-gray-700 rounded-lg" style="width: 500px;">
+			<!-- Modal header -->
+			<div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+				<h3 class="text-lg font-semibold uppercase text-gray-600 dark:text-gray-500">
+					Modifica esercizio
+				</h3>
 
+				<button type="button" x-on:click="showEditModal=false" class="bg-transparent hover:bg-gray-200 rounded-lg w-7 h-7 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+					<x-mdi-close class="w-6 fill-gray-400" />
+				</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="p-4 md:p-5 space-y-4 justify-center w-full">
+				<form wire:submit="edit">
+					<div class="flex justify-between items-center pb-4">
+						<p>Tempo di recupero (sec)</p>
+						<div class="w-1/3">
+							<input class="input-text" type="number" min="0" step="1" required wire:model.live="rest" />
+						</div>
+					</div>
+				
+					<div class="flex justify-between items-center pb-4">
+						<p>Numero di serie</p>
+						<div class="w-1/3">
+							<input class="input-text" type="number" min="1" step="1" required wire:model.live="sets" />
+						</div>
+					</div>
+				
+					<div class="flex justify-between items-center pb-4 h-14">
+						<p>A cedimento?</p>
+						<label class="inline-flex items-center cursor-pointer">
+							<input type="checkbox" value="" class="sr-only peer" wire:model.live="to_failure">
+							<div class="switch peer"></div>
+						</label>
+					</div>
+				
+					@if(!$to_failure)
+						<div class="flex justify-between items-center pb-4 h-14">
+							<p class="">Stesse ripetizioni per tutte le serie?</p>
+							<label class="inline-flex items-center cursor-pointer">
+								<input type="checkbox" value="" class="sr-only peer" wire:model.live="same_reps">
+								<div class="switch peer"></div>
+							</label>
+						</div>
+						
+						@if($same_reps)
+							<div class="flex justify-between items-center pb-4">
+								<p class="">Numero di ripetizioni</p>
+								<div class="w-1/3">
+									<input class="input-text" type="number" min="1" step="1" required wire:model.live="reps.0" />
+								</div>
+							</div>
+						@else
+							@foreach(range(1, $sets) as $set)
+								<div class="flex justify-between items-center pb-4">
+									<p class="">Numero di ripetizioni (Serie {{ $set }})</p>
+									<div class="w-1/3">
+										<input class="input-text" type="number" min="1" step="1" required wire:model.live="reps.{{ $set-1 }}" />
+									</div>
+								</div>
+							@endforeach
+						@endif
+					@endif
+				
+					<div class="flex flex-col items-center">
+						<button type="submit" class="primary-button">
+							Salva
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
