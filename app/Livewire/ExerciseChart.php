@@ -24,7 +24,7 @@ class ExerciseChart extends Component
 
         $maxKg = $exerciseData->max('used_weights');
         $minKg = $exerciseData->min('used_weights');
-        $averageKg = $exerciseData->avg('used_weights'); // Media dei pesi usati
+        $averageKg = round($exerciseData->avg('used_weights'), 2); // Media dei pesi usati
 
         $this->updatedFilter();
         return view('livewire.exercise-chart', ['exerciseData' => $exerciseData, 'maxKg' => $maxKg, 'minKg' => $minKg, 'averageKg' => $averageKg]);
