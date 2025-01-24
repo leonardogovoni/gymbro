@@ -40,7 +40,7 @@
 								<td class="px-4 py-3">{{ $workout_plan->user()->get()[0]->first_name }} {{ $workout_plan->user()->get()[0]->last_name }}</td>
 								<td class="px-4 py-3">{{ $workout_plan->enabled ? 'Si' : 'No' }}</td>
 								<td class="px-4 py-3">
-									<button x-on:click="$wire.editPlan({{ $workout_plan->id }})" class="h-4 py-auto" title="Dettagli">
+									<button x-on:click="$wire.editPlan({{ $workout_plan->id }}); $dispatch('workout-plan-changed')" class="h-4 py-auto" title="Dettagli">
 										<x-mdi-pen class="h-5 hover:fill-primary-500 transition duration-75" />
 									</button>
 									<button x-on:click="id = {{ $workout_plan->id }}; showDeleteModal = true" class="h-4 py-auto" title="Elimina">
@@ -61,7 +61,7 @@
 	</div>
 
 	<!-- Delete modal -->
-	<div x-cloak x-show="showDeleteModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 z-50 backdrop-blur-sm flex justify-center items-center">
+	<div x-cloak x-show="showDeleteModal" x-transition.opacity class="modal-bg">
 		<div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
 			<x-mdi-trash-can-outline class="text-gray-400 dark:text-gray-500 w-11 h-11 mb-3.5 mx-auto" />
 
@@ -76,7 +76,7 @@
 
 	<!-- Details modal -->
 	<!-- Using the same modal for create, edit and inspect -->
-	<div x-cloak x-show="showDetailsModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 z-50 backdrop-blur-sm flex justify-center items-center">
+	<div x-cloak x-show="showDetailsModal" x-transition.opacity class="modal-bg">
 		<form wire:submit="save" class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
 			<h4 class="inline-flex items-center mb-4 text-md font-semibold text-gray-600 uppercase dark:text-gray-500">
 				@if($new && !$edit)
@@ -96,17 +96,18 @@
 
 				<div>
 					<label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titolo</label>
-					<input id="title" type="text" class="input-text" value="{{ $modal_plan ? $modal_plan->title : '' }}" @if($new) required @endif />
+					<input id="title" type="text" class="input-text" required maxlength="100" wire:model="title" />
 				</div>
 				<div>
 					<label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descrizione</label>
-					<input id="description" type="text" class="input-text" value="{{ $modal_plan ? $modal_plan->description : '' }}" />
+					<textarea id="description" class="input-text" maxlength="500" wire:model="description">
+					</textarea>
 				</div>
 				<div>
 					<label for="enabled" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Default</label>
-					<select id="enabled" class="input-text">
-						<option value="1" @if($modal_plan && $modal_plan->enabled) selected @endif>Si</option>
-						<option value="0" @if($modal_plan && !$modal_plan->enabled) selected @endif>No</option>
+					<select id="enabled" class="input-text" wire:model="default">
+						<option value="1">Si</option>
+						<option value="0">No</option>
 					</select>
 				</div>
 				<div>
@@ -124,7 +125,7 @@
 				<div class="py-4">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400 pb-4">Esericizi</h5>
 
-					<livewire:workout_plans.workout-editor :workout_plan="$modal_plan" :show_desc_editor="false" />
+					<livewire:workout_plans.workout-editor :workout_plan="$modal_plan" :reload_days="true" :show_desc_editor="false" />
 				</div>
 			@else
 				<div class="my-4 flex items-center p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800">

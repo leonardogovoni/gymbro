@@ -1,23 +1,4 @@
 <x-app-layout>
-    <x-modal name="add" maxWidth="max-w-[96rem]">
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Aggiungi esercizio
-                </h3>
-
-                <button type="button" class="bg-transparent hover:bg-gray-200 rounded-lg w-7 h-7 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" x-on:click.prevent="$dispatch('close-modal', 'add')">
-                    <x-mdi-close class="w-6 fill-gray-400" />
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-4 justify-center z-50 w-full">
-                <livewire:workout_plans.add-exercise-modal :workout_plan="$workout_plan" />
-            </div>
-        </div>
-    </x-modal>
-
     <x-modal name="edit">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">

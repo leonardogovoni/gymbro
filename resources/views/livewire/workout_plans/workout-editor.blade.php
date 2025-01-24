@@ -1,11 +1,10 @@
-<div>
+<div x-data="{showAddModal: $wire.entangle('show_add_modal'), addDay: $wire.entangle('add_day'), id: 0}">
 	@if($show_desc_editor)
 		<label for="desc" class="block text-sm font-medium text-gray-700">Descrizione</label>
 		<div class="w-full pb-4 pt-2">
-			<textarea class="w-full p-2 border border-gray-300 rounded-md resize-none overflow-auto min-h-[15vh] max-h-[70vh]"
+			<textarea class="input-text"
 				id="desc"
 				maxlength="500"
-				placeholder="Descrizione"
 				wire:model.live.debounce.250ms="description"></textarea>
 		</div>
 	@endif
@@ -20,7 +19,7 @@
 				<p class="text-xl pb-2">Giorno {{ $day }}</p>
 
 				<div class="bg-gray-100 dark:bg-gray-800 p-4 rounded border shadow-sm">
-					<ul class="divide-y divide-slate-200" wire:sortable="update_order" wire:sortable.options="{ animation: 150 }">
+					<ul class="divide-y divide-slate-200" wire:sortable="updateOrder" wire:sortable.options="{ animation: 150 }">
 						@if($this->exercises($day)->isEmpty())
 							<li class="flex items-center justify-center py-4 first:pt-0 last:pb-0">
 								<p>Nessun esercizio presente in questa giornata</p>
@@ -42,9 +41,9 @@
 						@endif
 
 						<li class="flex flex-col items-center py-4 first:pt-0 last:pb-0">
-							<x-primary-button type="button" class="bg-green-600 hover:bg-green-700" x-on:click="$dispatch('add', { day: {{ $day }} })">
+							<button type="button" class="primary-button" x-on:click="addDay={{ $day }}; showAddModal=true">
 								Aggiungi esercizio
-							</x-primary-button>
+							</button>
 						</li>
 					</ul>
 				</div>
@@ -53,8 +52,55 @@
 	@endif
 
 	<div class="flex flex-col items-center pb-4 first:pt-0 last:pb-0">
-		<x-primary-button type="button" class="bg-blue-400 hover:bg-blue-500" wire:click="add_day">
+		<x-primary-button type="button" class="bg-blue-400 hover:bg-blue-500" wire:click="incrementDay">
 			Aggiungi giornata
 		</x-primary-button>
 	</div>
+
+	<!-- Modal aggiungi esercizio -->
+	<div x-cloak x-show="showAddModal" x-transition.opacity class="modal-bg md:p-8">
+		<div class="relative bg-white dark:bg-gray-700 min-h-full min-w-full lg:min-w-0 lg:max-w-7xl md:rounded-lg">
+			<!-- Modal header -->
+			<div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+				<h3 class="text-lg font-semibold uppercase text-gray-600 dark:text-gray-500">
+					Aggiungi esercizio
+				</h3>
+
+				<button type="button" x-on:click="showAddModal=false" class="bg-transparent hover:bg-gray-200 rounded-lg w-7 h-7 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+					<x-mdi-close class="w-6 fill-gray-400" />
+				</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="p-4 md:p-5 space-y-4 justify-center w-full">
+				<div class="w-full flex">
+					<select wire:model.live="category_parameter" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600">						
+						<option value="all" selected>Tutte le categorie</option>
+						@foreach($categories as $index=>$category)
+							<option value="{{ $index }}">{{ $category }}</option>
+						@endforeach
+					</select>	
+
+					<input type="text" wire:model.live="search_parameter" placeholder="Cerca" class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 border-s-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+				</div>
+			
+				<div class="grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 overflow-y-auto max-h-[calc(100vh-10rem)]">
+					@foreach($results as $result)
+						<div class="bg-blue-100 p-4 rounded-lg text-center cursor-pointer hover:bg-blue-300" wire:click="add({{ $result->id }})">
+							<div class="h-40 flex items-center justify-center">
+								<img class="h-40" src="{{ asset('/images/exercises/'.$result->image ) }}" />
+							</div>
+						
+							<div class="border-t pt-4">
+								<h3 class="text-lg font-semibold">{{ $result->name }}</h3>
+								<p class="text-gray-600 text-sm">{{ $result->muscle }}</p>
+							</div>
+						</div>
+					@endforeach
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 </div>

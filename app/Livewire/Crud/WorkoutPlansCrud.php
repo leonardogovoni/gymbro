@@ -6,6 +6,7 @@ use App\Models\WorkoutPlan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Url;
 
 class WorkoutPlansCrud extends Component
@@ -18,13 +19,17 @@ class WorkoutPlansCrud extends Component
     #[Url]
     public $new_plan_user_id;
 
+    // Variabili per modale
+    public $title;
+    public $description;
+    public $default;
+    public $modal_plan;
+
     public $is_user_admin;
     public $search_parameter;
 
     public $new = false;
     public $edit = false;
-
-    public $modal_plan;
     public $showDetailsModal = false;
 
     public function render()
@@ -66,7 +71,13 @@ class WorkoutPlansCrud extends Component
 
     public function editPlan($id)
     {
+        // IL COMPONENTE WORKOUT_EDITOR NON CAMBIA QUANDO CAMBIA QUESTA VARIABILE
+        //  INDAGARE
         $this->modal_plan = WorkoutPlan::find($id);
+
+        $this->title = $this->modal_plan->title;
+        $this->description = $this->modal_plan->description;
+        $this->default = $this->modal_plan->enabled;
 
         $this->new = false;
         $this->edit = true;
@@ -75,6 +86,6 @@ class WorkoutPlansCrud extends Component
 
     public function save()
     {
-
+        dd($this->title);
     }
 }
