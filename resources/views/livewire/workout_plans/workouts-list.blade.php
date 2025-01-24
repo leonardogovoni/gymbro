@@ -28,12 +28,12 @@
 										</a>
 
 										<!-- Icona (Elimina) -->
-										<button wire:click="$set('show_delete_modal', true)">
+										<button wire:click="$set('show_delete_modal', {{ $workout_plan->id }})">
 											<x-mdi-trash-can-outline class="fill-red-500 hover:fill-red-700 ml-3 h-6" title="Elimina" />
 										</button>
 
 										<!-- Modale di conferma -->
-										@if ($show_delete_modal == true)
+										@if ($show_delete_modal != 0)
 											<div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
 												<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
 													<h2 class="text-lg font-bold mb-4">Sei sicuro di voler eliminare questa scheda?</h2>
@@ -46,7 +46,7 @@
 														</button>
 
 														<!-- Form di eliminazione -->
-														<button wire:click="delete({{ $workout_plan->id }})" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded">
+														<button wire:click="delete({{ $show_delete_modal }})" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded">
 															Elimina
 														</button>
 													</div>

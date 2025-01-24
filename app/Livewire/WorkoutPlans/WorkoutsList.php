@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class WorkoutsList extends Component
 {
-	public $show_delete_modal = false;
+	public $show_delete_modal = 0;
 
 	public function render()
 	{
@@ -50,7 +50,7 @@ class WorkoutsList extends Component
 
 	public function delete($wp) {
 		// Indipendentemente dall'esito, il modale va chiuso
-		$this->show_delete_modal = false;
+		$this->show_delete_modal = 0;
 		
 		$user = Auth::user();
 		$delete_wp = WorkoutPlan::findOrFail($wp);
