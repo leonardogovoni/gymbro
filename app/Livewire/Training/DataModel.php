@@ -69,7 +69,13 @@ class DataModel extends Component
 	#[On('change-index')]
 	public function change_index($new_index)
 	{
-		if($new_index > 0 || $new_index < $this->max_index) {
+		// This prevents an error when the number of exercises in a workout_plan is equal to 1!
+		if ($this->current_index === null)
+			$this->current_index = 0;
+
+		// The check on $new_index with $this->max_index must be less or equal,
+		// since 0 === 0 and the stricly less cause an error
+		if($new_index > 0 || $new_index <= $this->max_index) {
 			$this->current_index = $new_index;
 			$this->saved = false;
 
