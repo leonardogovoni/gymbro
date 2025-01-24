@@ -3,21 +3,23 @@ import Chart from 'chart.js/auto';
 
 document.addEventListener('livewire:init', function () {
 	const ctx = document.getElementById('exerciseChart').getContext('2d');
-	let chart;
+	let chart = null;
 
 	// Eventi Livewire
 	Livewire.on('updateChartKgs', (exerciseData) => {
-		createChart(exerciseData, 'used_weights');
+		const data = getDataForChart(exerciseData, 'used_weights');
+		createChart('used_weights', data[0], data[1]);
 	});
 
 	Livewire.on('updateChartReps', (exerciseData) => {
-		createChart(exerciseData, 'reps');
+		const data = getDataForChart(exerciseData, 'reps');
+		createChart('used_weights', data[0], data[1]);
 	});
 
-	// ==============================================
-	// Funzioni ripetute
+	// ==================================================
+	// Creazione e aggiornamento grafico
 
-	function createChart (exerciseData, type) {
+	function getDataForChart (exerciseData, type) {
 		const dataArray = exerciseData[0];
 		const labels = [...new Set(dataArray.map(data => {			
 			return getFormattedDate(data.created_at);
@@ -56,7 +58,17 @@ document.addEventListener('livewire:init', function () {
 			});
 		});
 
-		if (chart) chart.destroy();
+		return [labels, datasets];
+	}
+
+	function createChart (type, labels, datasets) {
+		// Se il grafico e' gia' esistente, lo aggiorna, altrimenti lo crea!
+		// Questo previene il glitch grafico della pagina
+		if (chart !== null) {
+			updateChart([labels, datasets]);
+			return;
+		}
+
 		chart = new Chart(ctx, {
 			type: 'line',
 			data: {
@@ -101,6 +113,19 @@ document.addEventListener('livewire:init', function () {
 			}
 		});
 	};
+
+	function updateChart (data) {
+		chart.data.labels = data[0];
+		chart.data.datasets = data[1];
+
+		// Importante il resize(), senza appare
+		// zoomato e completamente rotto
+		chart.resize();
+		chart.update();
+	}
+
+	// ==================================================
+	// Riscritte come funzioni per evitare duplicazioni
 
 	function getColorForSet (set) {
 		const colors = [

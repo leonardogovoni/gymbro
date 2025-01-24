@@ -28,11 +28,18 @@
 					</div>
 
 					<!-- Div per il grafico Kgs -->
-					<div class="p-6 rounded-lg shadow bg-white dark:bg-gray-900 overflow-x-auto">
-						<div class="w-full">
-							<canvas class="h-[400px] w-full" id="exerciseChart"></canvas>
+					@if ($showGraph < 2)
+						<p>
+							Non sono presenti abbastanza dati per visualizzare un grafico.
+							Sono necessari almeno due allenamenti!
+						</p>
+					@else
+						<div class="p-6 rounded-lg shadow bg-white dark:bg-gray-900 overflow-x-auto">
+							<div class="w-full">
+								<canvas class="h-[400px] w-full" id="exerciseChart"></canvas>
+							</div>
 						</div>
-					</div>
+					@endif
 
 					<!-- Tabelle dinamiche -->
 					<div class="overflow-x-auto">
@@ -47,13 +54,13 @@
 							<tbody>
 								<tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
 									<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100 w-1/3">
-										<p class="text-gray-500">{{ $switchView ? ($maxRep ?? 0) : ($maxKg ?? 0) }}</p>
+										<p class="text-gray-500">{{ $switchView ? ($maxRep ?? '?') : ($maxKg ?? '?') }}</p>
 									</td>
 									<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100 w-1/3">
-										<p class="text-gray-500">{{ $switchView ? ($minRep ?? 0) : ($minKg ?? 0) }}</p>
+										<p class="text-gray-500">{{ $switchView ? ($minRep ?? '?') : ($minKg ?? '?') }}</p>
 									</td>
 									<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100 w-1/3">
-										<p class="text-gray-500">{{ $switchView ? ($averageRep ?? 0) : ($averageKg ?? 0) }}</p>
+										<p class="text-gray-500">{{ $switchView ? ($averageRep ?? '?') : ($averageKg ?? '?') }}</p>
 									</td>
 								</tr>
 							</tbody>
