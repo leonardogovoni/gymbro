@@ -1,245 +1,142 @@
-import Chart from 'chart.js/auto'; // Importa Chart.js
+// Importazione dei moduli
+import Chart from 'chart.js/auto';
 
 document.addEventListener('livewire:init', function () {
-    const ctx = document.getElementById('exerciseChart').getContext('2d');
-    let chart;
+	const ctx = document.getElementById('exerciseChart').getContext('2d');
+	let chart;
 
-    Livewire.on('updateChartKgs', (exerciseData) => {
-        const dataArray = exerciseData[0];
-        const labels = [...new Set(dataArray.map(data => {
-            const date = new Date(data.created_at);
-            return date.toLocaleDateString('it-IT', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-        }))];
+	// Eventi Livewire
+	Livewire.on('updateChartKgs', (exerciseData) => {
+		createChart(exerciseData, 'used_weights');
+	});
 
-        const datasets = [];
-        const sets = [...new Set(dataArray.map(data => data.set))];
+	Livewire.on('updateChartReps', (exerciseData) => {
+		createChart(exerciseData, 'reps');
+	});
 
-        sets.forEach(set => {
-            const dataForSet = labels.map(created_at => {
-                const entry = dataArray.find(data => {
-                    const entryDate = new Date(data.created_at).toLocaleDateString('it-IT', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    return entryDate === created_at && data.set === set;
-                });
-                const usedWeight = entry ? Number(entry.used_weights) : 0;
-                return usedWeight;
-            });
+	// ==============================================
+	// Funzioni ripetute
 
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, `rgba(${getColorForSet(set)}, 0.4)`);
-            gradient.addColorStop(1, `rgba(${getColorForSet(set)}, 0)`);
+	function createChart (exerciseData, type) {
+		const dataArray = exerciseData[0];
+		const labels = [...new Set(dataArray.map(data => {			
+			return getFormattedDate(data.created_at);
+		}))];
 
-            datasets.push({
-                label: `Set ${set}`,
-                data: dataForSet,
-                borderColor: `rgb(${getColorForSet(set)}, 1)`,
-                backgroundColor: gradient,
-                fill: true,
-                tension: 0.4,
-                borderWidth: 2,
-                pointRadius: 3,
-                pointHoverRadius: 7,
-                pointBackgroundColor: `rgb(${getColorForSet(set)}, 1)`,
-            });
-        });
+		const datasets = [];
+		const sets = [...new Set(dataArray.map(data => data.set))];
 
-        if (chart) chart.destroy();
-        chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Data',
-                            font: {
-                                size: 16,
-                                family: 'Arial',
-                                weight: 'bold',
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)',
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Kg',
-                            font: {
-                                size: 16,
-                                family: 'Arial',
-                                weight: 'bold',
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)',
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return `Kg: ${tooltipItem.raw}`;
-                            }
-                        }
-                    },
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                family: 'Arial',
-                                size: 14,
-                                weight: 'bold',
-                            }
-                        }
-                    }
-                },
-                animation: {
-                    duration: 1000,
-                    easing: 'easeInOutQuart',
-                }
-            }
-        });
-    });
+		sets.forEach(set => {
+			const dataForSet = labels.map(created_at => {
+				const entry = dataArray.find(data => {
+					return getFormattedDate(data.created_at) === created_at && data.set === set;
+				});
 
-    Livewire.on('updateChartReps', (exerciseData) => {
-        const dataArray = exerciseData[0];
-        const labels = [...new Set(dataArray.map(data => {
-            const date = new Date(data.created_at);
-            return date.toLocaleDateString('it-IT', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-        }))];
+				// Filtra i dati richiesti in base allo switch, accedere a entry[type] significa accedere a un attributo di valore 'type' di 'entry'
+				// E' equivalente a 'entry.uses_weights' oppure 'entry.reps'
+				const dataType = entry ? Number(entry[type]) : 0;
+				return dataType;
+			});
 
-        const datasets = [];
-        const sets = [...new Set(dataArray.map(data => data.set))];
+			const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+			gradient.addColorStop(0, `rgba(${getColorForSet(set)}, 0.4)`);
+			gradient.addColorStop(1, `rgba(${getColorForSet(set)}, 0)`);
 
-        sets.forEach(set => {
-            const dataForSet = labels.map(created_at => {
-                const entry = dataArray.find(data => {
-                    const entryDate = new Date(data.created_at).toLocaleDateString('it-IT', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    return entryDate === created_at && data.set === set;
-                });
-                const reps = entry ? Number(entry.reps) : 0;
-                return reps;
-            });
+			datasets.push({
+				label: `Serie ${set}`,
+				data: dataForSet,
+				borderColor: `rgb(${getColorForSet(set)}, 1)`,
+				backgroundColor: gradient,
+				fill: true,
+				tension: 0.4,
+				borderWidth: 2,
+				pointRadius: 3,
+				pointHoverRadius: 7,
+				pointBackgroundColor: `rgb(${getColorForSet(set)}, 1)`
+			});
+		});
 
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, `rgba(${getColorForSet(set)}, 0.4)`);
-            gradient.addColorStop(1, `rgba(${getColorForSet(set)}, 0)`);
+		if (chart) chart.destroy();
+		chart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: datasets
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				scales: {
+					x: getCoordinateObject('Data'),
+					y: {
+						beginAtZero: true,
+						...getCoordinateObject(type === 'used_weights' ? 'Kg' : 'Ripetizioni')
+					},
+				},
+				plugins: {
+					tooltip: {
+						callbacks: {
+							label: function(tooltipItem) {
+								// Questo sistema e' poco scalabile perche' accetta solo due opzioni,
+								// per il momento rimane cosi'
+								return type === 'used_weights' ? `Kg: ${tooltipItem.raw}` : `Rip.: ${tooltipItem.raw}`;
+							}
+						}
+					},
+					legend: {
+						position: 'top',
+						labels: {
+							font: {
+								family: 'Arial',
+								size: 14,
+								weight: 'bold'
+							}
+						}
+					}
+				},
+				animation: {
+					duration: 1000,
+					easing: 'easeInOutQuart'
+				}
+			}
+		});
+	};
 
-            datasets.push({
-                label: `Set ${set}`,
-                data: dataForSet,
-                borderColor: `rgb(${getColorForSet(set)}, 1)`,
-                backgroundColor: gradient,
-                fill: true,
-                tension: 0.4,
-                borderWidth: 2,
-                pointRadius: 3,
-                pointHoverRadius: 7,
-                pointBackgroundColor: `rgb(${getColorForSet(set)}, 1)`,
-            });
-        });
+	function getColorForSet (set) {
+		const colors = [
+			'59, 130, 246',	// Blu
+			'34, 197, 94',	// Verde
+			'255, 165, 0',	// Arancione
+			'255, 99, 132',	// Rosso
+			'75, 85, 99'	// Grigio
+		];
+		return colors[set - 1] || '59, 130, 246';
+	}
 
-        if (chart) chart.destroy();
-        chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Data',
-                            font: {
-                                size: 16,
-                                family: 'Arial',
-                                weight: 'bold',
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)',
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Rep',
-                            font: {
-                                size: 16,
-                                family: 'Arial',
-                                weight: 'bold',
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)',
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return `Rep: ${tooltipItem.raw}`;
-                            }
-                        }
-                    },
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                family: 'Arial',
-                                size: 14,
-                                weight: 'bold',
-                            }
-                        }
-                    }
-                },
-                animation: {
-                    duration: 1000,
-                    easing: 'easeInOutQuart',
-                }
-            }
-        });
-    });
+	// Formattazione della data
+	function getFormattedDate (date) {
+		return new Date(date).toLocaleDateString('it-IT', {
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric'
+		});
+	}
 
-    function getColorForSet(set) {
-        const colors = [
-            '59, 130, 246', // blu
-            '34, 197, 94', // verde
-            '255, 165, 0', // arancione
-            '255, 99, 132', // rosso
-            '75, 85, 99' // grigio
-        ];
-        return colors[set - 1] || '59, 130, 246';
-    }
+	// Creazione oggetto per le coordinate
+	function getCoordinateObject (text) {
+		return {
+			title: {
+				display: true,
+				text: text,
+				font: {
+					size: 16,
+					family: 'Arial',
+					weight: 'bold'
+				}
+			},
+			grid: {
+				color: 'rgba(0, 0, 0, 0.1)'
+			}
+		}
+	}
 });
