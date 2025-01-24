@@ -78,6 +78,9 @@
 					<x-nav-link :href="route('login')" :active="request()->routeIs('login')">
 						{{ __('Login') }}
 					</x-nav-link>
+					<x-nav-link :href="route('register')" :active="request()->routeIs('register')">
+						{{ __('Registrati') }}
+					</x-nav-link>
 				</div>
 			@endauth
 
@@ -112,6 +115,13 @@
 				{{ __('Statistiche') }}
 			</x-responsive-nav-link>
 		</div>
+		@if(Auth::user()->is_admin)
+			<div class="pt-2 pb-3 space-y-1">
+				<x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+				{{ __('Amministrazione') }}
+				</x-responsive-nav-link>
+			</div>
+		@endif
 
 		
 		<!-- Responsive Settings Options -->
