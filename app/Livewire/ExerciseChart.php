@@ -7,6 +7,10 @@ use App\Models\ExerciseData;
 
 class ExerciseChart extends Component
 {
+	// Necessario per il CRUD
+	public $user_id = null;
+	public $crud_ui = false;
+
 	public $exercise_id;
 	public $switch_view = 0;
 	public $exercise_data;
@@ -57,7 +61,12 @@ class ExerciseChart extends Component
 	public function repeteadedQuery()
 	{
 		$this->exercise_data = ExerciseData::where('exercise_id', $this->exercise_id)
-			->where('user_id', auth()->id())
+			// la prima funzione viene eseguita quando la condizione e' vera, la seconda quando e' falsa
+			->when($this->user_id, function ($query) {
+				return $query->where('user_id', $this->user_id);
+			}, function ($query) {
+				return $query->where('user_id', auth()->id());
+			})
 			// 'when' viene eseguito solo quando la condizione e' soddisfatta
 			->when($this->filter !== '0', function ($query) {
 				return $query->where('created_at', '>=', now()->subMonths($this->filter));

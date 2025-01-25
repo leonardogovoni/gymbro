@@ -7,5 +7,9 @@
 		</div>
 	</x-slot>
 
-	@livewire('exercise-chart', ['exercise_id' => $selectedExercise->id])
+	@vite(['resources/js/stats_chart.js'])
+
+	<div class="content-div max-w-5xl">
+		<livewire:exercise-chart :exercise_id="$selectedExercise->id" />
+	</div>
 </x-app-layout>

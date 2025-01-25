@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin', [CrudController::class, 'index'])->name('admin.dashboard');
         Route::get('/admin/users', [CrudController::class, 'users'])->name('admin.users');
         Route::get('/admin/workout_plans', [CrudController::class, 'workout_plans'])->name('admin.workout_plans');
+        Route::get('/admin/progress', [CrudController::class, 'progress'])->name('admin.progress');
+        Route::get('/admin/progress/chart', [CrudController::class, 'progress_chart'])->name('admin.progress_chart');
     });
 });
 

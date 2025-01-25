@@ -55,4 +55,9 @@ class User extends Authenticatable
         // Terzo parametro: nome chiave nella classe user (relazione 1)
         return $this->hasMany(WorkoutPlan::class, 'user_id', 'id');
     }
+
+    public function exercises_data(): HasMany
+    {
+        return $this->hasMany(ExerciseData::class, 'user_id', 'id');
+    }
 }

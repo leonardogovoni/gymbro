@@ -20,4 +20,20 @@ class CrudController extends Controller
     {
         return view('crud.workout_plans');
     }
+
+    public function progress()
+    {
+        return view('crud.progress');
+    }
+
+    public function progress_chart(Request $request)
+    {
+        if(is_null($request->input('user_id')) || is_null($request->input('exercise_id')))
+            return redirect()->route('admin.progress'); 
+
+        return view('crud.progress_chart', [
+            'user_id' => $request->input('user_id'),
+            'exercise_id' => $request->input('exercise_id')
+        ]);
+    }
 }

@@ -1,7 +1,7 @@
 // Importazione dei moduli
 import Chart from 'chart.js/auto';
 
-document.addEventListener('livewire:init', function () {
+// document.addEventListener('livewire:init', function () {
 	const ctx = document.getElementById('exerciseChart').getContext('2d');
 	let chart = null;
 
@@ -170,4 +170,4 @@ document.addEventListener('livewire:init', function () {
 			}
 		}
 	}
-});
+// });
