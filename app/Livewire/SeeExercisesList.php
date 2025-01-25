@@ -22,12 +22,11 @@ class SeeExercisesList extends Component
 
 	public function render()
 	{
-		if(is_null($this->category_parameter) || $this->category_parameter == 'all')
-			$result = Exercise::where('name', 'like', '%'.$this->search_parameter.'%')->get();
-		else
-			$result = Exercise::where('name', 'like', '%'.$this->search_parameter.'%')
-						->where('muscle', '=', $this->categories[$this->category_parameter])
-						->get();
+		$result = Exercise::where('name', 'like', '%'.$this->search_parameter.'%')
+			->when($this->category_parameter && $this->category_parameter != 'all', function ($query) {
+				$query->where('muscle', '=', $this->categories[$this->category_parameter]);
+			})
+			->get();
 
 		return view('livewire.see-exercises-list', [
 			'results' => $result,

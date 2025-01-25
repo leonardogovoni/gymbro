@@ -13,7 +13,7 @@ document.addEventListener('livewire:init', function () {
 
 	Livewire.on('updateChartReps', (exerciseData) => {
 		const data = getDataForChart(exerciseData, 'reps');
-		createChart('used_weights', data[0], data[1]);
+		createChart('reps', data[0], data[1]);
 	});
 
 	// ==================================================
@@ -65,7 +65,7 @@ document.addEventListener('livewire:init', function () {
 		// Se il grafico e' gia' esistente, lo aggiorna, altrimenti lo crea!
 		// Questo previene il glitch grafico della pagina
 		if (chart !== null) {
-			updateChart([labels, datasets]);
+			updateChart([labels, datasets], type);
 			return;
 		}
 
@@ -114,9 +114,15 @@ document.addEventListener('livewire:init', function () {
 		});
 	};
 
-	function updateChart (data) {
+	function updateChart (data, type) {
 		chart.data.labels = data[0];
 		chart.data.datasets = data[1];
+
+		// Aggiorna la barra Y
+		chart.options.scales.y = {
+			beginAtZero: true,
+			...getCoordinateObject(type === 'used_weights' ? 'Kg' : 'Ripetizioni')
+		}
 
 		// Importante il resize(), senza appare
 		// zoomato e completamente rotto

@@ -20,7 +20,7 @@
 							</select>
 
 							<!-- Switch tra Kg e Reps -->
-							<select id="switchView" wire:model.live="switchView" class="input-text flex-1">
+							<select id="switch_view" wire:model.live="switch_view" class="input-text flex-1">
 								<option value="0">Carico (Kg)</option>
 								<option value="1">Ripetizioni</option>
 							</select>
@@ -28,7 +28,7 @@
 					</div>
 
 					<!-- Div per il grafico Kgs -->
-					@if ($showGraph < 2)
+					@if ($show_graph < 2)
 						<p>
 							Non sono presenti abbastanza dati per visualizzare un grafico.
 							Sono necessari almeno due allenamenti!
@@ -46,21 +46,21 @@
 						<table class="w-full rounded-lg">
 							<thead>
 								<tr class="bg-gray-200 dark:bg-gray-700">
-									<th class="p-2 border border-gray-300 dark:border-gray-600 w-1/3">{{ $switchView ? 'Rip. massime' : 'Carico massimo'}}</th>
-									<th class="p-2 border border-gray-300 dark:border-gray-600 w-1/3">{{ $switchView ? 'Rip. minime' : 'Carico minimo'}}</th>
+									<th class="p-2 border border-gray-300 dark:border-gray-600 w-1/3">{{ $switch_view ? 'Rip. massime' : 'Carico massimo'}}</th>
+									<th class="p-2 border border-gray-300 dark:border-gray-600 w-1/3">{{ $switch_view ? 'Rip. minime' : 'Carico minimo'}}</th>
 									<th class="p-2 border border-gray-300 dark:border-gray-600 w-1/3">Media</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
 									<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100 w-1/3">
-										<p class="text-gray-500">{{ $switchView ? ($maxRep ?? '?') : ($maxKg ?? '?') }}</p>
+										<p class="text-gray-500">{{ $switch_view ? ($maxRep ?? '?') : ($maxKg ?? '?') }}</p>
 									</td>
 									<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100 w-1/3">
-										<p class="text-gray-500">{{ $switchView ? ($minRep ?? '?') : ($minKg ?? '?') }}</p>
+										<p class="text-gray-500">{{ $switch_view ? ($minRep ?? '?') : ($minKg ?? '?') }}</p>
 									</td>
 									<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100 w-1/3">
-										<p class="text-gray-500">{{ $switchView ? ($averageRep ?? '?') : ($averageKg ?? '?') }}</p>
+										<p class="text-gray-500">{{ $switch_view ? ($averageRep ?? '?') : ($averageKg ?? '?') }}</p>
 									</td>
 								</tr>
 							</tbody>
