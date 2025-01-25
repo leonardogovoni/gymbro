@@ -1,17 +1,17 @@
 // TIMER VARIABLES
 let timer;
-var rest;
-var nextRest;
+let originalTime;
 let isRunning = false;
 let timeRemaining;
 
 // ========================================
-
 // DOM ELEMENTS
-// Floating button elements
+
+// Pulsanti
 const openButton = document.getElementById('timerFloatingButton');
 const floatingText = document.getElementById('timerFloatingText');
-// Modal elements
+
+// Elementi modali
 const modal = document.getElementById('timerModal');
 const text = document.getElementById('timerText');
 const progressBar = document.getElementById('timerProgressBar');
@@ -19,46 +19,42 @@ const reduceButton = document.getElementById('timerReduce');
 const stopButton = document.getElementById('timerStop');
 
 // ========================================
-
 // EVENT LISTENERS FOR LIVEWIRE
-// Gets rest time from the form everytime the exercise changes
+
+// Eseguito una sola volta al caricamento della pagina
+// o quando viene cambiato un esercizio
 Livewire.on('newRestTime', (restTime) => {
-	if(isRunning)
-		nextRest = restTime[0];
-	else {
-		rest = restTime[0];
-		timeRemaining = rest;
-		updateText();
-	}
+	// originalTime e' una costante, dichiarata 'let' solo per questioni di scope, non viene mai sovrascritta
+	// al di fuori di questa funzione, indica il tempo originale dell'esercizio
+	originalTime = restTime[0];
+	
+	// Aggiorna il tempo rimanente, questa variabile verra' modificata
+	timeRemaining = restTime[0];
+	updateText();
 });
 
 // ========================================
-
 // EVENT LISTENERS FOR BUTTONS
-openButton.addEventListener('click', function(event) {
+
+openButton.addEventListener('click', () => {
 	modal.classList.remove('hidden');
 
-	if(!isRunning)
-		startTimer();
+	// Avvia il timer solo se non gia' attivo
+	!isRunning && startTimer();
 });
 
-reduceButton.addEventListener('click', function() {
-	modal.classList.add('hidden');
-});
-
-stopButton.addEventListener('click', stopTimer());
+reduceButton.addEventListener('click', () => modal.classList.add('hidden'));
+stopButton.addEventListener('click', () => stopTimer());
 
 // ========================================
-
 // FUNCTIONS
-function startTimer() {
-	if (isRunning)
-		return;
 
+function startTimer () {
+	if (isRunning) return;
 	isRunning = true;
 
-	timer = setInterval(function() {
-		if (timeRemaining == 0) {
+	timer = setInterval( () => {
+		if (timeRemaining === 0) {
 			stopTimer();
 			return;
 		}
@@ -70,12 +66,11 @@ function startTimer() {
 	}, 1000);
 }
 
-function stopTimer() {
+function stopTimer () {
 	clearInterval(timer);
 
 	isRunning = false;
-	rest = nextRest;
-	timeRemaining = rest;
+	timeRemaining = originalTime;
 	
 	updateText();
 	updateProgressBar();
@@ -83,17 +78,19 @@ function stopTimer() {
 	modal.classList.add('hidden');
 }
 
-function updateText() {
+function updateText () {
 	let minutes = Math.floor(timeRemaining / 60);
 	let seconds = timeRemaining % 60;
-	// Adds a zero in front of seconds if lower than 10
+
+	// Aggiunge uno zero se il numero di secondi e' minore di 10,
+	// serve ad allineare le scritte
 	seconds = seconds < 10 ? '0' + seconds : seconds;
 
 	text.textContent = `${minutes}:${seconds}`;
 	floatingText.textContent = `${minutes}:${seconds}`;
 }
 
-function updateProgressBar() {
-	const percentage = (timeRemaining / rest) * 100;
+function updateProgressBar () {
+	const percentage = (timeRemaining / originalTime) * 100;
 	progressBar.style.width = `${percentage}%`;
 }

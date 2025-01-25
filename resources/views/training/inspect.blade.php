@@ -21,10 +21,11 @@
 	<!-- Timer floating button -->
 	<a id="timerFloatingButton" class="cursor-pointer fixed bottom-16 left-6 bg-blue-500 text-white text-lg font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 flex items-center space-x-2">
 		<x-mdi-timer-sand class="h-6"/>
-
-		<span id="timerFloatingText">0</span>
+		<span id="timerFloatingText">
+			0
+		</span>
 	</a>
-	
+
 	<!-- Timer modal -->
 	<div id="timerModal" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden transition">
 	    <div class="bg-white p-8 rounded-lg shadow-xl max-w-xs w-full text-center">
@@ -34,8 +35,15 @@
 	            <div id="timerProgressBar" class="bg-blue-500 h-4 rounded-full" style="width: 100%"></div>
 	        </div>
 
-	        <button id="timerReduce" class="bg-yellow-500 text-white py-2 px-4 rounded-lg mr-4">Riduci</button>
-	        <button id="timerStop" class="bg-red-500 text-white py-2 px-4 rounded-lg">Interrompi e chiudi</button>
+	        <!-- Contenitore per i pulsanti -->
+        	<div class="flex justify-center space-x-4">
+				<button id="timerReduce" class="bg-yellow-500 text-white py-2 px-4 rounded-lg">
+					Riduci
+				</button>
+				<button id="timerStop" class="bg-red-500 text-white py-2 px-4 rounded-lg">
+					Termina
+				</button>
+			</div>
 	    </div>
 	</div>
 
