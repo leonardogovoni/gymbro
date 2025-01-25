@@ -28,6 +28,9 @@ Livewire.on('newRestTime', (restTime) => {
 	// al di fuori di questa funzione, indica il tempo originale dell'esercizio
 	originalTime = restTime[0];
 	
+	// Gestisce il cambio di esercizio in caso il timer stia ancora funzionando
+	if (isRunning) return;
+
 	// Aggiorna il tempo rimanente, questa variabile verra' modificata
 	timeRemaining = restTime[0];
 	updateText();

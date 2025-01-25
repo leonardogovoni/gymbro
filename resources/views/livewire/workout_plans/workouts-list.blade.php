@@ -1,6 +1,15 @@
 <div class="py-12">
 	<div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-		<div class="bg-gray-200 dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg">
+		<div class="overflow-hidden shadow-sm sm:rounded-lg">
+			<!-- div per gli errori durante la validazione -->
+			@if(session('error'))
+				<div class="flex items-center p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+					<x-mdi-information-outline class="h-6 me-2" />
+
+					<p class="text-lg">{{ session('error') }}</p>
+				</div>
+			@endif
+
 			<div class="p-6 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
 				@if ($workout_plans->isEmpty())
 					<p>Non ci sono schede da mostrare.</p>
