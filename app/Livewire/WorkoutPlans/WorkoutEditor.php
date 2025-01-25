@@ -66,6 +66,7 @@ class WorkoutEditor extends Component
 		return $this->workout_plan->exercises()->where('day', $day)->orderBy('order')->get();
 	}
 
+	// Necessario per usare il componente nel CRUD
 	#[On('workout-plan-changed')]
 	public function reloadDays()
 	{

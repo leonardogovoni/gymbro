@@ -1,22 +1,25 @@
-<div x-data="{showDeleteModal: false, id: 0, showDetailsModal: $wire.entangle('showDetailsModal')}">
+<div x-data="{showDeleteModal: false, showDetailsModal: $wire.entangle('show_details_modal'), userId: $wire.entangle('user_id')}">
 	<!-- User list -->
 	<div class="mx-auto max-w-screen-xl py-4 px-4 lg:px-12">
 		<div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
 			<!-- Top bar -->
 			<div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 				<div class="w-full md:w-1/2">
-					<form class="flex items-center">
+					<div class="flex items-center">
 						<div class="relative w-full">
 							<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 								<x-mdi-magnify class="w-5 h-5 text-gray-500 dark:text-gray-400" />
 							</div>
+
 							<input type="text" wire:model.live="search_parameter" placeholder="Cerca" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-9 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
 						</div>
-					</form>
+					</div>
 				</div>
 
 				<div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-					<button type="button" x-on:click="$wire.create()" class="primary-button">Nuova scheda</button>
+					<button x-cloak x-show="userId"  wire:click="removeFilter" class="danger-button">Rimuovi filtri ricerca</button>
+					
+					<button type="button" wire:click="create" class="primary-button">Nuova scheda</button>
 				</div>
 			</div>
 
@@ -77,16 +80,16 @@
 	<!-- Details modal -->
 	<!-- Using the same modal for create, edit and inspect -->
 	<div x-cloak x-show="showDetailsModal" x-transition.opacity class="modal-bg">
-		<form wire:submit="save" class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
+		<div class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
 			<h4 class="inline-flex items-center mb-4 text-md font-semibold text-gray-600 uppercase dark:text-gray-500">
-				@if($new && !$edit)
+				@if($new && is_null($modal_plan))
 					Nuova scheda
-				@elseif(!$new && $edit)
+				@elseif(!$new && $modal_plan)
 					Modifica scheda
 				@endif
 			</h4>
 	
-			<button x-on:click="showDetailsModal = false" type="button" class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+			<button x-on:click="showDetailsModal=false" type="button" class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
 				<x-mdi-close class="w-5 h-5" />
 			</button>
 	
@@ -96,50 +99,73 @@
 
 				<div>
 					<label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titolo</label>
-					<input id="title" type="text" class="input-text" required maxlength="100" wire:model="title" />
+					<input id="title" type="text" class="input-text" required maxlength="100" wire:model="title" required />
 				</div>
+
 				<div>
 					<label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descrizione</label>
 					<textarea id="description" class="input-text" maxlength="500" wire:model="description">
 					</textarea>
 				</div>
+
 				<div>
-					<label for="enabled" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Default</label>
-					<select id="enabled" class="input-text" wire:model="default">
-						<option value="1">Si</option>
-						<option value="0">No</option>
-					</select>
+					<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Default</label>
+					@if($modal_plan && !$modal_plan->enabled)
+						<div class="w-full flex gap-2">
+							<input id="default" type="text" class="input-text w-2/3" value="No" disabled />
+
+							<button type="button" class="secondary-button w-1/3" wire:click="makeDefault">Rendi default</button>
+						</div>
+					@elseif($modal_plan && $modal_plan->enabled)
+						<input id="default" type="text" class="input-text" value="Si" disabled />
+					@elseif(is_null($modal_plan) && $new)
+						<select id="default" class="input-text" wire:model="default">
+							<option value="0" selected>No</option>
+							<option value="1">Si</option>
+						</select>
+					@endif
 				</div>
+				{{-- IMPLEMENTARE GESTITO DA PLAESTRA --}}
 				<div>
 					<label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Utente</label>
-					<input id="user_id" type="number" min="0" class="input-text" 
-						@if($edit) value="{{ $modal_plan->user_id }}" disabled @endif
-						@if($new && $new_plan_user_id==null) required @endif
-						@if($new && $new_plan_user_id!=null) value="{{ $new_plan_user_id }}" disabled @endif
+					<input id="user_id" type="number" min="0" class="input-text" wire:model="new_plan_user_id"
+					@if(!$new && $modal_plan)
+						disabled
+					@elseif($new && is_null($modal_plan))
+						required
+					@endif
 					/>
 				</div>
+
+				@if($new && $user_not_found)
+					<div class="flex items-center p-4 text-md text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800">
+						Utente non trovato, controlla l'ID inserito.
+					</div>
+				@endif
+
+				@if(!$new && $modal_plan)
+					<div class="flex justify-center">
+						<button wire:click="save" class="primary-button">Salva modifiche</button>
+					</div>
+				@endif
 			</div>
 
 			{{-- Esericizi --}}
-			@if($modal_plan)
+			@if(!is_null($modal_plan))
 				<div class="py-4">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400 pb-4">Esericizi</h5>
 
 					<livewire:workout_plans.workout-editor :workout_plan="$modal_plan" :reload_days="true" :show_desc_editor="false" />
 				</div>
-			@else
-				<div class="my-4 flex items-center p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800">
-					<x-mdi-exclamation-thick class="h-6 me-2" />
+			@elseif($new)
+				<div class="my-4 flex items-center p-4 mb-4 text-md text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800">
+					È necessario creare la scheda prima di poter aggiungere degli esercizi, potrai poi aggiungerli cercandola nella dashboard e premendo modifica.
+				</div>
 
-					<p class="text-base">È necessario creare la scheda prima di poter aggiungere degli esercizi, potrai poi aggiungerli cercandola nella dashboard e premendo modifica.</p>
+				<div class="flex justify-center">
+					<button wire:click="save" class="primary-button">Crea scheda</button>
 				</div>
 			@endif
-
-			@if($new)
-				<div class="flex justify-center pt-2">
-					<button type="submit" class="primary-button">Crea scheda</button>
-				</div>
-			@endif
-		</form>
+		</div>
 	</div>
 </div>
