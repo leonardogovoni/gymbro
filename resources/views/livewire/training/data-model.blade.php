@@ -64,7 +64,7 @@
 									</td>
 								@endif
 								<td class="border border-gray-300 dark:border-gray-600">
-									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" step=".01" required wire:model="used_weights.{{ $set-1 }}" placeholder="Inserisci carico" />
+									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" step=".01" required wire:model.live="used_weights.{{ $set-1 }}" placeholder="Inserisci carico" />
 								</td>
 								<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100">
 									<p class="text-gray-500">{{ $last_training_weights[$set-1] }}</p>

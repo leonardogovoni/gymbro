@@ -47,7 +47,8 @@ class DataModel extends Component
 			ExerciseData::create([
 				'user_id' => auth()->id(),
 				'exercise_id' => $this->exercises()[$this->current_index]->id,
-				'workout_plan_pivot_id' => $this->exercises()[$this->current_index]->pivot->id,
+				'workout_plan_pivot_id' => $this->workout_plan->id,
+				'day' => $this->day,
 				'set' => $index + 1,
 				'reps' => $this->reps[$index],
 				'used_weights' => $weight
@@ -84,6 +85,7 @@ class DataModel extends Component
 			$this->reps = $this->get_exercise_reps($this->exercises()[$this->current_index]->pivot->id);
 			$this->last_training_weights = $this->get_last_training_weights($this->exercises()[$this->current_index]->pivot->id);
 			$this->last_training_reps = $this->get_last_training_reps($this->exercises()[$this->current_index]->pivot->id);
+			$this->used_weights = [];
 
 			if(!$this->is_to_failure && $this->reps != $this->last_training_reps && $this->last_training_reps[0] != "Non disponibile")
 				$this->show_last_training_reps = true;

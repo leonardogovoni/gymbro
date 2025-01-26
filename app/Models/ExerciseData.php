@@ -18,6 +18,7 @@ class ExerciseData extends Model
         'user_id',
         'exercise_id',
         'workout_plan_pivot_id',
+        'day',
         'set',
         'reps',
         'used_weights'
