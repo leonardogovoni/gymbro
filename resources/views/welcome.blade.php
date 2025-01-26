@@ -54,7 +54,7 @@
 											</p>
 										</div>
 
-										<img class="object-cover w-full h-auto lg:w-96 md:w-48 md:h-full md:rounded-none md:rounded-s-lg" src="{{ asset('images/dashboard/allenamenti.jpg') }}" alt="">
+										<img class="object-cover w-full h-auto lg:w-96 md:w-48 md:h-full md:rounded-none md:rounded-e-lg" src="{{ asset('images/dashboard/allenamenti.jpg') }}" alt="">
 									</a>
 
 									<a href="" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm lg:max-w-4xl md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
