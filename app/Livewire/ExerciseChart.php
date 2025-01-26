@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\ExerciseData;
+use App\Models\WorkoutPlan;
 
 class ExerciseChart extends Component
 {
@@ -13,30 +14,45 @@ class ExerciseChart extends Component
 
 	public $exercise_id;
 	public $switch_view = 0;
+	public $switch_day = 0;
+	public $switch_plan = 0;
 	public $exercise_data;
+	public $exercise_data_begin;
+	public $workout_plan_ids;
 
 	// Numero di mesi di cui visualizzare gli esercizi, default: 3
 	public $filter = '3';
 
 	public function render()
 	{
+		$this->fixDaysQuery();
+		$days = $this->exercise_data_begin->pluck('day')->unique()->sort()->values();
+
 		// Stessa query richiamata piu' volte, a sto punto...
 		$this->repeteadedQuery();
 
-		// workaround per ottenere il numero di serie totali dell'esercizio coinvolto, quindi X x N
-		// Nota: considerato che il calcolo viene svolto sotto, non si puo' dividere per 0, pero' 1:0 = 0
-		// BUG [TODO]: vedere Notion
-		$series = $this->exercise_data->count() === 0 ? 1 : $this->exercise_data[$this->exercise_data->count() - 1]->set;
+		// Estrai i nomi delle schede (workout_plan) in un array
+		//$workout_plan = $this->exercise_data->pluck('workoutPlan.title')->filter(); // Rimuove i nulli
+		$this->workout_plan_ids = WorkoutPlan::join('exercises_data', 'workout_plans.id', '=', 'exercises_data.workout_plan_pivot_id')
+			->distinct()
+			->pluck('workout_plans.id');
+		
+		$workout_plan = WorkoutPlan::whereIn('id', $this->workout_plan_ids)  // Seleziona i workout_plan con gli ID estratti
+			->pluck('title');
 
-		// Calcolo della media dei pesi usati
-		$maxKg = $this->exercise_data->max('used_weights');
-		$minKg = $this->exercise_data->min('used_weights');
-		$averageKg = round($this->exercise_data->avg('used_weights'), 2);
+		// Estrai i pesi e le ripetizioni in array separati
+		$weights = $this->exercise_data->pluck('used_weights');
+		$reps = $this->exercise_data->pluck('reps');
 
-		// Calcolo della media delle ripetizioni
-		$maxRep = $this->exercise_data->max('reps');
-		$minRep = $this->exercise_data->min('reps');
-		$averageRep = round($this->exercise_data->avg('reps'), 2);
+		// Raccolta dei dati in un array
+		$exercise_stats = [
+			'max_kg' => $weights->max(),
+			'min_kg' => $weights->min(),
+			'average_kg' => round($weights->avg(), 2),
+			'max_rep' => $reps->max(),
+			'min_rep' => $reps->min(),
+			'average_rep' => round($reps->avg(), 2),
+		];
 
 		// Non eliminare questa funzione, grazie, la direzione.
 		$this->dispatch($this->switch_view ? 'updateChartReps' : 'updateChartKgs', $this->exercise_data);
@@ -45,48 +61,90 @@ class ExerciseChart extends Component
 		// sul frontend crea dei papiri per non renderla indecente.
 		return view('livewire.exercise-chart', [
 			'exercise_data' => $this->exercise_data,
-			'maxKg' => $maxKg,
-			'minKg' => $minKg,
-			'averageKg' => $averageKg,
-			'maxRep' => $maxRep,
-			'minRep' => $minRep,
-			'averageRep' => $averageRep,
-
-			// Ottiene il numero effettivo di allenamenti caricati, in quanto i dati presenti nel DB sono moltiplicati
-			// per il numero di serie, un allenamento 3x10 conta 3 volte etc...
-			'show_graph' => $this->exercise_data->count() / $series
+			'exercise_stats' => $exercise_stats,
+			'workout_plans' => $workout_plan,
+			'workout_plan_ids' => $this->workout_plan_ids,
+			'days' => $days
 		]);
 	}
-	
+
+	private function fixDaysQuery()
+	{
+		$query = ExerciseData::where('exercise_id', $this->exercise_id);
+
+		// Gestire il filtro per user_id
+		$query->when($this->user_id, function ($query) {
+			return $query->where('user_id', $this->user_id);
+		}, function ($query) {
+			return $query->where('user_id', auth()->id());
+		});
+
+		// Gestire il filtro per $this->filter (mesi)
+		$query->when($this->filter !== '0', function ($query) {
+			return $query->where('created_at', '>=', now()->subMonths($this->filter));
+		});
+
+		$this->exercise_data_begin = $query->select('day')->orderBy('created_at')->get();
+	}
+
 	public function repeteadedQuery()
 	{
-		$this->exercise_data = ExerciseData::where('exercise_id', $this->exercise_id)
-			// la prima funzione viene eseguita quando la condizione e' vera, la seconda quando e' falsa
-			->when($this->user_id, function ($query) {
-				return $query->where('user_id', $this->user_id);
-			}, function ($query) {
-				return $query->where('user_id', auth()->id());
-			})
-			// 'when' viene eseguito solo quando la condizione e' soddisfatta
-			->when($this->filter !== '0', function ($query) {
-				return $query->where('created_at', '>=', now()->subMonths($this->filter));
-			})
-			->orderBy('created_at')
-			->get();
+		$query = ExerciseData::where('exercise_id', $this->exercise_id);
+
+		// Gestire il filtro per user_id
+		$query->when($this->user_id, function ($query) {
+			return $query->where('user_id', $this->user_id);
+		}, function ($query) {
+			return $query->where('user_id', auth()->id());
+		});
+
+		// Gestire il filtro per $this->filter (mesi)
+		$query->when($this->filter !== '0', function ($query) {
+			return $query->where('created_at', '>=', now()->subMonths($this->filter));
+		});
+
+		// Gestire il filtro per $this->switch_plan
+		$query->when((int) $this->switch_plan !== 0, function ($query) {
+			return $query->where('workout_plan_pivot_id', $this->workout_plan_ids[$this->switch_plan-1]);
+		});
+
+		// Gestire il filtro per $this->switch_day
+		$query->when((int) $this->switch_day !== 0, function ($query) {
+			return $query->where('day', $this->switch_day);
+		});
+
+		// Ordina i risultati
+		$this->exercise_data = $query->orderBy('created_at')->get();
 	}
-	
+
 	// ==================================================
 	// Listener delle variabili del file Blade
 
-	public function updatedFilter()
+	public function recall()
 	{
 		$this->repeteadedQuery();
 		$this->dispatch($this->switch_view ? 'updateChartReps' : 'updateChartKgs', $this->exercise_data);
+	}
+
+	public function updatedFilter()
+	{
+		$this->recall();
 	}
 
 	public function updatedSwitchView()
 	{
-		$this->repeteadedQuery();
-		$this->dispatch($this->switch_view ? 'updateChartReps' : 'updateChartKgs', $this->exercise_data);
+		$this->recall();
 	}
+
+	public function updatedSwitchPlan()
+	{
+		$this->recall();
+	}
+
+	public function updatedSwitchDay()
+	{
+		$this->recall();
+	}
+
+
 }
