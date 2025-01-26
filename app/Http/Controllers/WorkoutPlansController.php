@@ -8,16 +8,9 @@ use Illuminate\Validation\ValidationException;
 
 class WorkoutPlansController extends Controller
 {
-	// Metodo per visualizzare la pagina e recuperare le schede
 	public function index(Request $request)
 	{
-		// Recupera tutte le schede dell'utente dal database
-		$workout_plans = $request->user()->workout_plans;
-
-		// Passa i dati alla vista
-		return view('workout_plans.list', [
-			'workout_plans' => $workout_plans
-		]);
+		return view('workout_plans.list');
     }
 
 	// Metodo per gestire i dati inviati dal form
@@ -26,8 +19,8 @@ class WorkoutPlansController extends Controller
 		try {
 			// Validazione dei dati
 			$validatedData = $request->validate([
-				'workout_plan_name' => 'required|string|max:100',
-				'workout_plan_description' => 'nullable|string|max:400',
+				'name' => 'required|string|max:100',
+				'description' => 'nullable|string|max:400',
 			]);
 
 			// Recupera tutte le schede dal database
@@ -39,8 +32,8 @@ class WorkoutPlansController extends Controller
 				'user_id' => auth()->id(),
 
 				// Valori inseriti nel form
-				'title' => $validatedData['workout_plan_name'],
-				'description' => $validatedData['workout_plan_description'],
+				'title' => $validatedData['name'],
+				'description' => $validatedData['description'],
 
 				// default: false, true se e' l'unica scheda creata
 				'enabled' => $workout_plans === 0 ? true : false

@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class WorkoutsList extends Component
 {
-	public $show_delete_modal = 0;
-
 	public function render()
 	{
 		// Non e' possibile utilizzare $request nei componenti Livewire, si passa ad Auth
@@ -19,8 +17,7 @@ class WorkoutsList extends Component
 		$show_delete_modal = false;
 		
 		return view('livewire.workout_plans.workouts-list', [
-			'workout_plans' => $workout_plans,
-			'show_delete_modal' => $this->show_delete_modal
+			'workout_plans' => $workout_plans
 		]);
 	}
 
@@ -48,15 +45,12 @@ class WorkoutsList extends Component
 		return view('livewire.workout_plans.workouts-list');
 	}
 
-	public function delete($wp) {
-		// Indipendentemente dall'esito, il modale va chiuso
-		$this->show_delete_modal = 0;
-		
-		$user = Auth::user();
-		$delete_wp = WorkoutPlan::findOrFail($wp);
+	public function delete($id) {
+		// Ritorna null se non trova nulla
+		$workout_plan = Auth::user()->workout_plans()->where('id', $id)->first();
 
-		if ($delete_wp)
-			$delete_wp->delete();
+		// Cancella solo se non è null
+		$workout_plan && $workout_plan->delete();
 
 		return view('livewire.workout_plans.workouts-list');
 	}

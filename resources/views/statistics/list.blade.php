@@ -7,7 +7,7 @@
 		</div>
 	</x-slot>
 
-	<div class="blue-alert max-w-5xl mx-auto mt-4">
+	<div class="blue-alert max-w-5xl mx-auto mt-4 text-sm">
 		<x-mdi-exclamation-thick class="h-5 me-2" />
 
 		<p class="text-base">Seleziona l'esercizio di cui vuoi vedere le statistiche. Ti vengono mostrati solo gli esercizi dei quali hai registrato almeno un allenamento.</p>
