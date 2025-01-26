@@ -8,7 +8,7 @@
 	@endif
 
 	@if($this->show_last_training_reps == true && $this->is_to_failure == false)
-	<div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
+	<div class="blue-alert">
 		<x-mdi-exclamation-thick class="h-6 me-2" />
 
 		<p class="text-base">Ti mostriamo anche le ripetizioni svolte nell'ultimo allenamento in quanto non corrispondono a quelle segnate in scheda.</p>

@@ -23,7 +23,11 @@
 }
 
 .content-div {
-	@apply bg-white dark:bg-gray-800 overflow-hidden shadow-lg border sm:rounded-lg flex items-center justify-center p-4 mt-6 mx-auto
+	@apply bg-white dark:bg-gray-800 overflow-hidden shadow-lg border sm:rounded-lg flex items-center justify-center p-4 mt-4 mx-auto
+}
+
+.blue-alert {
+	@apply flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800 mx-4 lg:mx-auto
 }
 
 .switch {

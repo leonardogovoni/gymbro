@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Exercise;
-use App\Models\ExerciseData;
 
-class ExercisesListController extends Controller
+use Illuminate\Http\Request;
+
+class StatisticsController extends Controller
 {
+    // Mostra la lista degli esercizi SVOLTI, non tutti
     public function index()
     {
-        $exercises = Exercise::all(); // Recupera tutti gli esercizi
-
-        return view('statistics.exercises_list', compact('exercises'));
+        return view('statistics.list');
     }
 
     public function inspect($exercise, Request $request)

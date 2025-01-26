@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CrudController;
-use App\Http\Controllers\ExercisesListController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\WorkoutPlansController;
@@ -29,8 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/training/inspect/{workout_plan_id}/{day}', [TrainingController::class, 'inspect'])->name('training.inspect');
 
     // Pagina statistiche
-    Route::get('/statistics/exercises-list', [ExercisesListController::class, 'index'])->name('exercises-list');
-    Route::get('/exercises/{exercise}/stats', [ExercisesListController::class, 'inspect'])->name('exercises-list.exercise-stats');
+    Route::get('/statistics/exercises-list', [StatisticsController::class, 'index'])->name('exercises-list');
+    Route::get('/exercises/{exercise}/stats', [StatisticsController::class, 'inspect'])->name('exercises-list.exercise-stats');
 
     // Pagine CRUD
     Route::middleware([Admin::class])->group(function () {
