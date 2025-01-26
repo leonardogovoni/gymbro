@@ -23,7 +23,7 @@ class WorkoutEditor extends Component
 	// Variabili per modal di aggiunta
 	public $categories;
 	public $search_parameter;
-	public $category_parameter;
+	public $category_parameter = 'all';
 	public $results;
 	public $add_day;
 	public $show_add_modal = false;
@@ -40,13 +40,11 @@ class WorkoutEditor extends Component
 	// Eseguito ogni volta che una variabile cambia
 	public function render()
 	{
-		// Ricerca esercizi
-		if(is_null($this->category_parameter) || $this->category_parameter == 'all')
-			$this->results = Exercise::where('name', 'like', '%'.$this->search_parameter.'%')->get();
-		else
-			$this->results = Exercise::where('name', 'like', '%'.$this->search_parameter.'%')
-						->where('muscle', '=', $this->categories[$this->category_parameter])
-						->get();
+		$this->results = Exercise::where('name', 'like', '%'.$this->search_parameter.'%')
+			->when($this->category_parameter != null && $this->category_parameter != 'all', function ($query) {
+				$query->where('muscle', '=', $this->categories[$this->category_parameter]);
+			})
+			->get();
 
 		$this->description = $this->workout_plan->description;
 

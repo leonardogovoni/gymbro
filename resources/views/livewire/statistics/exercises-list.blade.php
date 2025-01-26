@@ -11,8 +11,14 @@
 	</div>
 
 	<div class="mt-4 grid gap-4 text-gray-900 dark:text-gray-100">
+		@if($results->isEmpty())
+			<div class="text-center text-gray-600 dark:text-gray-400">
+				Non ci sono esercizi registrati per il filtro selezionato.
+			</div>
+		@endif
+
 		@foreach($results as $result)
-			<a href="{{ route('statistics.view', ['exercise_id' => $result->id]) }}">
+			<a href="{{ route('statistics.view', ['exercise_id' => $result]) }}">
 				<div class="bg-gray-100 flex items-center p-4 shadow-sm dark:bg-gray-800 hover:bg-blue-100 border rounded-lg">
 					<!-- Immagine -->
 					<img src="{{ asset('images/exercises/' . $result->image) }}" alt="{{ $result->name }}" class="w-32 h-32 object-contain mr-4">

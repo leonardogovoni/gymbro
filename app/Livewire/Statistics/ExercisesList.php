@@ -31,7 +31,7 @@ class ExercisesList extends Component
 					->distinct();
 			})
 			->where('name', 'like', '%'.$this->search_parameter.'%')
-			->when($this->category_parameter && $this->category_parameter != 'all', function ($query) {
+			->when($this->category_parameter != null && $this->category_parameter != 'all', function ($query) {
 				$query->where('muscle', '=', $this->categories[$this->category_parameter]);
 			})
 			->get();

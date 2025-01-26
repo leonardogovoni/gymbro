@@ -1,6 +1,5 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
-import lineClamp from '@tailwindcss/line-clamp';
 
 const colors = require('tailwindcss/colors');
 
@@ -11,19 +10,17 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: colors.emerald,
+                primary: colors.orange,
                 secondary: colors.slate,
             },
         },
     },
 
-    //plugins: [forms, lineClamp],
     plugins: [forms],
 };
