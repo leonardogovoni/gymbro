@@ -29,8 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/training/inspect/{workout_plan_id}/{day}', [TrainingController::class, 'inspect'])->name('training.inspect');
 
     // Pagina statistiche
-    Route::get('/statistics/exercises-list', [StatisticsController::class, 'index'])->name('exercises-list');
-    Route::get('/exercises/{exercise}/stats', [StatisticsController::class, 'inspect'])->name('exercises-list.exercise-stats');
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.list');
+    Route::get('/statistics/{exercise_id}', [StatisticsController::class, 'view'])->name('statistics.view');
 
     // Pagine CRUD
     Route::middleware([Admin::class])->group(function () {

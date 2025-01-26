@@ -12,7 +12,7 @@
 
 	<div class="mt-4 grid gap-4 text-gray-900 dark:text-gray-100">
 		@foreach($results as $result)
-			<a href="{{ route('exercises-list.exercise-stats', ['exercise' => $result]) }}">
+			<a href="{{ route('statistics.view', ['exercise_id' => $result->id]) }}">
 				<div class="bg-gray-100 flex items-center p-4 shadow-sm dark:bg-gray-800 hover:bg-blue-100 border rounded-lg">
 					<!-- Immagine -->
 					<img src="{{ asset('images/exercises/' . $result->image) }}" alt="{{ $result->name }}" class="w-32 h-32 object-contain mr-4">

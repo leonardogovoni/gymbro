@@ -14,20 +14,16 @@ class StatisticsController extends Controller
         return view('statistics.list');
     }
 
-    public function inspect($exercise, Request $request)
+    // Mostra le statistiche di un esercizio
+    public function view($exercise_id, Request $request)
     {
-        $selectedExercise = Exercise::find($exercise);
+        $exercise = Exercise::find($exercise_id);
+        if($exercise == null)
+            return redirect()->route('statistics.list');
 
-        // Recupera i dati dell'esercizio filtrando per exercise_id
-        $exerciseData = ExerciseData::where('exercise_id', $exercise)
-            ->where('user_id', auth()->id()) // Filtro per l'utente loggato
-            ->orderBy('created_at', 'asc')
-            ->get();
-
-        // Passa i dati al view come JSON
-        return view('statistics.exercise_stats', [
-            'selectedExercise' => $selectedExercise,
-            'exerciseData' => $exerciseData
+        return view('statistics.view-exercise', [
+            'exercise_id' => $exercise_id,
+            'exercise_name' => $exercise->name
         ]);
     }
 }
