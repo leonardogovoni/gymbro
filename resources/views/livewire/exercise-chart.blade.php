@@ -28,10 +28,8 @@
 				Sono necessari almeno due allenamenti!
 			</p>
 		@else
-			<div class="p-6 border rounded-lg">
-				<div class="w-full">
-					<canvas class="h-[400px] w-full" id="exerciseChart"></canvas>
-				</div>
+			<div class="p-6 border rounded-lg w-full h-[500px] relative overflow-auto">
+				<canvas id="exerciseChart"></canvas>
 			</div>
 		@endif
 
