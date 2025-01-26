@@ -16,14 +16,14 @@
 				Non ci sono esercizi registrati per il filtro selezionato.
 			</div>
 		@endif
-
+		
 		@foreach($results as $result)
-			<a href="{{ route('statistics.view', ['exercise_id' => $result]) }}">
-				<div class="bg-gray-100 flex items-center p-4 shadow-sm dark:bg-gray-800 hover:bg-blue-100 border rounded-lg">
+			<a href="{{ route('statistics.view', $result) }}">
+				<div class="bg-gray-100 flex items-center p-4 shadow-sm dark:bg-gray-800 hover:bg-hover-50 border rounded-lg">
 					<!-- Immagine -->
 					<img src="{{ asset('images/exercises/' . $result->image) }}" alt="{{ $result->name }}" class="w-32 h-32 object-contain mr-4">
 					
-						<!-- Informazioni -->
+					<!-- Informazioni -->
 					<div class="flex-1">
 						<h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">
 							{{ $result->name }}

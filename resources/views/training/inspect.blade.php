@@ -19,7 +19,7 @@
 	@vite(['resources/js/timer.js'])
 
 	<!-- Timer floating button -->
-	<a id="timerFloatingButton" class="cursor-pointer fixed bottom-16 left-6 bg-blue-500 text-white text-lg font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 flex items-center space-x-2">
+	<a id="timerFloatingButton" class="cursor-pointer fixed bottom-16 left-6 bg-primary-500 text-white text-lg font-bold py-2 px-4 rounded-full shadow-lg hover:bg-primary-600 flex items-center space-x-2">
 		<x-mdi-timer-sand class="h-6"/>
 		<span id="timerFloatingText">
 			0
@@ -32,7 +32,7 @@
 	        <div id="timerText" class="text-4xl font-bold mb-4"></div>
 
 	        <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
-	            <div id="timerProgressBar" class="bg-blue-500 h-4 rounded-full" style="width: 100%"></div>
+	            <div id="timerProgressBar" class="bg-primary-500 h-4 rounded-full" style="width: 100%"></div>
 	        </div>
 
 	        <!-- Contenitore per i pulsanti -->

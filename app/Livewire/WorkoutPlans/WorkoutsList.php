@@ -2,13 +2,20 @@
 
 namespace App\Livewire\WorkoutPlans;
 
-use Livewire\Component;
-
 use App\Models\WorkoutPlan;
 use Illuminate\Support\Facades\Auth;
 
+use Livewire\Component;
+use Livewire\Attributes\Validate;
+
 class WorkoutsList extends Component
 {
+	#[Validate('required', message: 'Il campo nome è obbligatorio.')]
+	public $title;
+	public $description;
+	public $edit_workout_plan;
+	public $show_edit_modal = false;
+
 	public function render()
 	{
 		// Non e' possibile utilizzare $request nei componenti Livewire, si passa ad Auth
@@ -45,7 +52,32 @@ class WorkoutsList extends Component
 		return view('livewire.workout_plans.workouts-list');
 	}
 
-	public function delete($id) {
+	public function edit($id)
+	{
+		$this->edit_workout_plan = Auth::user()->workout_plans()->where('id', $id)->first();
+
+		if($this->edit_workout_plan) {
+			$this->title = $this->edit_workout_plan->title;
+			$this->description = $this->edit_workout_plan->description;
+			$this->show_edit_modal = true;
+		}
+	}
+
+	public function save()
+	{
+		$this->validate();
+
+		if($this->edit_workout_plan)
+			$this->edit_workout_plan->update([
+				'title' => $this->title,
+				'description' => $this->description
+			]);
+
+		$this->show_edit_modal = false;
+	}
+
+	public function delete($id)
+	{
 		// Ritorna null se non trova nulla
 		$workout_plan = Auth::user()->workout_plans()->where('id', $id)->first();
 

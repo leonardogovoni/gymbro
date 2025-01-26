@@ -155,7 +155,7 @@
 				<div class="py-4">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400 pb-4">Esericizi</h5>
 
-					<livewire:workout_plans.workout-editor :workout_plan="$modal_plan" :reload_days="true" :show_desc_editor="false" />
+					<livewire:workout_plans.workout-editor :workout_plan="$modal_plan" :reload_days="true" />
 				</div>
 			@elseif($new)
 				<div class="my-4 flex items-center p-4 mb-4 text-md text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800">

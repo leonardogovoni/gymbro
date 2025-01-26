@@ -16,8 +16,9 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: colors.pink,
+                primary: colors.sky,
                 secondary: colors.slate,
+                hover: colors.blue,
             },
         },
     },

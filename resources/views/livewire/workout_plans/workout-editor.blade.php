@@ -1,14 +1,4 @@
-<div x-data="{showAddModal: $wire.entangle('show_add_modal'), addDay: $wire.entangle('add_day'), showEditModal: $wire.entangle('show_edit_modal')}">
-	@if($show_desc_editor)
-		<label for="desc" class="block text-sm font-medium text-gray-700">Descrizione</label>
-		<div class="w-full pb-4 pt-2">
-			<textarea class="input-text"
-				id="desc"
-				maxlength="500"
-				wire:model.live.debounce.250ms="description"></textarea>
-		</div>
-	@endif
-
+<div x-data="{showAddModal: $wire.entangle('show_add_modal'), addDay: $wire.entangle('add_day'), showEditModal: $wire.entangle('show_edit_modal'), showDeleteModal: false, deleteId: null}">
 	@if($days == 0)
 		<div class="flex items-center justify-center pb-4">
 			<p>Nessun giorno presente in questa scheda</p>
@@ -35,7 +25,7 @@
 									</div>
 
 									<x-mdi-pen class="h-6 fill-blue-600 hover:fill-blue-700" wire:click="loadEdit({{ $exercise->pivot->id }})" />
-									<x-mdi-close class="h-8 fill-red-600 hover:fill-red-700" wire:click="delete({{ $exercise->pivot->id }})" />
+									<x-mdi-close class="h-8 fill-red-600 hover:fill-red-700" x-on:click="deleteId={{ $exercise->pivot->id }}; showDeleteModal = true" />
 								</li>
 							@endforeach
 						@endif
@@ -175,6 +165,20 @@
 						</button>
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal elimina esercizio -->
+	<div x-cloak x-show="showDeleteModal" x-transition.opacity class="modal-bg">
+		<div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+			<x-mdi-trash-can-outline class="text-gray-400 dark:text-gray-500 w-11 h-11 mb-3.5 mx-auto" />
+
+			<p class="mb-4 text-gray-500 dark:text-gray-300">Sicuro di voler rimuovere questo esercizio?</p>
+		
+			<div class="flex justify-center items-center space-x-4">
+				<button x-on:click="showDeleteModal = false" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, annulla</button>
+				<button x-on:click="$wire.delete(deleteId); showDeleteModal = false" class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">Si, ne sono sicuro</button>
 			</div>
 		</div>
 	</div>

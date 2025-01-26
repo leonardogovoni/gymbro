@@ -11,9 +11,6 @@ use App\Models\Exercise;
 
 class WorkoutEditor extends Component
 {
-	public $show_desc_editor = true;
-	public $description;
-
 	// Variabili editor in sé
 	#[Reactive]
 	public $workout_plan;
@@ -46,8 +43,6 @@ class WorkoutEditor extends Component
 			})
 			->get();
 
-		$this->description = $this->workout_plan->description;
-
 		return view('livewire.workout_plans.workout-editor');
 	}
 
@@ -69,17 +64,6 @@ class WorkoutEditor extends Component
 	public function reloadDays()
 	{
 		$this->days = $this->workout_plan->exercises()->max('day');
-	}
-
-	// Executed everytime the 'description' gets updated
-	// TODO - sistemare il nome della funzione in snake_case, necessita di modifiche anche su workout-editor.blade.php in quanto il sistema
-	// adottato e' una convenzione specifica di Livewire e richiede espressamente il camelCase
-	public function updatedDescription($desc) {
-		// Aggiorna l'attributo 'description' sul database
-		$this->workout_plan->update(['description' => $desc]);
-
-		// Aggiorna la proprietà locale
-		$this->description = $desc;
 	}
 
 	// Funzione per aggiornare l'ordine degli esercizi
