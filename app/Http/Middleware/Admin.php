@@ -15,7 +15,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->user()->is_admin)
+        if(!$request->user()->is_admin && !$request->user()->is_gym)
             return redirect('/');
 
         return $next($request);

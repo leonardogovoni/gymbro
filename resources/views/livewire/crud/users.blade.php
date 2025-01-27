@@ -1,4 +1,4 @@
-<div x-data="{showDeleteModal: false, id: 0, showDetailsModal: $wire.entangle('showDetailsModal')}">
+<div x-data="{showDeleteModal: false, id: 0, showDetailsModal: $wire.entangle('show_details_modal')}">
 	<!-- User list -->
 	<div class="mx-auto max-w-screen-xl py-4 px-4 lg:px-12">
 		<div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
@@ -77,14 +77,12 @@
 	<!-- Details modal -->
 	<!-- Using the same modal for create, edit and inspect -->
 	<div x-cloak x-show="showDetailsModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 z-50 backdrop-blur-sm flex justify-center items-center">
-		<form class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
+		<form wire:submit="save" class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
 			<h4 class="inline-flex items-center mb-4 text-md font-semibold text-gray-600 uppercase dark:text-gray-500">
-				@if($new && !$edit && !$inspect)
+				@if($new && !$modal_user)
 					Nuovo utente
-				@elseif(!$new && $edit && !$inspect)
-					Modifica utente
-				@elseif(!$new && !$edit && $inspect)
-					Visualizza utente
+				@elseif(!$new && $modal_user)
+					Ispeziona utente
 				@endif
 			</h4>
 	
@@ -99,74 +97,101 @@
 				</div>
 				<div>
 					<label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
-					<input id="first_name" type="text" class="input-text" value="{{ $modal_user ? $modal_user->first_name : '' }}" @if($inspect) disabled @endif />
+					<input id="first_name" type="text" class="input-text" wire:model="first_name" />
+					@error('first_name')
+						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
+					@enderror
 				</div>
 				<div>
 					<label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cognome</label>
-					<input id="last_name" type="text" class="input-text" value="{{ $modal_user ? $modal_user->last_name : '' }}" @if($inspect) disabled @endif />
+					<input id="last_name" type="text" class="input-text" wire:model="last_name" />
+					@error('last_name')
+						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
+					@enderror
 				</div>
 				<div>
 					<label for="ssn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codice fiscale</label>
-					<input id="ssn" type="text" class="input-text" value="{{ $modal_user ? $modal_user->ssn : '' }}" @if($inspect) disabled @endif />
+					<input id="ssn" type="text" class="input-text" wire:model="ssn" maxlength="16" />
+					@error('ssn')
+						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
+					@enderror
 				</div>
 				<div>
 					<label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-					<input id="email" type="text" class="input-text" value="{{ $modal_user ? $modal_user->email : '' }}" @if($inspect) disabled @endif />
+					<input id="email" type="email" class="input-text" wire:model="email" />
+					@error('email')
+						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
+					@enderror
 				</div>
 				<div>
 					<label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sesso</label>
-					@if($inspect)
-						<input id="gender" type="text" class="input-text" disabled value="@switch($modal_user->gender)
-								@case('M')Uomo @break
-								@case('F')Donna @break
-								@case('N')Non specificato @break
-						@endswitch" />
-					@else
-						<select id="gender" class="input-text">
-							<option value="M" @if($modal_user && $modal_user->gender=='M') selected @endif>Uomo</option>
-							<option value="F" @if($modal_user && $modal_user->gender=='F') selected @endif>Donna</option>
-							<option value="N" @if($modal_user && $modal_user->gender=='N') selected @endif>Non specificato</option>
-						</select>
-					@endif
+					<select id="gender" class="input-text" wire:model="gender">
+						@if($new)<option disabled selected>Seleziona</option>@endif
+						<option value="M">Uomo</option>
+						<option value="F">Donna</option>
+						<option value="N">Non specificato</option>
+					</select>
+					@error('gender')
+						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
+					@enderror
 				</div>
 				<div>
 					<label for="birth_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data di nascita</label>
-					<input id="birth_date" type="date" class="input-text" value="{{ $modal_user ? $modal_user->birth_date : '' }}" @if($inspect) disabled @endif />
+					<input id="birth_date" type="date" class="input-text" wire:model="birth_date" />
+					@error('birth_date')
+						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
+					@enderror
 				</div>
 			</div>
 
-			{{-- Gestione utente --}}
-			@if($is_user_admin)
-				<div class="grid grid-cols-1 gap-4 pt-4">
+			{{-- Gestione utente solo per admin --}}
+			@if($is_admin)
+				<div class="grid grid-cols-1 gap-4 py-4 border-b">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400">Gestione utente</h5>
 				
 					<div class="flex items-center">
 						<label for="is_admin" class="block text-sm font-medium text-gray-900 dark:text-white grow">Amministratore</label>
-						<label class="inline-flex items-center {{ $inspect ? 'cursor-default' : 'cursor-pointer' }}">
-							<input type="checkbox" class="sr-only peer" @if($modal_user && $modal_user->is_admin) checked @endif @if($inspect) disabled @endif />
+						<label class="inline-flex items-center">
+							<input type="checkbox" class="sr-only peer" id="is_admin" wire:model="is_admin_form" />
 							<div class="switch peer"></div>
 						</label>
 					</div>
 				
 					<div class="flex items-center">
-						<label for="is_admin" class="block text-sm font-medium text-gray-900 dark:text-white grow">Palestra</label>
-						<label class="inline-flex items-center {{ $inspect ? 'cursor-default' : 'cursor-pointer' }}">
-							<input type="checkbox" class="sr-only peer" @if($modal_user && $modal_user->is_admin) checked @endif @if($inspect) disabled @endif />
+						<label for="is_gym" class="block text-sm font-medium text-gray-900 dark:text-white grow">Palestra</label>
+						<label class="inline-flex items-center">
+							<input type="checkbox" class="sr-only peer" id="is_gym" wire:model="is_gym_form" />
 							<div class="switch peer"></div>
 						</label>
 					</div>
+
+					<div class="flex items-center">
+						<label for="controlled_by" class="block text-sm font-medium text-gray-900 dark:text-white grow">Controllato da (ID)</label>
+						<div class="w-1/4">
+							<input id="controlled_by" type="number" class="input-text" wire:model="controlled_by" />
+						</div>
+					</div>
+				</div>
+			@endif
+
+			@if($user_already_exists)
+				<div class="red-alert max-w-5xl mx-auto mt-4 text-sm">
+					<x-mdi-exclamation-thick class="h-5 me-2" />
+		
+					<p class="text-base">Esiste già un utente con questo indirizzo email.</p>
 				</div>
 			@endif
 
 			{{-- Azioni --}}
 			<div class="pt-4 flex justify-center gap-2">
-				@if($new && !$edit && !$inspect)
-					<button type="button" x-on:click="$wire.store()" class="primary-button">Salva</button>
-				@elseif(!$new && $edit && !$inspect)
-					<button type="button" x-on:click="$wire.update()" class="primary-button">Aggiorna</button>
-				@elseif(!$new && !$edit && $inspect)
+				@if($new && !$modal_user)
+					<button type="submit" class="primary-button">Crea utente</button>
+				@elseif(!$new && $modal_user)
+					<button type="submit" class="primary-button">Aggiorna</button>
+
+					{{-- DA CORREGGERE --}}
 					<a href="{{ route('admin.workout_plans', ['user_id' => $modal_user->id]) }}">
-						<button type="button" x-on:click="$wire.edit()" class="primary-button">Mostra schede utente</button>
+						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Mostra schede utente</button>
 					</a>
 					<a href="{{ route('admin.workout_plans', ['new_plan_user_id' => $modal_user->id]) }}">
 						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Crea scheda per questo utente</button>

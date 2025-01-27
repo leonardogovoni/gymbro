@@ -20,9 +20,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'first_name',
+        'last_name',
+        'ssn',
         'email',
         'gender',
         'date_of_birth',
+        'is_admin',
+        'is_gym',
+        'controlled_by',
         'password',
     ];
 
@@ -59,5 +64,10 @@ class User extends Authenticatable
     public function exercises_data(): HasMany
     {
         return $this->hasMany(ExerciseData::class, 'user_id', 'id');
+    }
+
+    public function gym_clients(): HasMany
+    {
+        return $this->hasMany(User::class, 'controlled_by', 'id');
     }
 }

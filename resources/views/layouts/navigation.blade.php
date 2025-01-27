@@ -29,7 +29,7 @@
 							{{ __('Statistiche') }}
 						</x-nav-link>
 					</div>
-					@if(Auth::user()->is_admin)
+					@if(Auth::user()->is_admin || Auth::user()->is_gym)
 						<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
 							<x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
 								{{ __('Amministrazione') }}

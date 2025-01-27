@@ -10,7 +10,7 @@ use Livewire\Attributes\Validate;
 
 class WorkoutsList extends Component
 {
-	#[Validate('required', message: 'Il campo nome è obbligatorio.')]
+	#[Validate('required', message: 'Il campo Nome è obbligatorio.')]
 	public $title;
 	public $description;
 	public $edit_workout_plan;

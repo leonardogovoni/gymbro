@@ -82,7 +82,7 @@
 	<div x-cloak x-show="showDetailsModal" x-transition.opacity class="modal-bg">
 		<div class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
 			<h4 class="inline-flex items-center mb-4 text-md font-semibold text-gray-600 uppercase dark:text-gray-500">
-				@if($new && is_null($modal_plan))
+				@if($new && !$modal_plan)
 					Nuova scheda
 				@elseif(!$new && $modal_plan)
 					Modifica scheda
