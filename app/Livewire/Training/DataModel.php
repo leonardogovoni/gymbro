@@ -47,7 +47,7 @@ class DataModel extends Component
 			ExerciseData::create([
 				'user_id' => auth()->id(),
 				'exercise_id' => $this->exercises()[$this->current_index]->id,
-				'workout_plan_pivot_id' => $this->workout_plan->id,
+				'workout_plan_id' => $this->workout_plan->id,
 				'day' => $this->day,
 				'set' => $index + 1,
 				'reps' => $this->reps[$index],

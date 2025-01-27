@@ -17,6 +17,7 @@ class ExerciseData extends Model
 	protected $fillable = [
 		'user_id',
 		'exercise_id',
+		'workout_plan_id',
 		'workout_plan_pivot_id',
 		'day',
 		'set',

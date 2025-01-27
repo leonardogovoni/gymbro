@@ -25,15 +25,19 @@ class ExerciseChart extends Component
 
 	public function render()
 	{
-		$this->fixDaysQuery();
-		$days = $this->exercise_data_begin->pluck('day')->unique()->sort()->values();
+		if ((int) $this->switch_plan !== 0) {
+			$this->fixDaysQuery();
+			$days = $this->exercise_data_begin->pluck('day')->unique()->sort()->values();
+		} else {
+			$days = [];
+		}
 
 		// Stessa query richiamata piu' volte, a sto punto...
 		$this->repeteadedQuery();
 
 		// Estrai i nomi delle schede (workout_plan) in un array
 		// $workout_plan = $this->exercise_data->pluck('workoutPlan.title')->filter(); // Rimuove i nulli
-		$this->workout_plan_ids = WorkoutPlan::join('exercises_data', 'workout_plans.id', '=', 'exercises_data.workout_plan_pivot_id')
+		$this->workout_plan_ids = WorkoutPlan::join('exercises_data', 'workout_plans.id', '=', 'exercises_data.workout_plan_id')
 			->distinct()
 			->pluck('workout_plans.id');
 
@@ -84,6 +88,11 @@ class ExerciseChart extends Component
 			return $query->where('created_at', '>=', now()->subMonths($this->switch_filter));
 		});
 
+		// Gestire il filtro per $this->switch_plan
+		$query->when((int) $this->switch_plan !== 0, function ($query) {
+			return $query->where('workout_plan_id', $this->workout_plan_ids[$this->switch_plan - 1]);
+		});
+
 		$this->exercise_data_begin = $query->select('day')->orderBy('created_at')->get();
 	}
 
@@ -105,7 +114,7 @@ class ExerciseChart extends Component
 
 		// Gestire il filtro per $this->switch_plan
 		$query->when((int) $this->switch_plan !== 0, function ($query) {
-			return $query->where('workout_plan_pivot_id', $this->workout_plan_ids[$this->switch_plan-1]);
+			return $query->where('workout_plan_id', $this->workout_plan_ids[$this->switch_plan - 1]);
 		});
 
 		// Gestire il filtro per $this->switch_day
