@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\Validate;
 
 class WorkoutPlansCrud extends Component
 {
@@ -25,20 +25,20 @@ class WorkoutPlansCrud extends Component
 	public $new = false;
 	public $modal_plan;
 	public $show_details_modal = false;
+	public $user_not_found = false;
 
-	// Parametri GET
+	// Parametro GET, usato dal tasto "Mostra schede di questo utente" nel CRUD utenti
 	#[Url]
 	public $user_id;
-	#[Url]
-	public $new_plan_user_id;
 
 	// Variabili per modale
+	#[Validate('required', message: 'Il campo Titolo è obbligatorio.')]
 	public $title;
 	public $description;
 	public $default;
-	public $user_id_form;
-
-	public $user_not_found = false;
+	// Parametro GET, usato dal tasto "Crea scheda per questo utente" nel CRUD utenti
+	#[Url]
+	public $new_plan_user_id;
 
 	// Variabili di controllo
 	public $search_parameter;
@@ -46,10 +46,6 @@ class WorkoutPlansCrud extends Component
 	// Eseguito a ogni modifica di una variabile
 	public function render()
 	{
-		// Premuto il tasto "Mostra schede dell'utente" nel CRUD utenti
-		// DA FARE
-		
-
 		// Ritorna le schede che hanno titolo simile a $this->search_parameter
 		// o che appartengono a utenti con nome simie; se non è admin ritorna
 		// solo schede di clienti della palestra con tali caratteristiche
@@ -61,6 +57,10 @@ class WorkoutPlansCrud extends Component
 			})
 			->when(!$this->is_admin && $this->is_gym, function ($query) {
 				$query->where('users.controlled_by', '=', $this->gym_id);
+			})
+			// L'utente ha premutto il tasto "Mostra schede di questo utente" nel CRUD utenti
+			->when($this->user_id, function ($query) {
+				$query->where('users.id', '=', $this->user_id);
 			})
 			->select('workout_plans.id' , 'workout_plans.title', 'users.first_name', 'users.last_name', 'workout_plans.enabled')
 			->paginate(20);
@@ -82,14 +82,30 @@ class WorkoutPlansCrud extends Component
 		// // Premuto il tasto "Crea scheda per questo utente" nel CRUD utenti
 		if ($this->new_plan_user_id) {
 			$this->new = true;
-
 			$this->show_details_modal = true;
 		}
 	}
 
+	// Ogni volta che devo cercare una scheda uso questa funzione
+	// Impedisce a un utente palestra malintenzionato di cercare schede di altre palestre
+	function safeGetPlan($id)
+	{
+		return $this->is_admin
+			? WorkoutPlan::where('id', $id)->firstOrFail()
+			: WorkoutPlan::whereIn('user_id', Auth::user()->gym_clients()->pluck('id'))->where('id', $id)->firstOrFail();
+	}
+
+	// Ogni volta che devo cercare un utente uso questa funzione
+	function safeGetUser($id)
+	{
+		return $this->is_admin
+			? User::where('id', $id)->first()
+			: Auth::user()->gym_clients()->where('id', $id)->first();
+	}
+
 	public function delete($id)
 	{
-		$this->gymOrAdminHandler($id)->delete();
+		$this->safeGetPlan($id)->delete();
 	}
 
 	public function create()
@@ -109,16 +125,18 @@ class WorkoutPlansCrud extends Component
 	public function inspectPlan($id)
 	{
 		$this->new = false;
-		$this->modal_plan = $this->gymOrAdminHandler($id);
+		$this->modal_plan = $this->safeGetPlan($id);
 
 		$this->title = $this->modal_plan->title;
 		$this->description = $this->modal_plan->description;
 		$this->default = $this->modal_plan->enabled;
-		$this->user_id_form = $this->modal_plan->user_id;
+		$this->new_plan_user_id = $this->modal_plan->user_id;
 
 		$this->show_details_modal = true;
 	}
 
+	// Questa è già sicura, in quanto l'id viene preso dal
+	// plan che è stato già caricato con safeGetPlan
 	public function makeDefault()
 	{
 		WorkoutPlan::where('user_id', $this->modal_plan->user_id)->update(['enabled' => 0]);
@@ -126,37 +144,23 @@ class WorkoutPlansCrud extends Component
 		$this->modal_plan->save();
 	}
 
-	// Ogni volta che devo cercare una scheda uso questa funzione
-	// Impedisce a un utente palestra malintenzionato di cercare schede di altre palestre
-	function gymOrAdminHandler($id)
-	{
-		return $this->is_admin
-			? WorkoutPlan::where('id', $id)->firstOrFail()
-			: WorkoutPlan::whereIn('user_id', Auth::user()->gym_clients()->pluck('id'))->where('id', $id)->firstOrFail();
-	}
-
 	public function save()
 	{
 		// Nuova scheda
 		if ($this->new) {
-			// Utente non trovato
-			if(User::find($this->new_plan_user_id) == null) {
+			// Controllo se l'utente è della palestra o (nel caso di admin) se esiste
+			if($this->safeGetUser($this->new_plan_user_id) == null) {
 				$this->user_not_found = true;
 				return;
 			}
 
 			// Select è un po' particolare
-			switch ($this->default) {
-				// Si controlla prima 1, il che implica che l'utente vuole creare una scheda con default 'Si',
-				// quindi si mettono a 'false' tutte le altre
-				case '1':	$this->default = 1;
-							WorkoutPlan::where('user_id', $this->new_plan_user_id)->update(['enabled' => 0]);
-							break;
-				
-				// In tutti i casi in cui la scheda non viene selezionata come 'Attiva', allora e' per forza NON default
-				default:	$this->default = 0;
-							break;
+			if($this->default == '1') {
+				WorkoutPlan::where('user_id', $this->new_plan_user_id)->update(['enabled' => 0]);
+				$this->default = 1;	
 			}
+			else
+				$this->default = 0;
 
 			// Finito il settaggio, si crea la nuova scheda
 			WorkoutPlan::create([
@@ -177,7 +181,6 @@ class WorkoutPlansCrud extends Component
 		$this->new_plan_user_id = null;
 		$this->user_not_found = false;
 		$this->new = false;
-		$this->edit = false;
 		$this->show_details_modal = false;
 	}
 

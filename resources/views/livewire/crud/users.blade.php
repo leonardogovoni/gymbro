@@ -10,7 +10,7 @@
 							<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 								<x-mdi-magnify class="w-5 h-5 text-gray-500 dark:text-gray-400" />
 							</div>
-							<input type="text" wire:model.live="search_parameter" placeholder="Cerca" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-9 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+							<input type="text" wire:model.live="search_parameter" placeholder="Cerca utente" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-9 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
 						</div>
 					</form>
 				</div>
@@ -82,7 +82,7 @@
 				@if ($new && !$modal_user)
 					Nuovo utente
 				@elseif (!$new && $modal_user)
-					Ispeziona utente
+					Modifica utente
 				@endif
 			</h4>
 
@@ -187,14 +187,14 @@
 				@if ($new && !$modal_user)
 					<button type="submit" class="primary-button">Crea utente</button>
 				@elseif (!$new && $modal_user)
-					<button type="submit" class="primary-button">Aggiorna</button>
+					<button type="submit" class="primary-button">Aggiorna dati</button>
 
 					<!-- DA CORREGGERE -->
 					<a href="{{ route('admin.workout_plans', ['user_id' => $modal_user->id]) }}">
-						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Mostra schede utente</button>
+						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Mostra schede</button>
 					</a>
 					<a href="{{ route('admin.workout_plans', ['new_plan_user_id' => $modal_user->id]) }}">
-						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Crea scheda per questo utente</button>
+						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Crea scheda</button>
 					</a>
 				@endif
 			</div>

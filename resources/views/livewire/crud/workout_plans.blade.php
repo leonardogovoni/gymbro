@@ -4,20 +4,20 @@
 		<div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
 			<!-- Top bar -->
 			<div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-				<div class="w-full md:w-1/2">
+				<div class="w-full">
 					<div class="flex items-center">
 						<div class="relative w-full">
 							<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 								<x-mdi-magnify class="w-5 h-5 text-gray-500 dark:text-gray-400" />
 							</div>
 
-							<input type="text" wire:model.live="search_parameter" placeholder="Cerca" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-9 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+							<input type="text" wire:model.live="search_parameter" placeholder="Cerca tramite nome scheda o persona" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-9 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
 						</div>
 					</div>
 				</div>
 
-				<div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-					<button x-cloak x-show="userId"  wire:click="removeFilter" class="danger-button">Rimuovi filtri ricerca</button>
+				<div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end flex-shrink-0">
+					<button x-cloak x-show="userId"  wire:click="removeFilter" class="danger-button md:me-3">Rimuovi filtri ricerca</button>
 
 					<button type="button" wire:click="create" class="primary-button">Nuova scheda</button>
 				</div>
@@ -94,12 +94,15 @@
 			</button>
 
 			<!-- Caratteristiche -->
-			<div class="grid grid-cols-1 gap-4 pb-4 border-b">
+			<form wire:submit="save" class="grid grid-cols-1 gap-4 pb-4">
 				<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400">Caratteristiche</h5>
 
 				<div>
 					<label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titolo</label>
 					<input id="title" type="text" class="input-text" required maxlength="100" wire:model="title" required />
+					@error('title')
+						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
+					@enderror
 				</div>
 
 				<div>
@@ -118,7 +121,7 @@
 						</div>
 					@elseif ($modal_plan && $modal_plan->enabled)
 						<input id="default" type="text" class="input-text" value="Si" disabled />
-					@elseif (is_null($modal_plan) && $new)
+					@elseif (!$modal_plan && $new)
 						<select id="default" class="input-text" wire:model="default">
 							<option value="0" selected>No</option>
 							<option value="1">Si</option>
@@ -131,7 +134,7 @@
 					<input id="user_id" type="number" min="0" class="input-text" wire:model="new_plan_user_id"
 					@if (!$new && $modal_plan)
 						disabled
-					@elseif ($new && is_null($modal_plan))
+					@elseif ($new && !$modal_plan)
 						required
 					@endif
 					/>
@@ -145,25 +148,25 @@
 
 				@if (!$new && $modal_plan)
 					<div class="flex justify-center">
-						<button wire:click="save" class="primary-button">Salva modifiche</button>
+						<button type="submit" class="primary-button">Salva modifiche</button>
+					</div>
+				@elseif ($new && !$modal_plan)
+					<div class="flex items-center p-4 text-md text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800">
+						È necessario creare la scheda prima di poter aggiungere degli esercizi, potrai poi aggiungerli cercandola nella dashboard e premendo modifica.
+					</div>
+
+					<div class="flex justify-center">
+						<button type="submit" class="primary-button">Crea scheda</button>
 					</div>
 				@endif
-			</div>
+			</form>
 
 			{{-- Esericizi --}}
-			@if (!is_null($modal_plan))
-				<div class="py-4">
+			@if (!$new && $modal_plan)
+				<div class="border-t py-4">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400 pb-4">Esericizi</h5>
 
 					<livewire:workout_plans.workout-editor :workout_plan="$modal_plan" :reload_days="true" />
-				</div>
-			@elseif ($new)
-				<div class="my-4 flex items-center p-4 mb-4 text-md text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800">
-					È necessario creare la scheda prima di poter aggiungere degli esercizi, potrai poi aggiungerli cercandola nella dashboard e premendo modifica.
-				</div>
-
-				<div class="flex justify-center">
-					<button wire:click="save" class="primary-button">Crea scheda</button>
 				</div>
 			@endif
 		</div>
