@@ -19,19 +19,13 @@ class ExerciseChart extends Component
 	public $exercise_data;
 	public $exercise_data_begin;
 	public $workout_plan_ids;
+	public $days = [];
 
 	// Numero di mesi di cui visualizzare gli esercizi, default: 3
 	public $switch_filter = '3';
 
 	public function render()
 	{
-		if ((int) $this->switch_plan !== 0) {
-			$this->fixDaysQuery();
-			$days = $this->exercise_data_begin->pluck('day')->unique()->sort()->values();
-		} else {
-			$days = [];
-		}
-
 		// Stessa query richiamata piu' volte, a sto punto...
 		$this->repeteadedQuery();
 
@@ -68,32 +62,8 @@ class ExerciseChart extends Component
 			'exercise_stats' => $exercise_stats,
 			'workout_plans' => $workout_plan,
 			'workout_plan_ids' => $this->workout_plan_ids,
-			'days' => $days
+			'days' => $this->days,
 		]);
-	}
-
-	private function fixDaysQuery()
-	{
-		$query = ExerciseData::where('exercise_id', $this->exercise_id);
-
-		// Gestire il filtro per user_id
-		$query->when($this->user_id, function ($query) {
-			return $query->where('user_id', $this->user_id);
-		}, function ($query) {
-			return $query->where('user_id', auth()->id());
-		});
-
-		// Gestire il filtro per $this->switch_filter (mesi)
-		$query->when($this->switch_filter !== '0', function ($query) {
-			return $query->where('created_at', '>=', now()->subMonths($this->switch_filter));
-		});
-
-		// Gestire il filtro per $this->switch_plan
-		$query->when((int) $this->switch_plan !== 0, function ($query) {
-			return $query->where('workout_plan_id', $this->workout_plan_ids[$this->switch_plan - 1]);
-		});
-
-		$this->exercise_data_begin = $query->select('day')->orderBy('created_at')->get();
 	}
 
 	public function repeteadedQuery()
@@ -116,6 +86,12 @@ class ExerciseChart extends Component
 		$query->when((int) $this->switch_plan !== 0, function ($query) {
 			return $query->where('workout_plan_id', $this->workout_plan_ids[$this->switch_plan - 1]);
 		});
+
+		if ((int) $this->switch_plan !== 0) {
+			$this->days = $query->pluck('day')->unique()->sort()->values();
+		} else {
+			$this->days = [];
+		}
 
 		// Gestire il filtro per $this->switch_day
 		$query->when((int) $this->switch_day !== 0 && (int) $this->switch_plan !== 0, function ($query) {
