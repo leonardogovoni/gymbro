@@ -35,8 +35,13 @@
 			@endif
 
 			<div class="pt-4 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-				<h4 class="text-lg font-bold mb-4 text-gray-900 dark:text-white">Risultati allenamento</h4>
-
+				<h4 class="text-lg font-bold mb-4 text-gray-900 dark:text-white flex items-center justify-between">
+					Risultati allenamento
+					<button type="button">
+						<x-mdi-information-outline id="infoButton" class="fill-secondary-500 h-6 me-2" title="Informazioni" />
+					</button>
+				</h4>
+				
 				<table class="w-full rounded-lg">
 					<thead>
 						<tr class="bg-gray-200 dark:bg-gray-700">

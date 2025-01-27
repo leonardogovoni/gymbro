@@ -28,7 +28,7 @@
 
 							<main class="mt-6">
 								<div class="grid gap-6 lg:gap-8 lg:grid-cols-1 justify-items-center">
-									<a href="" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm lg:max-w-4xl md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+									<a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm lg:max-w-4xl md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 										<img class="object-cover w-full h-auto lg:w-96 md:w-48 md:h-full md:rounded-none md:rounded-s-lg" src="{{ asset('images/dashboard/schede.jpg') }}" alt="">
 
 										<div class="flex flex-col justify-between p-4 leading-normal">
@@ -39,7 +39,7 @@
 										</div>
 									</a>
 
-									<a href="" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm lg:max-w-4xl md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+									<a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm lg:max-w-4xl md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 										<div class="flex flex-col justify-between p-4 leading-normal">
 											<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Allenamenti</h5>
 											<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -50,7 +50,7 @@
 										<img class="object-cover w-full h-auto lg:w-96 md:w-48 md:h-full md:rounded-none md:rounded-e-lg" src="{{ asset('images/dashboard/allenamenti.jpg') }}" alt="">
 									</a>
 
-									<a href="" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm lg:max-w-4xl md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+									<a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm lg:max-w-4xl md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 										<img class="object-cover w-full h-auto lg:w-96 md:w-48 md:h-full md:rounded-none md:rounded-s-lg" src="{{ asset('images/dashboard/statistiche.jpg') }}" alt="">
 
 										<div class="flex flex-col justify-between p-4 leading-normal">

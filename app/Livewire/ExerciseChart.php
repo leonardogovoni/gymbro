@@ -87,11 +87,10 @@ class ExerciseChart extends Component
 			return $query->where('workout_plan_id', $this->workout_plan_ids[$this->switch_plan - 1]);
 		});
 
-		if ((int) $this->switch_plan !== 0) {
+		if ((int) $this->switch_plan !== 0)
 			$this->days = $query->pluck('day')->unique()->sort()->values();
-		} else {
+		else
 			$this->days = [];
-		}
 
 		// Gestire il filtro per $this->switch_day
 		$query->when((int) $this->switch_day !== 0 && (int) $this->switch_plan !== 0, function ($query) {
