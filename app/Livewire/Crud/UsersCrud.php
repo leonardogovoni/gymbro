@@ -46,6 +46,7 @@ class UsersCrud extends Component
 	public $is_gym_form;
 	public $controlled_by;
 
+	// Parametro di ricerca
 	public $search_parameter;
 
 	// Eseguita a ogni render

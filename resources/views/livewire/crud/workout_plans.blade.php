@@ -1,5 +1,5 @@
 <div x-data="{showDeleteModal: false, showDetailsModal: $wire.entangle('show_details_modal'), userId: $wire.entangle('user_id')}">
-	<!-- Lista utenti -->
+	<!-- Lista schede -->
 	<div class="mx-auto max-w-screen-xl py-4 px-4 lg:px-12">
 		<div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
 			<!-- Top bar -->
@@ -30,7 +30,7 @@
 						<tr>
 							<th scope="col" class="px-4 py-4">ID</th>
 							<th scope="col" class="px-4 py-4">Titolo</th>
-							<th scope="col" class="px-4 py-3">Proprietario</th>
+							<th scope="col" class="px-4 py-3">Utente</th>
 							<th scope="col" class="px-4 py-3">Default</th>
 							<th scope="col" class="px-4 py-3">Azioni</th>
 						</tr>
@@ -40,10 +40,10 @@
 							<tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
 								<th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $workout_plan->id }}</th>
 								<td class="px-4 py-3">{{ $workout_plan->title }}</td>
-								<td class="px-4 py-3">{{ $workout_plan->user()->get()[0]->first_name }} {{ $workout_plan->user()->get()[0]->last_name }}</td>
+								<td class="px-4 py-3">{{ $workout_plan->first_name }} {{ $workout_plan->last_name }}</td>
 								<td class="px-4 py-3">{{ $workout_plan->enabled ? 'Si' : 'No' }}</td>
 								<td class="px-4 py-3">
-									<button x-on:click="$wire.editPlan({{ $workout_plan->id }}); $dispatch('workout-plan-changed')" class="h-4 py-auto" title="Dettagli">
+									<button x-on:click="$wire.inspectPlan({{ $workout_plan->id }}); $dispatch('workout-plan-changed')" class="h-4 py-auto" title="Dettagli">
 										<x-mdi-pen class="h-5 hover:fill-primary-500 transition duration-75" />
 									</button>
 									<button x-on:click="id = {{ $workout_plan->id }}; showDeleteModal = true" class="h-4 py-auto" title="Elimina">
@@ -125,7 +125,7 @@
 						</select>
 					@endif
 				</div>
-				<!-- IMPLEMENTARE GESTITO DA PALESTRA -->
+
 				<div>
 					<label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Utente</label>
 					<input id="user_id" type="number" min="0" class="input-text" wire:model="new_plan_user_id"

@@ -16,6 +16,16 @@ class WorkoutPlansCrud extends Component
 {
 	use WithPagination;
 
+	// Variabili di controllo per permessi
+	public $is_admin;
+	public $is_gym;
+	public $gym_id;
+
+	// Variabili per la gestione del modale
+	public $new = false;
+	public $modal_plan;
+	public $show_details_modal = false;
+
 	// Parametri GET
 	#[Url]
 	public $user_id;
@@ -23,48 +33,63 @@ class WorkoutPlansCrud extends Component
 	public $new_plan_user_id;
 
 	// Variabili per modale
-	public $modal_plan;
 	public $title;
 	public $description;
 	public $default;
+	public $user_id_form;
+
 	public $user_not_found = false;
 
 	// Variabili di controllo
-	public $is_user_admin;
 	public $search_parameter;
-	public $new = false;
-	public $show_details_modal = false;
 
 	// Eseguito a ogni modifica di una variabile
 	public function render()
 	{
-		// Premuto il tasto "Mostra schede dell'utente" nel CRUD utenti ('dettagli')
-		$results = WorkoutPlan::where('title', 'like', "%{$this->search_parameter}%")
-			->when($this->user_id, function ($query) {
-				return $query->where('user_id', $this->user_id);
-			})
-			->paginate(20);
+		// Premuto il tasto "Mostra schede dell'utente" nel CRUD utenti
+		// DA FARE
+		
 
-		$this->is_user_admin = Auth::user()->is_admin;
+		// Ritorna le schede che hanno titolo simile a $this->search_parameter
+		// o che appartengono a utenti con nome simie; se non è admin ritorna
+		// solo schede di clienti della palestra con tali caratteristiche
+		$results = WorkoutPlan::join('users', 'workout_plans.user_id', '=', 'users.id')
+			->where(function ($query) {
+				$query->where('users.first_name', 'like', "%{$this->search_parameter}%")
+					->orWhere('users.last_name', 'like', "%{$this->search_parameter}%")
+					->orWhere('workout_plans.title', 'like', "%{$this->search_parameter}%");
+			})
+			->when(!$this->is_admin && $this->is_gym, function ($query) {
+				$query->where('users.controlled_by', '=', $this->gym_id);
+			})
+			->select('workout_plans.id' , 'workout_plans.title', 'users.first_name', 'users.last_name', 'workout_plans.enabled')
+			->paginate(20);
 
 		return view('livewire.crud.workout_plans', [
 			'results' => $results
 		]);
 	}
 
-	// Eseguito quando il componente viene montato
+	// Eseguito solo al mount
 	public function mount()
 	{
-		// Premuto il tasto "Crea scheda per questo utente" nel CRUD utenti
+		// Controllo permessi
+		$user = Auth::user();
+		$this->is_admin = $user->is_admin;
+		$this->is_gym = $user->is_gym;
+		$this->gym_id = $user->id;
+
+		// // Premuto il tasto "Crea scheda per questo utente" nel CRUD utenti
 		if ($this->new_plan_user_id) {
 			$this->new = true;
+
 			$this->show_details_modal = true;
 		}
 	}
 
 	public function delete($id)
 	{
-		WorkoutPlan::find($id)->delete();
+		$this->gymOrAdminHandler($id)->delete();
 	}
 
 	public function create()
@@ -80,24 +105,34 @@ class WorkoutPlansCrud extends Component
 		$this->show_details_modal = true;
 	}
 
-	public function editPlan($id)
+	// Chiamarlo solo inspect rompe tutto
+	public function inspectPlan($id)
 	{
-		$this->modal_plan = WorkoutPlan::find($id);
+		$this->new = false;
+		$this->modal_plan = $this->gymOrAdminHandler($id);
 
 		$this->title = $this->modal_plan->title;
 		$this->description = $this->modal_plan->description;
 		$this->default = $this->modal_plan->enabled;
-		
-		$this->new_plan_user_id = $this->modal_plan->user_id;
-		$this->new = false;
+		$this->user_id_form = $this->modal_plan->user_id;
+
 		$this->show_details_modal = true;
 	}
 
 	public function makeDefault()
 	{
 		WorkoutPlan::where('user_id', $this->modal_plan->user_id)->update(['enabled' => 0]);
-		WorkoutPlan::find($this->modal_plan->id)->update(['enabled' => 1]);
 		$this->modal_plan->enabled = true;
+		$this->modal_plan->save();
+	}
+
+	// Ogni volta che devo cercare una scheda uso questa funzione
+	// Impedisce a un utente palestra malintenzionato di cercare schede di altre palestre
+	function gymOrAdminHandler($id)
+	{
+		return $this->is_admin
+			? WorkoutPlan::where('id', $id)->firstOrFail()
+			: WorkoutPlan::whereIn('user_id', Auth::user()->gym_clients()->pluck('id'))->where('id', $id)->firstOrFail();
 	}
 
 	public function save()

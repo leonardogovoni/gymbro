@@ -1,6 +1,4 @@
 <div>
-	@vite(['resources/js/stats_chart.js'])
-
 	<!-- Non è selezionato un utente, mostro la lista di quelli che hanno esercizi registrati -->
 	@if (is_null($user_id))
 		<div class="mx-auto max-w-screen-xl py-4 px-4 lg:px-12">
@@ -51,7 +49,7 @@
 			</div>
 		</div>
 	<!-- E' selezionato un utente, mostro gli esercizi registrati -->
-	@elseif ($user_id && is_null($exercise_id))
+	@elseif ($user_id)
 		<div class="mx-auto max-w-screen-xl py-4 px-4 lg:px-12">
 			<div class="flex items-center p-4 mb-4 text-md text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
 				Seleziona l'esercizio di cui vuoi visualizzare i progressi. Sono mostrati solo gli esercizi di cui è stato registrato almeno un allenamento.
@@ -61,7 +59,7 @@
 				<!-- Barra ricerca -->
 					<div class="flex gap-4 w-full p-4">
 						<button class="danger-button" wire:click="restart">
-							Ricomincia
+							Indietro
 						</button>
 
 						<div class="grow relative">
