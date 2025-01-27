@@ -1,5 +1,5 @@
 <div x-data="{showDeleteModal: false, id: 0, showDetailsModal: $wire.entangle('show_details_modal')}">
-	<!-- User list -->
+	<!-- Lista utenti -->
 	<div class="mx-auto max-w-screen-xl py-4 px-4 lg:px-12">
 		<div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
 			<!-- Top bar -->
@@ -20,7 +20,7 @@
 				</div>
 			</div>
 
-			<!-- Results -->
+			<!-- Risultati -->
 			<div>
 				<table class="w-full text-sm text-left table-auto text-gray-500 dark:text-gray-400">
 					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -53,7 +53,7 @@
 				</table>
 			</div>
 
-			<!-- Pages -->
+			<!-- Pagine -->
 			<div class="p-4">
 				{{ $results->links() }}
 			</div>
@@ -66,7 +66,7 @@
 			<x-mdi-trash-can-outline class="text-gray-400 dark:text-gray-500 w-11 h-11 mb-3.5 mx-auto" />
 
 			<p class="mb-4 text-gray-500 dark:text-gray-300">Sicuro di voler eliminare tale utente?</p>
-		
+
 			<div class="flex justify-center items-center space-x-4">
 				<button x-on:click="showDeleteModal = false" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, annulla</button>
 				<button x-on:click="$wire.delete(id); showDeleteModal = false" class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">Si, ne sono sicuro</button>
@@ -74,23 +74,23 @@
 		</div>
 	</div>
 
-	<!-- Details modal -->
-	<!-- Using the same modal for create, edit and inspect -->
+	<!-- Dettagli del modali -->
+	<!-- Si utilizza lo stesso modale per Creare, Modificare e Ispezionare -->
 	<div x-cloak x-show="showDetailsModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 z-50 backdrop-blur-sm flex justify-center items-center">
 		<form wire:submit="save" class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
 			<h4 class="inline-flex items-center mb-4 text-md font-semibold text-gray-600 uppercase dark:text-gray-500">
-				@if($new && !$modal_user)
+				@if ($new && !$modal_user)
 					Nuovo utente
-				@elseif(!$new && $modal_user)
+				@elseif (!$new && $modal_user)
 					Ispeziona utente
 				@endif
 			</h4>
-	
+
 			<button x-on:click="showDetailsModal = false" type="button" class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
 				<x-mdi-close class="w-5 h-5" />
 			</button>
-	
-			{{-- Anagrafica --}}
+
+			<!-- Anagrafica -->
 			<div class="grid grid-cols-2 gap-4 pb-4 border-b">
 				<div class="col-span-2">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400">Anagrafica</h5>
@@ -126,7 +126,7 @@
 				<div>
 					<label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sesso</label>
 					<select id="gender" class="input-text" wire:model="gender">
-						@if($new)<option disabled selected>Seleziona</option>@endif
+						@if ($new)<option disabled selected>Seleziona</option>@endif
 						<option value="M">Uomo</option>
 						<option value="F">Donna</option>
 						<option value="N">Non specificato</option>
@@ -136,19 +136,19 @@
 					@enderror
 				</div>
 				<div>
-					<label for="birth_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data di nascita</label>
-					<input id="birth_date" type="date" class="input-text" wire:model="birth_date" />
-					@error('birth_date')
+					<label for="date_of_birth" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data di nascita</label>
+					<input id="date_of_birth" type="date" class="input-text" wire:model="date_of_birth" />
+					@error('date_of_birth')
 						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
 					@enderror
 				</div>
 			</div>
 
-			{{-- Gestione utente solo per admin --}}
-			@if($is_admin)
+			<!-- Gestione utente solo per admin -->
+			@if ($is_admin)
 				<div class="grid grid-cols-1 gap-4 py-4 border-b">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400">Gestione utente</h5>
-				
+
 					<div class="flex items-center">
 						<label for="is_admin" class="block text-sm font-medium text-gray-900 dark:text-white grow">Amministratore</label>
 						<label class="inline-flex items-center">
@@ -156,7 +156,7 @@
 							<div class="switch peer"></div>
 						</label>
 					</div>
-				
+
 					<div class="flex items-center">
 						<label for="is_gym" class="block text-sm font-medium text-gray-900 dark:text-white grow">Palestra</label>
 						<label class="inline-flex items-center">
@@ -174,22 +174,22 @@
 				</div>
 			@endif
 
-			@if($user_already_exists)
+			@if ($user_already_exists)
 				<div class="red-alert max-w-5xl mx-auto mt-4 text-sm">
 					<x-mdi-exclamation-thick class="h-5 me-2" />
-		
+
 					<p class="text-base">Esiste già un utente con questo indirizzo email.</p>
 				</div>
 			@endif
 
-			{{-- Azioni --}}
+			<!-- Azioni -->
 			<div class="pt-4 flex justify-center gap-2">
-				@if($new && !$modal_user)
+				@if ($new && !$modal_user)
 					<button type="submit" class="primary-button">Crea utente</button>
-				@elseif(!$new && $modal_user)
+				@elseif (!$new && $modal_user)
 					<button type="submit" class="primary-button">Aggiorna</button>
 
-					{{-- DA CORREGGERE --}}
+					<!-- DA CORREGGERE -->
 					<a href="{{ route('admin.workout_plans', ['user_id' => $modal_user->id]) }}">
 						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Mostra schede utente</button>
 					</a>

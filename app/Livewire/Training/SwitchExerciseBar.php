@@ -11,7 +11,7 @@ class SwitchExerciseBar extends Component
 	public $current_index;
 	public $max_index;
 
-	// Executed only when component is created
+	// Eseguito solo al caricamento del componente
 	public function mount($workout_plan, $day)
 	{
 		$this->workout_plan = $workout_plan;
@@ -20,7 +20,7 @@ class SwitchExerciseBar extends Component
 		$this->max_index = $this->workout_plan->exercises()->where('day', $this->day)->max('order')-1;
 	}
 
-	// Executed everytime a variable gets updated
+	// Eseguito ogni qualvolta una variabile subisce una modifica al suo valore
 	public function render()
 	{
 		return view('livewire.training.switch-exercise-bar', [
@@ -31,17 +31,11 @@ class SwitchExerciseBar extends Component
 
 	public function previous()
 	{
-		if($this->current_index > 0) {
-			$this->current_index--;
-			$this->dispatch('change-index', $this->current_index);
-		}
+		$this->current_index > 0 ? $this->dispatch('change-index', --$this->current_index) : null;
 	}
 
 	public function next()
 	{
-		if($this->current_index < $this->max_index) {
-			$this->current_index++;
-			$this->dispatch('change-index', $this->current_index);
-		}
+		$this->current_index < $this->max_index ? $this->dispatch('change-index', ++$this->current_index) : null;
 	}
 }

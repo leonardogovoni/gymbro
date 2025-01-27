@@ -93,7 +93,7 @@ class WorkoutEditor extends Component
 	{
 		// Ottengo l'order dell'ultimo esercizio del giorno per capire l'ordine del nuovo esercizio
 		$last_exercise = $this->workout_plan->exercises()->where('day', $this->add_day)->orderBy('order', 'desc')->first();
-		$new_exercise_order = !is_null($last_exercise) ? $last_exercise->pivot->order + 1 : 1;
+		$new_exercise_order = $last_exercise !== null ? $last_exercise->pivot->order + 1 : 1;
 
 		$this->workout_plan->exercises()->attach($exercise_id, [
 			'day' => $this->add_day,
@@ -112,7 +112,7 @@ class WorkoutEditor extends Component
 		$this->edit_pivot_id = $pivot_id;
 		$exercise_data = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
 
-		// Preparo i dati per il modal
+		// Preparazione dati per il modal
 		$this->rest = $exercise_data->pivot->rest;
 		$this->sets = $exercise_data->pivot->sets;
 		$this->to_failure = $exercise_data->pivot->reps == 'MAX' ? true : false;

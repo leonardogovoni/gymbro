@@ -37,7 +37,6 @@
 												Crea la tua scheda di allenamento personalizzata, potrai sceglierre tra numerosi esercizi e opzioni di personalizzazione.
 											</p>
 										</div>
-
 									</a>
 
 									<a href="" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm lg:max-w-4xl md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">

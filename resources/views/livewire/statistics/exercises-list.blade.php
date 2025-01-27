@@ -6,23 +6,23 @@
 				<option value="{{ $index }}">{{ $category }}</option>
 			@endforeach
 		</select>
-		
+
 		<input type="text" wire:model.live="search_parameter" placeholder="Cerca" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 border-s-2 focus:ring-primary-500 focus:border-primary-500 block w-3/4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
 	</div>
 
 	<div class="mt-4 grid gap-4 text-gray-900 dark:text-gray-100">
-		@if($results->isEmpty())
+		@if ($results->isEmpty())
 			<div class="text-center text-gray-600 dark:text-gray-400">
 				Non ci sono esercizi registrati per il filtro selezionato.
 			</div>
 		@endif
-		
-		@foreach($results as $result)
+
+		@foreach ($results as $result)
 			<a href="{{ route('statistics.view', $result) }}">
 				<div class="bg-gray-100 flex items-center p-4 shadow-sm dark:bg-gray-800 hover:bg-hover-50 border rounded-lg">
 					<!-- Immagine -->
 					<img src="{{ asset('images/exercises/' . $result->image) }}" alt="{{ $result->name }}" class="w-32 h-32 object-contain mr-4">
-					
+
 					<!-- Informazioni -->
 					<div class="flex-1">
 						<h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">

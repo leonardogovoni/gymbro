@@ -56,7 +56,7 @@ class WorkoutsList extends Component
 	{
 		$this->edit_workout_plan = Auth::user()->workout_plans()->where('id', $id)->first();
 
-		if($this->edit_workout_plan) {
+		if ($this->edit_workout_plan) {
 			$this->title = $this->edit_workout_plan->title;
 			$this->description = $this->edit_workout_plan->description;
 			$this->show_edit_modal = true;
@@ -67,7 +67,7 @@ class WorkoutsList extends Component
 	{
 		$this->validate();
 
-		if($this->edit_workout_plan)
+		if ($this->edit_workout_plan)
 			$this->edit_workout_plan->update([
 				'title' => $this->title,
 				'description' => $this->description

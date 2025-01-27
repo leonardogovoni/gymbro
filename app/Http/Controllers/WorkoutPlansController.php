@@ -11,14 +11,14 @@ class WorkoutPlansController extends Controller
 	public function index(Request $request)
 	{
 		return view('workout_plans.list');
-    }
+	}
 
 	// Metodo per gestire i dati inviati dal form
 	public function create(Request $request)
 	{
 		try {
 			// Validazione dei dati
-			$validatedData = $request->validate([
+			$validated_data = $request->validate([
 				'name' => 'required|string|max:100',
 				'description' => 'nullable|string|max:400',
 			]);
@@ -32,8 +32,8 @@ class WorkoutPlansController extends Controller
 				'user_id' => auth()->id(),
 
 				// Valori inseriti nel form
-				'title' => $validatedData['name'],
-				'description' => $validatedData['description'],
+				'title' => $validated_data['name'],
+				'description' => $validated_data['description'],
 
 				// default: false, true se e' l'unica scheda creata
 				'enabled' => $workout_plans === 0 ? true : false
@@ -48,10 +48,8 @@ class WorkoutPlansController extends Controller
 
 	public function edit($id, Request $request)
 	{
-		$workout_plan = $request->user()->workout_plans()->where('id', $id)->firstOrFail();
-
 		return view('workout_plans.edit', [
-			'workout_plan' => $workout_plan
+			'workout_plan' => $request->user()->workout_plans()->where('id', $id)->firstOrFail()
 		]);
 	}
 }

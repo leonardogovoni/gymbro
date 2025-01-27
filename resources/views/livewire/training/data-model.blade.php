@@ -1,5 +1,5 @@
 <div>
-	@if($saved)
+	@if ($saved)
 		<div class="flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
 			<x-mdi-information class="h-6 me-2" />
 
@@ -7,7 +7,7 @@
 		</div>
 	@endif
 
-	@if($this->show_last_training_reps == true && $this->is_to_failure == false)
+	@if ($this->show_last_training_reps == true && $this->is_to_failure == false)
 	<div class="blue-alert">
 		<x-mdi-exclamation-thick class="h-6 me-2" />
 
@@ -17,7 +17,7 @@
 
 	<div class="bg-white shadow sm:rounded-lg">
 		<form class="p-4 dark:bg-gray-800 text-gray-900 dark:text-gray-100" wire:submit.prevent="submit">
-			@if($this->exercises()->isNotEmpty())
+			@if ($this->exercises()->isNotEmpty())
 				<div class="text-center border-b">
 					<h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">
 						{{ $this->exercises()[$current_index]->name }}: {{ $this->exercises()[$current_index]->pivot->sets }} x
@@ -50,7 +50,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach(range(1, $this->exercises()[$current_index]->pivot->sets) as $set)
+						@foreach (range(1, $this->exercises()[$current_index]->pivot->sets) as $set)
 							<tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
 								<td class="p-2 border text-center border-gray-300 dark:border-gray-600">
 									{{ $set }}
@@ -58,7 +58,7 @@
 								<td class="border border-gray-300 dark:border-gray-600">
 									<x-text-input class="w-full text-center bg-transparent border-none shadow-none rounded-none" type="number" min="0" step="1" required wire:model="reps.{{ $set-1 }}" />
 								</td>
-								@if($is_to_failure || $show_last_training_reps)
+								@if ($is_to_failure || $show_last_training_reps)
 									<td class="p-2 border border-gray-300 dark:border-gray-600 text-center bg-gray-100">
 										<p class="text-gray-500">{{ $last_training_reps[$set-1] }}</p>
 									</td>

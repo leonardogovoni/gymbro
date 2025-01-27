@@ -43,7 +43,7 @@
 								<x-mdi-information-outline class="h-5 me-1" />
 								Potrai aggiungere gli esercizi alla scheda dopo averla creata.
 							</div>
-						
+
 							<!-- Pulsanti -->
 							<div class="flex justify-end space-x-2 mt-4">
 								<button type="button" x-on:click="showModal = false" class="secondary-button">

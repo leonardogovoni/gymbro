@@ -1,6 +1,6 @@
 <div x-data="{ showDeleteModal: false, deleteId: null, showEditModal: $wire.entangle('show_edit_modal') }">
 	<!-- Div per gli errori durante la validazione -->
-	@if(session('error'))
+	@if (session('error'))
 		<div class="flex items-center p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
 			<x-mdi-information-outline class="h-6 me-2" />
 
@@ -39,7 +39,7 @@
 							</div>
 						</div>
 
-						@if($workout_plan->description)
+						@if ($workout_plan->description)
 							<p class="text-sm text-gray-700 dark:text-gray-300 line-clamp-5" title="{{ $workout_plan->description }}">
 								{{ $workout_plan->description }}
 							</p>
@@ -109,8 +109,7 @@
 							<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
 						@enderror
 					</div>
-				
-				
+
 					<!-- Pulsanti -->
 					<div class="flex justify-end space-x-2 mt-4">
 						<button type="button" x-on:click="showEditModal = false" class="secondary-button">

@@ -17,7 +17,7 @@ class WorkoutPlan extends Model
 	// Gestisce l'abilitazione dei campi created_at e updated_at
 	public $timestamps = true;
 
-	// Aggiungi i campi che possono essere popolati in massa
+	// Aggiunge i campi che devono essere scritti, ovvero i nomi delle colonne del DB
 	protected $fillable = [
 		'user_id', 'title', 'description', 'enabled'
 	];
@@ -27,7 +27,7 @@ class WorkoutPlan extends Model
 
 	public function user(): BelongsTo
 	{
-	    return $this->belongsTo(User::class, 'user_id', 'id');
+		return $this->belongsTo(User::class, 'user_id', 'id');
 	}
 
 	public function exercises(): BelongsToMany

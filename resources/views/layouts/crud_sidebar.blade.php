@@ -16,7 +16,7 @@
 				</li>
 				<li>
 					<a href="{{ route('admin.users') }}"
-						@if(request()->routeIs('admin.users'))
+						@if (request()->routeIs('admin.users'))
 							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group bg-gray-200 dark:bg-gray-600"
 						@else
 							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -28,7 +28,7 @@
 				</li>
 				<li>
 					<a href="{{ route('admin.workout_plans') }}"
-						@if(request()->routeIs('admin.workout_plans'))
+						@if (request()->routeIs('admin.workout_plans'))
 							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group bg-gray-200 dark:bg-gray-600"
 						@else
 							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -40,7 +40,7 @@
 				</li>
 				<li>
 					<a href="{{ route('admin.progress') }}"
-						@if(request()->routeIs('admin.progress'))
+						@if (request()->routeIs('admin.progress'))
 							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group bg-gray-200 dark:bg-gray-600"
 						@else
 							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -57,7 +57,7 @@
 					</a>
 				</li>
 			</ul>
-			
+
 			<ul class="font-medium pt-4 border-t">
 				<li class="flex items-center justify-center text-gray-900 dark:text-white">
 					<x-application-logo class="h-6 w-auto fill-gray-800 dark:fill-gray-200" />

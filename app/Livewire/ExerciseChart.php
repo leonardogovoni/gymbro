@@ -21,7 +21,7 @@ class ExerciseChart extends Component
 	public $workout_plan_ids;
 
 	// Numero di mesi di cui visualizzare gli esercizi, default: 3
-	public $filter = '3';
+	public $switch_filter = '3';
 
 	public function render()
 	{
@@ -32,13 +32,13 @@ class ExerciseChart extends Component
 		$this->repeteadedQuery();
 
 		// Estrai i nomi delle schede (workout_plan) in un array
-		//$workout_plan = $this->exercise_data->pluck('workoutPlan.title')->filter(); // Rimuove i nulli
+		// $workout_plan = $this->exercise_data->pluck('workoutPlan.title')->filter(); // Rimuove i nulli
 		$this->workout_plan_ids = WorkoutPlan::join('exercises_data', 'workout_plans.id', '=', 'exercises_data.workout_plan_pivot_id')
 			->distinct()
 			->pluck('workout_plans.id');
-		
-		$workout_plan = WorkoutPlan::whereIn('id', $this->workout_plan_ids)  // Seleziona i workout_plan con gli ID estratti
-			->pluck('title');
+
+		// Seleziona i workout_plan con gli ID estratti
+		$workout_plan = WorkoutPlan::whereIn('id', $this->workout_plan_ids)->pluck('title');
 
 		// Estrai i pesi e le ripetizioni in array separati
 		$weights = $this->exercise_data->pluck('used_weights');
@@ -51,7 +51,7 @@ class ExerciseChart extends Component
 			'average_kg' => round($weights->avg(), 2),
 			'max_rep' => $reps->max(),
 			'min_rep' => $reps->min(),
-			'average_rep' => round($reps->avg(), 2),
+			'average_rep' => round($reps->avg(), 2)
 		];
 
 		// Non eliminare questa funzione, grazie, la direzione.
@@ -79,9 +79,9 @@ class ExerciseChart extends Component
 			return $query->where('user_id', auth()->id());
 		});
 
-		// Gestire il filtro per $this->filter (mesi)
-		$query->when($this->filter !== '0', function ($query) {
-			return $query->where('created_at', '>=', now()->subMonths($this->filter));
+		// Gestire il filtro per $this->switch_filter (mesi)
+		$query->when($this->switch_filter !== '0', function ($query) {
+			return $query->where('created_at', '>=', now()->subMonths($this->switch_filter));
 		});
 
 		$this->exercise_data_begin = $query->select('day')->orderBy('created_at')->get();
@@ -98,9 +98,9 @@ class ExerciseChart extends Component
 			return $query->where('user_id', auth()->id());
 		});
 
-		// Gestire il filtro per $this->filter (mesi)
-		$query->when($this->filter !== '0', function ($query) {
-			return $query->where('created_at', '>=', now()->subMonths($this->filter));
+		// Gestire il filtro per $this->switch_filter (mesi)
+		$query->when($this->switch_filter !== '0', function ($query) {
+			return $query->where('created_at', '>=', now()->subMonths($this->switch_filter));
 		});
 
 		// Gestire il filtro per $this->switch_plan
@@ -109,7 +109,7 @@ class ExerciseChart extends Component
 		});
 
 		// Gestire il filtro per $this->switch_day
-		$query->when((int) $this->switch_day !== 0, function ($query) {
+		$query->when((int) $this->switch_day !== 0 && (int) $this->switch_plan !== 0, function ($query) {
 			return $query->where('day', $this->switch_day);
 		});
 
@@ -120,31 +120,11 @@ class ExerciseChart extends Component
 	// ==================================================
 	// Listener delle variabili del file Blade
 
+	// Questa funzione viene chiamata direttamente dal Blade per evitare
+	// l'accrocchio che andrebbe altrimenti scritto qui sotto
 	public function recall()
 	{
 		$this->repeteadedQuery();
 		$this->dispatch($this->switch_view ? 'updateChartReps' : 'updateChartKgs', $this->exercise_data);
 	}
-
-	public function updatedFilter()
-	{
-		$this->recall();
-	}
-
-	public function updatedSwitchView()
-	{
-		$this->recall();
-	}
-
-	public function updatedSwitchPlan()
-	{
-		$this->recall();
-	}
-
-	public function updatedSwitchDay()
-	{
-		$this->recall();
-	}
-
-
 }

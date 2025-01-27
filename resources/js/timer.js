@@ -57,12 +57,10 @@ function startTimer () {
 	isRunning = true;
 
 	timer = setInterval( () => {
-		if (timeRemaining === 0) {
+		if (timeRemaining-- === 0) {
 			stopTimer();
 			return;
 		}
-
-		timeRemaining--;
 
 		updateText();
 		updateProgressBar();

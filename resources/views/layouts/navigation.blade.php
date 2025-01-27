@@ -29,7 +29,7 @@
 							{{ __('Statistiche') }}
 						</x-nav-link>
 					</div>
-					@if(Auth::user()->is_admin || Auth::user()->is_gym)
+					@if (Auth::user()->is_admin || Auth::user()->is_gym)
 						<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
 							<x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
 								{{ __('Amministrazione') }}
@@ -64,9 +64,7 @@
 						<form method="POST" action="{{ route('logout') }}">
 							@csrf
 
-							<x-dropdown-link :href="route('logout')"
-									onclick="event.preventDefault();
-												this.closest('form').submit();">
+							<x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
 								{{ __('Log Out') }}
 							</x-dropdown-link>
 						</form>
@@ -115,7 +113,7 @@
 				{{ __('Statistiche') }}
 			</x-responsive-nav-link>
 		</div>
-		@if(Auth::user()->is_admin)
+		@if (Auth::user()->is_admin)
 			<div class="pt-2 pb-3 space-y-1">
 				<x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
 				{{ __('Amministrazione') }}
@@ -140,9 +138,7 @@
 				<form method="POST" action="{{ route('logout') }}">
 					@csrf
 
-					<x-responsive-nav-link :href="route('logout')"
-							onclick="event.preventDefault();
-										this.closest('form').submit();">
+					<x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
 						{{ __('Log Out') }}
 					</x-responsive-nav-link>
 				</form>
@@ -151,16 +147,16 @@
 		@endauth
 
 		@guest
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('login')">
-                {{ __('Login') }}
-            </x-responsive-nav-link>
-        </div>
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('register')">
-                {{ __('Registrati') }}
-            </x-responsive-nav-link>
-        </div>
-    	@endguest
+		<div class="pt-2 pb-3 space-y-1">
+			<x-responsive-nav-link :href="route('login')">
+				{{ __('Login') }}
+			</x-responsive-nav-link>
+		</div>
+		<div class="pt-2 pb-3 space-y-1">
+			<x-responsive-nav-link :href="route('register')">
+				{{ __('Registrati') }}
+			</x-responsive-nav-link>
+		</div>
+		@endguest
 	</div>
 </nav>

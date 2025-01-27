@@ -2,10 +2,10 @@
     <div class="grid gap-4">
         <!-- Filtri -->
         <div>
-            <label for="filter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filtri</label>
+            <label for="switch_filter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filtri</label>
             <div class="flex space-x-2">
                 <!-- Switch arco temporale statistiche -->
-                <select id="filter" wire:model.live="filter" class="input-text flex-1">
+                <select id="switch_filter" wire:model.live="switch_filter" wire:change="recall" class="input-text flex-1">
                     <option value="1">Ultimo mese</option>
                     <option value="3">Ultimi 3 mesi</option>
                     <option value="6">Ultimi 6 mesi</option>
@@ -14,14 +14,14 @@
                 </select>
 
                 <!-- Switch tra Kg e Reps -->
-                <select id="switch_view" wire:model.live="switch_view" class="input-text flex-1">
+                <select id="switch_view" wire:model.live="switch_view" wire:change="recall" class="input-text flex-1">
                     <option value="0">Carico (Kg)</option>
                     <option value="1">Ripetizioni</option>
                 </select>
             </div>
             <div class="flex space-x-2 mt-1">
                 <!-- Switch tra Schede -->
-                <select id="switch_plan" wire:model.live="switch_plan" class="input-text flex-1">
+                <select id="switch_plan" wire:model.live="switch_plan" wire:change="recall" class="input-text flex-1">
                     <option value="0">Tutte le Schede</option>
                     @foreach ($workout_plans as $index => $workout_plan)
                         <option value="{{ $index+1 }}">{{ $workout_plan }}</option>
@@ -29,8 +29,8 @@
                 </select>
 
                 <!-- Switch tra Giorni -->
-                <select id="switch_day" wire:model.live="switch_day" class="input-text flex-1">
-                    <option value="0">Tutti i Giorni</option>
+                <select id="switch_day" wire:model.live="switch_day" wire:change="recall" class="input-text flex-1">		
+					<option value="0">Tutti i Giorni</option>
                     @foreach ($days as $index => $day)
                         <option value="{{ $index + 1 }}">{{ $day }}</option>
                     @endforeach
@@ -39,11 +39,9 @@
         </div>
 
         <!-- Div per il grafico Kgs -->
-
         <div class="p-6 border rounded-lg w-full h-[500px] relative overflow-auto">
             <canvas id="exerciseChart"></canvas>
         </div>
-
 
         <!-- Tabelle dinamiche -->
         <div class="overflow-x-auto">

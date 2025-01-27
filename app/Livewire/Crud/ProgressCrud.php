@@ -17,18 +17,18 @@ class ProgressCrud extends Component
 {
     use WithPagination;
 
-    // // Parametri GET
+    // Parametri GET
     #[Url]
     public $user_id;
     public $exercise_id;
 
-    // // Variabili di controllo
+    // Variabili di controllo
     public $search_parameter;
 
-    // // Eseguito a ogni modifica di una variabile
+    // Eseguito a ogni modifica di una variabile
     public function render()
     {
-        if(!$this->user_id)
+        if (!$this->user_id)
             // Non è selezionato un utente, mostro la lista di quelli che hanno esercizi registrati
             $results = User::select('id', 'first_name', 'last_name')
                 ->where('first_name', 'like', "%{$this->search_parameter}%")
@@ -39,7 +39,7 @@ class ProgressCrud extends Component
                 }])
                 ->having('recorded_sets', '>', 0)
                 ->paginate(20);
-        elseif($this->user_id)
+        elseif ($this->user_id)
             // E' selezionato un utente, mostro gli esercizi registrati
             $results = ExerciseData::join('exercises', 'exercises_data.exercise_id', '=', 'exercises.id')
                 ->select('exercise_id', 'exercises.name', DB::raw('count(exercise_id) as recorded_sets'))

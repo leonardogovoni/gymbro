@@ -28,15 +28,15 @@
 
 	<!-- Timer modal -->
 	<div id="timerModal" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden transition">
-	    <div class="bg-white p-8 rounded-lg shadow-xl max-w-xs w-full text-center">
-	        <div id="timerText" class="text-4xl font-bold mb-4"></div>
+		<div class="bg-white p-8 rounded-lg shadow-xl max-w-xs w-full text-center">
+			<div id="timerText" class="text-4xl font-bold mb-4"></div>
 
-	        <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
-	            <div id="timerProgressBar" class="bg-primary-500 h-4 rounded-full" style="width: 100%"></div>
-	        </div>
+			<div class="w-full bg-gray-200 rounded-full h-4 mb-4">
+				<div id="timerProgressBar" class="bg-primary-500 h-4 rounded-full" style="width: 100%"></div>
+			</div>
 
-	        <!-- Contenitore per i pulsanti -->
-        	<div class="flex justify-center space-x-4">
+			<!-- Contenitore per i pulsanti -->
+			<div class="flex justify-center space-x-4">
 				<button id="timerReduce" class="bg-yellow-500 text-white py-2 px-4 rounded-lg">
 					Riduci
 				</button>
@@ -44,7 +44,7 @@
 					Termina
 				</button>
 			</div>
-	    </div>
+		</div>
 	</div>
 
 	<!-- Switch exercise bar -->
