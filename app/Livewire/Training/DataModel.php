@@ -15,6 +15,7 @@ class DataModel extends Component
 	public $current_index;
 	public $max_index;
 	public $saved;
+	public $is_done;
 
 	public $is_to_failure;
 	public $reps;
@@ -28,7 +29,7 @@ class DataModel extends Component
 	{
 		$this->workout_plan = $workout_plan;
 		$this->day = $day;
-		$this->max_index = $this->workout_plan->exercises()->where('day', $this->day)->max('order')-1;
+		$this->max_index = $this->workout_plan->exercises()->where('day', $this->day)->max('order') - 1;
 
 		// Tutte le variabili necessarie vengono caricate quando un esercizio cambia,
 		// quindi e' sufficiente cambiare l'index
@@ -38,16 +39,23 @@ class DataModel extends Component
 	// Eseguito ogni qualvolta una variabile subisce una modifica al suo valore
 	public function render()
 	{
+		$this->is_done = ExerciseData::whereDate('created_at', now()->toDateString()) // Verifica la data odierna
+			->where('exercise_id', $this->exercises()[$this->current_index]->id) // Verifica l'esercizio corrente
+			->where('workout_plan_id', $this->workout_plan->id) // Verifica la scheda corrente
+			->where('workout_plan_pivot_id', $this->exercises()[$this->current_index]->pivot->id) // Verifica il pivot dell'esercizio
+			->exists(); // Verifica se esiste un record
+
 		return view('livewire.training.data-model');
 	}
 
 	public function submit()
 	{
-		foreach($this->used_weights as $index => $weight) {
+		foreach ($this->used_weights as $index => $weight) {
 			ExerciseData::create([
 				'user_id' => auth()->id(),
 				'exercise_id' => $this->exercises()[$this->current_index]->id,
 				'workout_plan_id' => $this->workout_plan->id,
+				'workout_plan_pivot_id' => $this->exercises()[$this->current_index]->pivot->id,
 				'day' => $this->day,
 				'set' => $index + 1,
 				'reps' => $this->reps[$index],
@@ -64,6 +72,17 @@ class DataModel extends Component
 		}
 
 		$this->saved = true;
+	}
+
+	public function updateExerciseData()
+	{
+		ExerciseData::whereDate('created_at', now()->toDateString()) // Verifica la data odierna
+			->where('exercise_id', $this->exercises()[$this->current_index]->id) // Verifica l'esercizio corrente
+			->where('workout_plan_id', $this->workout_plan->id) // Verifica la scheda corrente
+			->where('workout_plan_pivot_id', $this->exercises()[$this->current_index]->pivot->id) // Verifica il pivot dell'esercizio
+			->delete(); // Elimina i dati
+
+		$this->submit(); // Ricreo i dati con i nuovi valori
 	}
 
 	// Prepara i dati per il prossimo esercizio
@@ -130,7 +149,8 @@ class DataModel extends Component
 		return $this->getLastTrainingData($pivot_id, 'reps');
 	}
 
-	public function getLastTrainingData($pivot_id, $type) {
+	public function getLastTrainingData($pivot_id, $type)
+	{
 		// La query e' ridondante nelle funzioni sopra, visto che l'unica differenza sta nel computare l'else,
 		// tanto vale fare un innesto e pulire un po' di codice doppio
 		$exercise = $this->workout_plan->exercises()->wherePivot('id', $pivot_id)->first();
@@ -153,8 +173,9 @@ class DataModel extends Component
 
 		// Caso 'kili'
 		foreach ($result as $index => $kgs)
-			if ((int) $kgs == $kgs) $result[$index] = (int) $kgs;
-		
+			if ((int) $kgs == $kgs)
+				$result[$index] = (int) $kgs;
+
 		return $result;
 	}
 }
