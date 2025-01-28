@@ -60,9 +60,16 @@
 		</div>
 	</x-slot>
 
-	<div class="content-div max-w-5xl">
-		<div class="w-full lg:w-5/6 mx-auto">
-			<livewire:workout_plans.workouts-list />
+	@if ($workout_plans_count == 0)
+		<div class="blue-alert max-w-5xl mx-auto mt-4">
+			<x-mdi-exclamation-thick class="h-5 me-2" />
+			<p>Non ci sono schede da mostrare. Puoi crearne una con il tasto <b>Nuova scheda.</b></p>
 		</div>
-	</div>
+	@else
+		<div class="content-div max-w-5xl">
+			<div class="w-full lg:w-5/6 mx-auto">
+				<livewire:workout_plans.workouts-list />
+			</div>
+		</div>
+	@endif
 </x-app-layout>

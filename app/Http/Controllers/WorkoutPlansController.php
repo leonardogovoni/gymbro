@@ -10,7 +10,11 @@ class WorkoutPlansController extends Controller
 {
 	public function index(Request $request)
 	{
-		return view('workout_plans.list');
+		$workout_plans_count = $request->user()->workout_plans->count();
+
+		return view('workout_plans.list', [
+			'workout_plans_count' => $workout_plans_count
+		]);
 	}
 
 	// Metodo per gestire i dati inviati dal form

@@ -8,15 +8,15 @@ use App\Models\WorkoutPlanExercise;
 
 class TrainingController extends Controller
 {
-	// Metodo per visualizzare la pagina e recuperare le schede
+	// Metodo per visualizzare i giorni della sheda di allenamento di default
 	public function index(Request $request)
 	{
 		$workout_plan = $request->user()->workout_plans()->where('enabled', true)->first();
 		$grouped_exercises = null;
 
-		// Esegue l'operazione solo se $workout_plan e' definito e non null (Elvis)
-		// previene alcuni errori dopo l'eliminazione della scheda di default
-		if ($workout_plan ?: false) {
+		// Esiste una scheda dell'utente impostata a enabled,
+		// recupero gli esercizi raggruppati per giorno
+		if ($workout_plan != null) {
 			$grouped_exercises = $workout_plan->exercises()
 				->orderBy('day')
 				->orderBy('order')
@@ -24,8 +24,9 @@ class TrainingController extends Controller
 				->groupBy('day');
 		}
 
-		return view('training.training', [
-			'workout_plan' => $workout_plan,
+		// Se grouped_exercises è vuoto, allora non ci sono esercizi nella scheda
+		return view('training.select-day', [
+			'workout_plan_id' => $workout_plan->id ?? null,
 			'grouped_exercises' => $grouped_exercises
 		]);
 	}

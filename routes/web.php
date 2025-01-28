@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
 	Route::get('/workout_plans/edit/{id}', [WorkoutPlansController::class, 'edit'])->name('workout_plans.edit');
 	
 	// Pagina 'allenamento'
-	Route::get('/training', [TrainingController::class, 'index'])->name('training');
+	Route::get('/training', [TrainingController::class, 'index'])->name('training.select_day');
 	Route::get('/training/inspect/{workout_plan_id}/{day}', [TrainingController::class, 'inspect'])->name('training.inspect');
 
 	// Pagina statistiche

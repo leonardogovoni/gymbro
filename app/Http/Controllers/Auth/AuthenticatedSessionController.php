@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('training', absolute: false));
+        return redirect()->intended(route('training.select_day', absolute: false));
     }
 
     /**

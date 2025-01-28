@@ -9,7 +9,7 @@
 	@endif
 
 	@if ($workout_plans->isEmpty())
-		<p>Non ci sono schede da mostrare.</p>
+		<p>Non ci sono schede da mostrare. Puoi crearne una con il tasto <b>Nuova scheda.</b></p>
 	@else
 		<div class="grid gap-4">
 			@foreach ($workout_plans as $workout_plan)

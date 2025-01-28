@@ -11,34 +11,38 @@
 	</div>
 
 	<div class="mt-4 grid gap-4 text-gray-900 dark:text-gray-100">
-		@if ($results->isEmpty())
+		@if ($results->isEmpty() && $search_parameter == '')
 			<div class="text-center text-gray-600 dark:text-gray-400">
-				Non ci sono esercizi registrati per il filtro selezionato.
+				Non ci sono allenamenti registrati.
 			</div>
-		@endif
+		@elseif ($results->isEmpty() && $search_parameter != '')
+			<div class="text-center text-gray-600 dark:text-gray-400">
+				Non ci sono allenamenti registrati per il filtro selezionato.
+			</div>
+		@else
+			@foreach ($results as $result)
+				<a href="{{ route('statistics.view', $result) }}">
+					<div class="bg-gray-100 flex items-center p-4 shadow-sm dark:bg-gray-800 hover:bg-hover-50 border rounded-lg">
+						<!-- Immagine -->
+						<img src="{{ asset('images/exercises/' . $result->image) }}" alt="{{ $result->name }}" class="w-32 h-32 object-contain mr-4">
 
-		@foreach ($results as $result)
-			<a href="{{ route('statistics.view', $result) }}">
-				<div class="bg-gray-100 flex items-center p-4 shadow-sm dark:bg-gray-800 hover:bg-hover-50 border rounded-lg">
-					<!-- Immagine -->
-					<img src="{{ asset('images/exercises/' . $result->image) }}" alt="{{ $result->name }}" class="w-32 h-32 object-contain mr-4">
+						<!-- Informazioni -->
+						<div class="flex-1">
+							<h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">
+								{{ $result->name }}
+							</h3>
+							<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+								{{ $result->description }}
+							</p>
+						</div>
 
-					<!-- Informazioni -->
-					<div class="flex-1">
-						<h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">
-							{{ $result->name }}
-						</h3>
-						<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-							{{ $result->description }}
-						</p>
+						<!-- Gruppo muscolare -->
+						<span class="text-sm font-medium text-primary-600 dark:text-primary-400">
+							{{ $result->muscle }}
+						</span>
 					</div>
-
-					<!-- Gruppo muscolare -->
-					<span class="text-sm font-medium text-primary-600 dark:text-primary-400">
-						{{ $result->muscle }}
-					</span>
-				</div>
-			</a>
-		@endforeach
+				</a>
+			@endforeach
+		@endif
 	</div>
 </div>
