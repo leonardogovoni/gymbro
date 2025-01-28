@@ -97,7 +97,7 @@ class DataModel extends Component
 		$this->saved = true;
 		$this->show_warning_modal = false;
 	}
- 
+
 	// Prepara i dati per il prossimo esercizio
 	#[On('change-index')]
 	public function changeIndex($new_index)

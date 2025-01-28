@@ -1,6 +1,4 @@
 <x-app-layout>
-	@vite(['resources/css/training.css'])
-
 	<!-- Header -->
 	<x-slot name="header">
 		<div class="flex items-center justify-between h-6">
@@ -12,11 +10,11 @@
 
 	<!-- Form esecuzione esercizio -->
 	<div class="max-w-3xl mt-4 mx-auto pb-20">
-		<livewire:training.data-model :workout_plan="$workout_plan" :day="$day" >
+		<livewire:training.data-model :workout_plan="$workout_plan" :day="$day" />
 	</div>
 
 	<!-- JS Timer -->
-	@vite(['resources/js/timer.js', 'resources/js/info.js'])
+	@vite(['resources/js/timer.js'])
 
 	<!-- Pulsante Timer -->
 	<a id="timerFloatingButton" class="cursor-pointer fixed bottom-16 left-6 bg-primary-500 text-white text-lg font-bold py-2 px-4 rounded-full shadow-lg hover:bg-primary-600 flex items-center space-x-2">
@@ -44,24 +42,6 @@
 					Termina
 				</button>
 			</div>
-		</div>
-	</div>
-
-	<div id="infoModal" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden transition">
-		<div class="text font-bold mb-4 p-6 bg-white rounded-lg shadow-xl max-w-md w-full text-left">
-			<div class="flex items-center justify-between mb-4">
-				<div class="flex items-center">
-					<x-mdi-information-outline class="fill-secondary-500 h-6 mr-2" />
-					<span>Informazioni</span>
-				</div>
-				<button id="closeInfo" class="focus:outline-none">
-					<x-mdi-close class="fill-secondary-500 h-6" />
-				</button>
-			</div>
-			<ul class="list-disc list-inside">
-				<li>Compila i campi della tabella relativi alle ripetizioni svolte durante il tuo allenamento e ai corrispettivi carichi utilizzati.</li>
-				<li>La colonna <em>ultimo allenamento</em> mostrerà i dati registrati dell'ultimo allenamento caricato.</li>
-			</ul>
 		</div>
 	</div>
 

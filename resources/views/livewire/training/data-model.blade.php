@@ -1,4 +1,4 @@
-<div x-data="{showWarningModal: $wire.entangle('show_warning_modal'), confirm: $wire.entangle('modal_confirm')}">
+<div x-data="{showWarningModal: $wire.entangle('show_warning_modal'), confirm: $wire.entangle('modal_confirm'), showInfoModal: false}">
     <!-- ALert esercizio salvato -->
     @if ($saved)
         <div class="green-alert">
@@ -48,9 +48,8 @@
             <div class="pt-4 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                 <h4 class="text-lg font-bold mb-4 text-gray-900 dark:text-white flex items-center justify-between">
                     Risultati allenamento @if($this->is_to_failure) (a cedimento) @endif
-                    <button type="button">
-                        <x-mdi-information-outline id="infoButton" class="fill-secondary-500 h-6 me-2"
-                            title="Informazioni" />
+                    <button type="button" x-on:click="showInfoModal = true">
+                        <x-mdi-information-outline class="fill-secondary-500 hover:fill-primary-500 transition duration-150 h-6 me-2" title="Informazioni" />
                     </button>
                 </h4>
 
@@ -123,6 +122,28 @@
 					<button x-on:click="showWarningModal = false" class="secondary-button">No, annulla</button>
 					<button x-on:click="confirm = true; $wire.submit()" class="danger-button ">Si, sovrascrivi</button>
 				</div>
+			</div>
+		</div>
+
+        <!-- Modale informazioni sull'uso -->
+        <div x-cloak x-show="showInfoModal" x-transition.opacity class="modal-bg">
+			<div class="mb-4 p-6 bg-white rounded-lg shadow-xl max-w-md w-full text-left mx-4">
+				<div class="flex items-center justify-between mb-4">
+					<div class="flex items-center">
+						<x-mdi-information-outline class="fill-gray-600 h-6 mr-2" />
+                        <h4 class="inline-flex items-center text-lg font-semibold text-gray-600 uppercase dark:text-gray-500">
+							Informazioni
+						</h4>
+					</div>
+					<button x-on:click="showInfoModal = false" class="hover:bg-gray-200 rounded-lg focus:outline-none">
+						<x-mdi-close class="fill-gray-600 h-6" />
+					</button>
+				</div>
+
+				<ul class="list-disc list-inside font-sans space-y-2 text-justify">
+					<li>Compila i campi della tabella relativi alle ripetizioni svolte durante il tuo allenamento e ai corrispettivi carichi utilizzati.</li>
+					<li>La colonna <em>Precedente</em> mostrerà i dati registrati dell'ultimo allenamento caricato.</li>
+				</ul>
 			</div>
 		</div>
     </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Statistics;
 
 use Livewire\Component;
 use App\Models\ExerciseData;
@@ -57,7 +57,7 @@ class ExerciseChart extends Component
 
 		// [TODO] Questa parte andrebbe sistemata in una maniera piu' sintetica, altresi' spostare la logica
 		// sul frontend crea dei papiri per non renderla indecente.
-		return view('livewire.exercise-chart', [
+		return view('livewire.statistics.exercise-chart', [
 			'exercise_data' => $this->exercise_data,
 			'exercise_stats' => $exercise_stats,
 			'workout_plans' => $workout_plan,

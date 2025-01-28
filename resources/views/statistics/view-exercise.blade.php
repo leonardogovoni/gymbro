@@ -10,6 +10,6 @@
 	@vite(['resources/js/stats_chart.js'])
 
 	<div class="content-div max-w-5xl">
-		<livewire:exercise-chart :exercise_id="$exercise_id" />
+		<livewire:statistics.exercise-chart :exercise_id="$exercise_id" />
 	</div>
 </x-app-layout>
