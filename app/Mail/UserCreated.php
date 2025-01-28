@@ -32,7 +32,7 @@ class UserCreated extends Mailable
 	public function envelope(): Envelope
 	{
 		return new Envelope(
-			from: new Address('info@gymbro.com', 'Gymbro Team'),
+			from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
 			subject: 'Benvenuto in Gymbro!',
 		);
 	}

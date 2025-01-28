@@ -63,7 +63,7 @@
 								</div>
 							</main>
 
-							<footer class="py-16 text-center text-sm text-black dark:text-white/70">
+							<footer class="py-8 text-center text-sm text-black dark:text-white/70">
 								©Progetto TechWeb by Biagio, Govo, Seba
 							</footer>
 						</div>
