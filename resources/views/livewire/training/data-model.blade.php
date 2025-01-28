@@ -74,23 +74,20 @@
 					</thead>
 					<tbody>
 						@foreach (range(1, $this->exercises()[$current_index]->pivot->sets) as $set)
-							<tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+							<tr>
 								<td class="p-2 border text-center border-gray-300 dark:border-gray-600 border-e-gray-500 border-e-2">
 									{{ $set }}
 								</td>
 								<td class="border border-gray-300 ">
-									<x-text-input
-										class="w-full text-center bg-transparent border-none shadow-none rounded-none"
-										type="number" min="0" step="1" required
+									<input class="w-full block text-center bg-transparent border-none shadow-none rounded-none focus:ring-0 focus:outline-primary-500 outline-2"
+										type="number" min="0" step="1" placeholder="Inserisci ripetizioni" required
 										wire:model="reps.{{ $set - 1 }}" />
 								</td>
 
 								<td class="border border-gray-300 dark:border-gray-600 border-e-gray-500 border-e-2 ">
-									<x-text-input
-										class="w-full text-center bg-transparent border-none shadow-none rounded-none"
-										type="number" min="0" step=".01" required
-										wire:model.live="used_weights.{{ $set - 1 }}"
-										placeholder="Inserisci carico" />
+									<input class="w-full block text-center bg-transparent border-none shadow-none rounded-none focus:ring-0 focus:outline-primary-500 outline-2"
+										type="number" min="0" step=".01" placeholder="Inserisci carico" required
+										wire:model.live="used_weights.{{ $set - 1 }}" />
 								</td>
 								@if ($is_to_failure || $show_last_training_reps)
 									<td class="p-2 border border-gray-300 text-center bg-gray-100">
