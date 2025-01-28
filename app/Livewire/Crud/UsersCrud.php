@@ -7,10 +7,13 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Validate;
+
+use App\Mail\UserCreated;
 
 class UsersCrud extends Component
 {
@@ -165,7 +168,7 @@ class UsersCrud extends Component
 			$data['password'] = Hash::make($password);
 			User::create($data);
 			// Invio email con password\
-			// Mail::to($this->email)->send(new UserCreated($this->email, $password));
+			Mail::to($this->email)->send(new UserCreated($this->email, $password));
 		}
 		// Modifica di utente già esistente
 		elseif ($this->modal_user) {
