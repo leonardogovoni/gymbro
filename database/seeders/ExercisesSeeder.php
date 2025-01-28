@@ -39,14 +39,14 @@ class ExercisesSeeder extends Seeder
                 'name' => 'Leg Curl',
                 'image' => 'leg_curl.png',
                 'description' => 'Placeholder',
-                'muscle' => 'ischio-crurali',
+                'muscle' => 'Femorali',
             ],
             [
                 'id' => 5,
                 'name' => 'Leg Curl Seduto',
                 'image' => 'leg_curl_seduto.png',
                 'description' => 'Placeholder',
-                'muscle' => 'ischio-crurali',
+                'muscle' => 'Femorali',
             ],
             [
                 'id' => 6,

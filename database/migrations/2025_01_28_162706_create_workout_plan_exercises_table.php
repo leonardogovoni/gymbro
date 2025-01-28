@@ -24,6 +24,7 @@ return new class extends Migration
             // serie viene formattata come "10-8-6" es.
             $table->string('reps', 100);
             $table->unsignedSmallInteger('rest');
+            $table->boolean('edited')->default(true);
             $table->timestamps();
 
             //  Chiavi esterne
