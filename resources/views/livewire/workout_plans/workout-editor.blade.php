@@ -93,7 +93,7 @@
 	</div>
 
 	<!-- Modal modifica esercizio -->
-	<div x-cloak x-show="showEditModal" x-transition.opacity class="modal-bg">
+	<div x-cloak x-show="showEditModal" x-transition.opacity class="modal-bg px-4">
 		<div class="relative bg-white dark:bg-gray-700 rounded-lg" style="width: 500px;">
 			<!-- Modal header -->
 			<div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
