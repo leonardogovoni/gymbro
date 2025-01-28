@@ -39,4 +39,13 @@ class CrudController extends Controller
 			'exercise_id' => $request->input('exercise_id')
 		]);
 	}
+
+	public function exercises(Request $request)
+	{
+		// Se è palestra non può accedere a questa pagina
+		if (!Auth::user()->is_admin && Auth::user()->is_gym)
+			return back();
+
+		return view('crud.exercises');
+	}
 }

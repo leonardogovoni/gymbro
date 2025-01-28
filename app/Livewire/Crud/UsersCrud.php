@@ -56,12 +56,12 @@ class UsersCrud extends Component
 				$query->where('first_name', 'like', "%{$this->search_parameter}%")
 					->orWhere('last_name', 'like', "%{$this->search_parameter}%")
 					->orWhere('email', 'like', "%{$this->search_parameter}%");
-				})
-				// Quando non è admin ma è palestra, mostra solo i clienti della palestra
-				->when(!$this->is_admin && $this->is_gym, function ($query) {
-					$query->where('controlled_by', '=', $this->gym_id);
-				})
-				->paginate(20);
+			})
+			// Quando non è admin ma è palestra, mostra solo i clienti della palestra
+			->when(!$this->is_admin && $this->is_gym, function ($query) {
+				$query->where('controlled_by', '=', $this->gym_id);
+			})
+			->paginate(20);
 
 		return view('livewire.crud.users', [
 			'results' => $results

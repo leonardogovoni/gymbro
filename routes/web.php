@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('/admin/workout_plans', [CrudController::class, 'workout_plans'])->name('admin.workout_plans');
 		Route::get('/admin/progress', [CrudController::class, 'progress'])->name('admin.progress');
 		Route::get('/admin/progress/chart', [CrudController::class, 'progressChart'])->name('admin.progress_chart');
+		Route::get('/admin/exercises', [CrudController::class, 'exercises'])->name('admin.exercises');
 	});
 });
 

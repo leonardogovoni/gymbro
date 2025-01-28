@@ -28,16 +28,24 @@
 							<th scope="col" class="px-4 py-4">ID</th>
 							<th scope="col" class="px-4 py-4">Nome</th>
 							<th scope="col" class="px-4 py-3">Cognome</th>
+							@if ($is_admin && !$is_gym)
+								<th scope="col" class="px-4 py-3">Palestra</th>
+								<th scope="col" class="px-4 py-3">Admin</th>
+							@endif
 							<th scope="col" class="px-4 py-3">Mail</th>
 							<th scope="col" class="px-4 py-3">Azioni</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($results as $user)
+						@foreach ($results as $user)
 							<tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
 								<th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $user->id }}</th>
 								<td class="px-4 py-3">{{ $user->first_name }}</td>
 								<td class="px-4 py-3">{{ $user->last_name }}</td>
+								@if ($is_admin && !$is_gym)
+									<td class="px-4 py-3">{{ $user->is_gym ? 'Sì' : 'No' }}</td>
+									<td class="px-4 py-3">{{ $user->is_admin ? 'Sì' : 'No' }}</td>
+								@endif
 								<td class="px-4 py-3">{{ $user->email }}</td>
 								<td class="px-4 py-3">
 									<button x-on:click="id = {{ $user->id }}; showDeleteModal = true" class="h-4 py-auto" title="Elimina">
@@ -91,54 +99,54 @@
 			</button>
 
 			<!-- Anagrafica -->
-			<div class="grid grid-cols-2 gap-4 pb-4 border-b">
+			<div class="grid grid-cols-2 gap-4 pb-4">
 				<div class="col-span-2">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400">Anagrafica</h5>
 				</div>
 				<div>
 					<label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
-					<input id="first_name" type="text" class="input-text" wire:model="first_name" />
-					@error('first_name')
+					<input id="first_name" type="text" class="input-text" wire:model="first_name" required />
+					@error ('first_name')
 						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
 					@enderror
 				</div>
 				<div>
 					<label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cognome</label>
-					<input id="last_name" type="text" class="input-text" wire:model="last_name" />
-					@error('last_name')
+					<input id="last_name" type="text" class="input-text" wire:model="last_name" required />
+					@error ('last_name')
 						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
 					@enderror
 				</div>
 				<div>
 					<label for="ssn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codice fiscale</label>
-					<input id="ssn" type="text" class="input-text" wire:model="ssn" maxlength="16" />
-					@error('ssn')
+					<input id="ssn" type="text" class="input-text" wire:model="ssn" maxlength="16" required />
+					@error ('ssn')
 						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
 					@enderror
 				</div>
 				<div>
 					<label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-					<input id="email" type="email" class="input-text" wire:model="email" />
-					@error('email')
+					<input id="email" type="email" class="input-text" wire:model="email" required />
+					@error ('email')
 						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
 					@enderror
 				</div>
 				<div>
 					<label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sesso</label>
 					<select id="gender" class="input-text" wire:model="gender">
-						@if ($new)<option disabled selected>Seleziona</option>@endif
+						@if ($new) <option disabled selected>Seleziona</option> @endif
 						<option value="M">Uomo</option>
 						<option value="F">Donna</option>
 						<option value="N">Non specificato</option>
 					</select>
-					@error('gender')
+					@error ('gender')
 						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
 					@enderror
 				</div>
 				<div>
 					<label for="date_of_birth" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data di nascita</label>
 					<input id="date_of_birth" type="date" class="input-text" wire:model="date_of_birth" />
-					@error('date_of_birth')
+					@error ('date_of_birth')
 						<p class="text-red-500 dark:text-red-400 mt-1">{{ $message }}</p>
 					@enderror
 				</div>
@@ -146,13 +154,14 @@
 
 			<!-- Gestione utente solo per admin -->
 			@if ($is_admin)
-				<div class="grid grid-cols-1 gap-4 py-4 border-b">
+				<div class="grid grid-cols-1 gap-4 py-4 border-y mb-4">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400">Gestione utente</h5>
 
 					<div class="flex items-center">
 						<label for="is_admin" class="block text-sm font-medium text-gray-900 dark:text-white grow">Amministratore</label>
 						<label class="inline-flex items-center">
-							<input type="checkbox" class="sr-only peer" id="is_admin" wire:model="is_admin_form" />
+							<input type="checkbox" class="sr-only peer" id="is_admin" wire:model="is_admin_form" 
+								@if ($modal_user && Auth::user()->id == $modal_user->id) disabled @endif />
 							<div class="switch peer"></div>
 						</label>
 					</div>
@@ -183,7 +192,7 @@
 			@endif
 
 			<!-- Azioni -->
-			<div class="pt-4 flex justify-center gap-2">
+			<div class="flex justify-center gap-2">
 				@if ($new && !$modal_user)
 					<button type="submit" class="primary-button">Crea utente</button>
 				@elseif (!$new && $modal_user)
