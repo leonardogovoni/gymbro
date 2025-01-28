@@ -66,6 +66,11 @@
 			<p>Non ci sono schede da mostrare. Puoi crearne una con il tasto <b>Nuova scheda.</b></p>
 		</div>
 	@else
+		<div class="blue-alert max-w-5xl mx-auto mt-4">
+			<x-mdi-information-outline class="h-5 me-2" />
+			<p>Seleziona una scheda per modificarne gli esercizi.</p>
+		</div>
+
 		<div class="content-div max-w-5xl">
 			<div class="w-full lg:w-5/6 mx-auto">
 				<livewire:workout_plans.workouts-list />

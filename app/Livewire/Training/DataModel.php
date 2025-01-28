@@ -10,12 +10,12 @@ use App\Models\ExerciseData;
 
 class DataModel extends Component
 {
+
 	public $workout_plan;
 	public $day;
 	public $current_index;
 	public $max_index;
 	public $saved;
-	public $is_done;
 
 	public $is_to_failure;
 	public $reps;
@@ -23,6 +23,11 @@ class DataModel extends Component
 	public $last_training_weights;
 	public $last_training_reps;
 	public $show_last_training_reps;
+
+	// Variabili per la gestione della sovrascrittura dei dati
+	public $already_done;
+	public $show_warning_modal = false;
+	public $modal_confirm = false;
 
 	// Eseguito solo al caricamento del componente
 	public function mount($workout_plan, $day)
@@ -39,18 +44,35 @@ class DataModel extends Component
 	// Eseguito ogni qualvolta una variabile subisce una modifica al suo valore
 	public function render()
 	{
-		$this->is_done = ExerciseData::whereDate('created_at', now()->toDateString()) // Verifica la data odierna
-			->where('exercise_id', $this->exercises()[$this->current_index]->id) // Verifica l'esercizio corrente
-			->where('workout_plan_id', $this->workout_plan->id) // Verifica la scheda corrente
-			->where('workout_plan_pivot_id', $this->exercises()[$this->current_index]->pivot->id) // Verifica il pivot dell'esercizio
-			->exists(); // Verifica se esiste un record
+		$this->already_done = ExerciseData::whereDate('created_at', now()->toDateString())				// Verifica la data odierna
+			->where('exercise_id', $this->exercises()[$this->current_index]->id)						// Verifica l'esercizio corrente
+			->where('workout_plan_id', $this->workout_plan->id)											// Verifica la scheda corrente
+			->where('workout_plan_pivot_id', $this->exercises()[$this->current_index]->pivot->id)		// Verifica il pivot dell'esercizio
+			->exists();																					// Verifica se esiste un record
 
 		return view('livewire.training.data-model');
 	}
 
 	public function submit()
 	{
-		foreach ($this->used_weights as $index => $weight) {
+		// L'utente ha gia' inserito dei dati nella la data odierna
+		// per l'esercizio corrente, mostra un avviso
+		if($this->already_done && !$this->modal_confirm) {
+			$this->show_warning_modal = true;
+			return;
+		}
+
+		// L'utente ha gia' inserito dei dati nella la data odierna
+		// e ha confermato di volerli sovrascrivere
+		if($this->already_done && $this->modal_confirm) {
+			ExerciseData::whereDate('created_at', now()->toDateString()) 								// Verifica la data odierna
+				->where('exercise_id', $this->exercises()[$this->current_index]->id)					// Verifica l'esercizio corrente
+				->where('workout_plan_id', $this->workout_plan->id)										// Verifica la scheda corrente
+				->where('workout_plan_pivot_id', $this->exercises()[$this->current_index]->pivot->id)	// Verifica il pivot dell'esercizio
+				->delete();																				// Elimina i dati
+		}
+
+		foreach($this->used_weights as $index => $weight) {
 			ExerciseData::create([
 				'user_id' => auth()->id(),
 				'exercise_id' => $this->exercises()[$this->current_index]->id,
@@ -63,6 +85,7 @@ class DataModel extends Component
 			]);
 		}
 
+		// Se l'esercizio era stato modificato, lo mette a false
 		if ($this->exercises()[$this->current_index]->pivot->edited) {
 			$pivot_id = $this->exercises()[$this->current_index]->pivot->id;
 
@@ -72,19 +95,9 @@ class DataModel extends Component
 		}
 
 		$this->saved = true;
+		$this->show_warning_modal = false;
 	}
-
-	public function updateExerciseData()
-	{
-		ExerciseData::whereDate('created_at', now()->toDateString()) // Verifica la data odierna
-			->where('exercise_id', $this->exercises()[$this->current_index]->id) // Verifica l'esercizio corrente
-			->where('workout_plan_id', $this->workout_plan->id) // Verifica la scheda corrente
-			->where('workout_plan_pivot_id', $this->exercises()[$this->current_index]->pivot->id) // Verifica il pivot dell'esercizio
-			->delete(); // Elimina i dati
-
-		$this->submit(); // Ricreo i dati con i nuovi valori
-	}
-
+ 
 	// Prepara i dati per il prossimo esercizio
 	#[On('change-index')]
 	public function changeIndex($new_index)

@@ -10,15 +10,15 @@
 		</div>
 	</x-slot>
 
-	<!-- Form exercise data -->
-	<div class="py-12 max-w-3xl mx-auto sm:px-6 lg:px-8">
+	<!-- Form esecuzione esercizio -->
+	<div class="max-w-3xl mt-4 mx-auto pb-20">
 		<livewire:training.data-model :workout_plan="$workout_plan" :day="$day" >
 	</div>
 
-	<!-- Timer logic -->
+	<!-- JS Timer -->
 	@vite(['resources/js/timer.js', 'resources/js/info.js'])
 
-	<!-- Timer floating button -->
+	<!-- Pulsante Timer -->
 	<a id="timerFloatingButton" class="cursor-pointer fixed bottom-16 left-6 bg-primary-500 text-white text-lg font-bold py-2 px-4 rounded-full shadow-lg hover:bg-primary-600 flex items-center space-x-2">
 		<x-mdi-timer-sand class="h-6"/>
 		<span id="timerFloatingText">
@@ -26,8 +26,8 @@
 		</span>
 	</a>
 
-	<!-- Timer modal -->
-	<div id="timerModal" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden transition">
+	<!-- Modale Timer -->
+	<div id="timerModal" class="bg-black bg-opacity-40 z-50 backdrop-blur-sm fixed inset-0 flex justify-center items-center hidden transition">
 		<div class="bg-white p-8 rounded-lg shadow-xl max-w-xs w-full text-center">
 			<div id="timerText" class="text-4xl font-bold mb-4"></div>
 
@@ -37,10 +37,10 @@
 
 			<!-- Contenitore per i pulsanti -->
 			<div class="flex justify-center space-x-4">
-				<button id="timerReduce" class="bg-yellow-500 text-white py-2 px-4 rounded-lg">
+				<button id="timerReduce" class="secondary-button">
 					Riduci
 				</button>
-				<button id="timerStop" class="bg-red-500 text-white py-2 px-4 rounded-lg">
+				<button id="timerStop" class="danger-button">
 					Termina
 				</button>
 			</div>
@@ -65,6 +65,6 @@
 		</div>
 	</div>
 
-	<!-- Switch exercise bar -->
+	<!-- Barra cambio esercizio -->
 	<livewire:training.switch_exercise_bar :workout_plan="$workout_plan" :day="$day" />
 </x-app-layout>
