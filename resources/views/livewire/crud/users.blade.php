@@ -1,8 +1,8 @@
-<div x-data="{showDeleteModal: false, id: 0, showDetailsModal: $wire.entangle('show_details_modal')}">
+<div x-data="{showDeleteModal: false, id: 0, showDetailsModal: $wire.entangle('show_details_modal'), showCreationModal: $wire.entangle('show_creation_modal')}">
 	<!-- Lista utenti -->
 	<div class="mx-auto max-w-screen-xl py-4 px-4 lg:px-12">
 		<div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-			<!-- Top bar -->
+			<!-- Ricerca -->
 			<div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 				<div class="w-full">
 					<form class="flex items-center">
@@ -68,7 +68,7 @@
 		</div>
 	</div>
 
-	<!-- Delete modal -->
+	<!-- Modal eliminazione -->
 	<div x-cloak x-show="showDeleteModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 z-50 backdrop-blur-sm flex justify-center items-center">
 		<div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
 			<x-mdi-trash-can-outline class="text-gray-400 dark:text-gray-500 w-11 h-11 mb-3.5 mx-auto" />
@@ -82,8 +82,8 @@
 		</div>
 	</div>
 
-	<!-- Dettagli del modali -->
-	<!-- Si utilizza lo stesso modale per Creare, Modificare e Ispezionare -->
+	<!-- Modal dettagli -->
+	<!-- Si utilizza lo stesso modale per creare e modificare -->
 	<div x-cloak x-show="showDetailsModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 z-50 backdrop-blur-sm flex justify-center items-center">
 		<form wire:submit="save" class="fixed top-0 left-0 z-50 w-full h-screen max-w-3xl p-4 overflow-y-auto bg-white dark:bg-gray-800">
 			<h4 class="inline-flex items-center mb-4 text-md font-semibold text-gray-600 uppercase dark:text-gray-500">
@@ -208,5 +208,18 @@
 				@endif
 			</div>
 		</form>
+	</div>
+
+	<!-- Modal conferma creazione utente -->
+	<div x-cloak x-show="showCreationModal" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 z-50 backdrop-blur-sm flex justify-center items-center">
+		<div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5 w-96">
+			<x-mdi-check-circle class="text-gray-400 dark:text-gray-500 w-14 h-14 mb-3.5 mx-auto" />
+
+			<p class="mb-4 text-gray-700 dark:text-gray-300 text-lg">Utente creato con successo! La password è stata inviata all'utente per mail.</p>
+
+			<div class="flex justify-center items-center space-x-4">
+				<button x-on:click="showCreationModal = false" class="primary-button">Chiudi</button>
+			</div>
+		</div>
 	</div>
 </div>

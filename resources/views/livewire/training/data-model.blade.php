@@ -121,7 +121,7 @@
 
 				<div class="flex justify-center items-center space-x-4">
 					<button x-on:click="showWarningModal = false" class="secondary-button">No, annulla</button>
-					<button x-on:click="confirm = true; $wire.submit()" class="danger-button ">Si, ne sono sicuro</button>
+					<button x-on:click="confirm = true; $wire.submit()" class="danger-button ">Si, sovrascrivi</button>
 				</div>
 			</div>
 		</div>

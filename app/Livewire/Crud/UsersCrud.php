@@ -28,6 +28,7 @@ class UsersCrud extends Component
 	public $new = false;
 	public $modal_user;
 	public $show_details_modal = false;
+	public $show_creation_modal = false;
 	public $user_already_exists = false;
 
 	// Variabili del modale
@@ -166,9 +167,14 @@ class UsersCrud extends Component
 			// Genero una password di 8 caratteri che manderemo per mail
 			$password = Str::random(8);
 			$data['password'] = Hash::make($password);
+
 			User::create($data);
-			// Invio email con password\
+
+			// Invio email con password
 			Mail::to($this->email)->send(new UserCreated($this->email, $password));
+
+			// Mostro il modale di conferma
+			$this->show_creation_modal = true;
 		}
 		// Modifica di utente già esistente
 		elseif ($this->modal_user) {
