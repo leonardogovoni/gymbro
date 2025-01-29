@@ -123,6 +123,13 @@ function updateChart (data, type) {
 		...getCoordinateObject(type === 'used_weights' ? 'Kg' : 'Ripetizioni')
 	}
 
+	// Aggiorna il tooltipRaw
+	chart.options.plugins.tooltip.callbacks = {
+		label: function(tooltipItem) {
+			return type === 'used_weights' ? `Kg: ${tooltipItem.raw}` : `Rep.: ${tooltipItem.raw}`;
+		}
+	}
+
 	// Importante il resize(), senza appare
 	// zoomato e completamente rotto
 	chart.resize();

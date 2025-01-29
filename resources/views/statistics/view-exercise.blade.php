@@ -7,7 +7,7 @@
 		</div>
 	</x-slot>
 
-	@vite(['resources/js/stats_chart.js'])
+	@vite(['resources/js/statsChart.js'])
 
 	<div class="content-div max-w-5xl">
 		<livewire:statistics.exercise-chart :exercise_id="$exercise_id" />

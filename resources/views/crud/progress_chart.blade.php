@@ -1,4 +1,4 @@
-@vite(['resources/js/stats_chart.js'])
+@vite(['resources/js/statsChart.js'])
 
 <x-crud-layout>
 	<div class="min-h-screen antialiased">
