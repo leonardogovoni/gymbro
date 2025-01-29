@@ -17,19 +17,19 @@
         @csrf
         @method('patch')
 
-        <div>
+        {{-- <div>
             <x-input-label for="name" :value="__('Nome')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
-        </div>
+        </div> --}}
 
-        <div>
+        {{-- <div>
             <x-input-label for="gender" :value="__('Sesso')" />
             <x-gender-select id="gender" name="gender" :value="old('gender', $user->gender)" required />
             <x-input-error class="mt-2" :messages="$errors->get('gender')" />
-        </div>
+        </div> --}}
         
-        <div>
+        {{-- <div>
             <x-input-label for="date_of_birth" :value="__('Data di nascita')" />
             <input type="date" id="date_of_birth" name="date_of_birth" 
                    class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
@@ -37,7 +37,7 @@
                    required autocomplete="date_of_birth"
                    max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
             <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
-        </div>    
+        </div>     --}}
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
