@@ -14,10 +14,44 @@
 		@vite(['resources/css/app.css', 'resources/js/app.js'])
 	</head>
 	<body class="font-sans antialiased dark:bg-black dark:text-white/50">
-		<div class="flex flex-col min-h-screen">
-			{{-- @include('layouts.navigation') --}}
-			<x-app-layout>
-				<div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 flex-grow">
+		{{-- @include('layouts.navigation', ['dashboard' => true]) --}}
+
+		<div class="px-4 pt-16 mx-auto lg:py-32 md:px-8 xl:px-36 sm:max-w-xl md:max-w-full min-h-screen hero lg:flex items-center justify-between">
+			<div class="max-w-xl lg:max-w-screen-xl min-w-screen">
+				<div class="w-[520px]">
+					<div class="max-w-xl mb-6 text-white">
+						<div class="flex">
+						<x-application-logo class="h-32 fill-white" />
+						<h2 class="ms-2 max-w-lg my-auto font-sans text-6xl font-bold tracking-tight ">
+							Gymbro
+						</h2></div>
+						<p class="md:text-lg">
+							Gestionale per palestre che rivoluziona l'allenamento dei tuoi clienti. Crea programmi personalizzati, monitora i progressi in tempo reale e migliora l'esperienza fitness direttamente dall’app.
+						</p>
+					</div>
+					<div class="flex items-center">
+						<a href="/" class="primary-button">
+							Get started
+						</a>
+					  <a href="/" aria-label="" class="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800">Learn more</a>
+					</div>
+				  </div>
+				</div>
+		
+		<div class="w-1/2">
+
+	<img class="" src="https://kitwind.io/assets/kometa/full-browser.png">
+	</div>
+
+				{{-- <div class="flex items-center h-full overflow-hidden lg:w-2/3 xl:w-1/2 lg:absolute lg:justify-start">
+				<img src="https://kitwind.io/assets/kometa/full-browser.png" class="object-top w-full h-64 max-w-xl rounded shadow-2xl lg:ml-64 xl:ml-8 lg:h-auto lg:max-w-screen-md " alt="" />
+				</div> --}}
+			  </div>
+		</div>
+	</body>
+</html>
+
+				{{-- <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 flex-grow">
 					<div class="flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
 						<div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
 							<header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
@@ -68,8 +102,5 @@
 							</footer>
 						</div>
 					</div>
-				</div>
-			</x-app-layout>
-		</div>
-	</body>
-</html>
+				</div> --}}
+
