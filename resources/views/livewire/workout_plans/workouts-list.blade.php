@@ -47,12 +47,12 @@
 
 						<div>
 							<span class="font-semibold">Data di creazione:</span>
-							<span class="truncate">{{ $workout_plan->created_at->format('d-m-Y H:i:s') }}</span>
+							<span class="truncate">{{ $workout_plan->created_at->format('d-m-Y') }}</span>
 						</div>
 
 						<div>
 							<span class="font-semibold">Data di modifica:</span>
-							<span class="truncate">{{ $workout_plan->updated_at->format('d-m-Y H:i:s') }}</span>
+							<span class="truncate">{{ $workout_plan->updated_at->format('d-m-Y') }}</span>
 						</div>
 
 						<div>
