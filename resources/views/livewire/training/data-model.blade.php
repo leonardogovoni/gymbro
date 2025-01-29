@@ -49,7 +49,7 @@
 				<h4 class="text-lg font-bold mb-4 text-gray-900 dark:text-white flex items-center justify-between">
 					Risultati allenamento @if($this->is_to_failure) (a cedimento) @endif
 					<button type="button" x-on:click="showInfoModal = true">
-						<x-mdi-information-outline class="fill-secondary-500 hover:fill-primary-500 transition duration-150 h-6 me-2" title="Informazioni" />
+						<x-mdi-help-circle-outline class="fill-secondary-500 hover:fill-primary-500 transition duration-150 h-6" title="Informazioni" />
 					</button>
 				</h4>
 

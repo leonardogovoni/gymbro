@@ -14,7 +14,7 @@
 		@vite(['resources/css/app.css', 'resources/js/app.js'])
 	</head>
 	<body class="font-sans antialiased dark:bg-black dark:text-white/50">
-		{{-- @include('layouts.navigation', ['dashboard' => true]) --}}
+		@include('layouts.navigation', ['dashboard' => true])
 
 		<div class="px-4 pt-16 mx-auto lg:py-32 md:px-8 xl:px-36 sm:max-w-xl md:max-w-full min-h-screen hero lg:flex items-center justify-between">
 			<div class="max-w-xl lg:max-w-screen-xl min-w-screen">
