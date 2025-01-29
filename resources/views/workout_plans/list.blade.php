@@ -68,7 +68,7 @@
 	@else
 		<div class="blue-alert max-w-5xl mx-auto mt-4">
 			<x-mdi-information-outline class="h-5 me-2" />
-			<p>Seleziona una scheda per modificarne gli esercizi.</p>
+			<p>Premi su una scheda per modificarne gli esercizi.</p>
 		</div>
 
 		<div class="content-div max-w-5xl">

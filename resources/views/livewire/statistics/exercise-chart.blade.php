@@ -6,11 +6,11 @@
             <div class="flex space-x-2">
                 <!-- Switch arco temporale statistiche -->
                 <select id="switch_filter" wire:model.live="switch_filter" wire:change="recall" class="input-text flex-1">
+                    <option value="0">Tutto</option>
                     <option value="1">Ultimo mese</option>
                     <option value="3">Ultimi 3 mesi</option>
                     <option value="6">Ultimi 6 mesi</option>
                     <option value="12">Ultimi 12 mesi</option>
-                    <option value="0">Tutto</option>
                 </select>
 
                 <!-- Switch tra Kg e Reps -->

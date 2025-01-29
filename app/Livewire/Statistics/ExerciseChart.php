@@ -22,7 +22,7 @@ class ExerciseChart extends Component
 	public $days = [];
 
 	// Numero di mesi di cui visualizzare gli esercizi, default: 3
-	public $switch_filter = '3';
+	public $switch_filter = '0';
 
 	public function render()
 	{
