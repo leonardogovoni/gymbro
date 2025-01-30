@@ -19,7 +19,7 @@
 		@livewireStyles
 	</head>
 	<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
-		@include('layouts.crud_sidebar')
+		@include('layouts.crud-sidebar')
 
 		<div class="sm:ml-64">
 			{{ $slot }}

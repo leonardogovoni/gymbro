@@ -87,7 +87,7 @@ class ProgressCrud extends Component
 	// Usare il tag a dava problemi
 	public function selectExercise($id)
 	{
-		$this->redirectRoute('admin.progress_chart', [
+		$this->redirectRoute('admin.progress-chart', [
 			'user_id' => $this->user_id,
 			'exercise_id' => $id
 		]);

@@ -34,7 +34,7 @@ class CrudController extends Controller
 			if (Auth::user()->gym_clients()->where('id', $request->input('user_id'))->first() == null)
 				return redirect()->route('admin.progress');
 
-		return view('crud.progress_chart', [
+		return view('crud.progress-chart', [
 			'user_id' => $request->input('user_id'),
 			'exercise_id' => $request->input('exercise_id')
 		]);
