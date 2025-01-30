@@ -198,12 +198,8 @@
 				@elseif (!$new && $modal_user)
 					<button type="submit" class="primary-button">Aggiorna dati</button>
 
-					<!-- DA CORREGGERE -->
 					<a href="{{ route('admin.workout_plans', ['user_id' => $modal_user->id]) }}">
 						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Mostra schede</button>
-					</a>
-					<a href="{{ route('admin.workout_plans', ['new_plan_user_id' => $modal_user->id]) }}">
-						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Crea scheda</button>
 					</a>
 				@endif
 			</div>

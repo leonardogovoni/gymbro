@@ -130,35 +130,53 @@
 				</div>
 
 				<div>
-					<label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Utente</label>
-					<input id="user_id" type="number" min="0" class="input-text" wire:model="new_plan_user_id"
-					@if (!$new && $modal_plan)
-						disabled
-					@elseif ($new && !$modal_plan)
-						required
+					<label for="user" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Utente</label>
+
+					<!-- CREAZIONE - Ricerca utenti nel caso di creazione -->
+					@if ($new && $new_plan_user_id == null)
+						<div>
+							<input id="user" type="text" wire:model.live="search_user_modal_parameter" placeholder="Cerca utente e selezionalo" class="bg-gray-100 text-gray-900 rounded-t-lg w-full p-2.5 border-b border-gray-300 focus:ring-primary-500 focus:border-primary-500" />
+							<div class="grid grid-cols-1 bg-gray-50 border-gray-300 border-b border-x rounded-b-lg divide-y divide-gray-300">
+								@foreach($search_user_modal_results as $result)
+									<div class="hover:bg-hover-50 py-2 px-2.5 text-gray-900" wire:click="selectUser({{  $result->id }})">{{ $result->first_name }} {{ $result->last_name }} ({{ $result->email }})</div>
+								@endforeach
+							</div>
+						</div>
+					<!-- CREAZIONE - Utente selezionato -->
+					@elseif ($new && $new_plan_user_id)
+						<div class="w-full flex gap-2">
+							<input id="user" type="text" class="input-text w-2/3" wire:model="user_string" />
+							<button type="button" class="secondary-button w-1/3" wire:click="undoUserSelect">Cambia</button>
+						</div>
+					<!-- MODIFICA - Mostra nome e basta -->
+					@elseif (!$new && $modal_plan)
+						<input id="user" type="text" class="input-text" wire:model="user_string" disabled />
 					@endif
-					/>
 				</div>
 
-				@if ($new && $user_not_found)
-					<div class="flex items-center p-4 text-md text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800">
-						Utente non trovato, controlla l'ID inserito.
-					</div>
-				@endif
+				<div>
+					@if ($new && !$user_string)
+						<div class="red-alert !mx-0">
+							Utente non selezionato, inserisci il nome della persona per cercarla dopodiché selezionala nei risultati sotto.
+						</div>
+					@endif
 
-				@if (!$new && $modal_plan)
-					<div class="flex justify-center">
-						<button type="submit" class="primary-button">Salva modifiche</button>
-					</div>
-				@elseif ($new && !$modal_plan)
-					<div class="flex items-center p-4 text-md text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800">
-						È necessario creare la scheda prima di poter aggiungere degli esercizi, potrai poi aggiungerli cercandola nella dashboard e premendo modifica.
-					</div>
+					<!-- MODIFICA -->
+					@if (!$new && $modal_plan)
+						<div class="flex justify-center">
+							<button type="submit" class="primary-button">Salva modifiche</button>
+						</div>
+					<!-- CREAZIONE -->
+					@elseif ($new && !$modal_plan)
+						<div class="yellow-alert !mx-0">
+							È necessario creare la scheda prima di poter aggiungere degli esercizi, potrai poi aggiungerli cercandola nella dashboard e premendo modifica.
+						</div>
 
-					<div class="flex justify-center">
-						<button type="submit" class="primary-button">Crea scheda</button>
-					</div>
-				@endif
+						<div class="flex justify-center">
+							<button type="submit" class="primary-button">Crea scheda</button>
+						</div>
+					@endif
+				</div>
 			</form>
 
 			{{-- Esericizi --}}
