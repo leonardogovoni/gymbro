@@ -23,12 +23,12 @@ Route::middleware('auth')->group(function () {
 		Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 		
 		// Pagina di visualizzazione delle schede
-		Route::get('/workout_plans', [WorkoutPlansController::class, 'index'])->name('workout_plans.list');
-		Route::post('/workout_plans', [WorkoutPlansController::class, 'create'])->name('workout_plans.create');
-		Route::get('/workout_plans/edit/{id}', [WorkoutPlansController::class, 'edit'])->name('workout_plans.edit');
+		Route::get('/workout-plans', [WorkoutPlansController::class, 'index'])->name('workout-plans.list');
+		Route::post('/workout-plans', [WorkoutPlansController::class, 'create'])->name('workout-plans.create');
+		Route::get('/workout-plans/edit/{id}', [WorkoutPlansController::class, 'edit'])->name('workout-plans.edit');
 		
 		// Pagina 'allenamento'
-		Route::get('/training', [TrainingController::class, 'index'])->name('training.select_day');
+		Route::get('/training', [TrainingController::class, 'index'])->name('training.select-day');
 		Route::get('/training/inspect/{workout_plan_id}/{day}', [TrainingController::class, 'inspect'])->name('training.inspect');
 
 		// Pagina statistiche
@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 	// Pagine CRUD solo per palestre e admin
 	Route::middleware([Admin::class])->group(function () {
 		Route::get('/admin/users', [CrudController::class, 'users'])->name('admin.users');
-		Route::get('/admin/workout_plans', [CrudController::class, 'workout_plans'])->name('admin.workout_plans');
+		Route::get('/admin/workout-plans', [CrudController::class, 'workoutPlans'])->name('admin.workout-plans');
 		Route::get('/admin/progress', [CrudController::class, 'progress'])->name('admin.progress');
 		Route::get('/admin/progress/chart', [CrudController::class, 'progressChart'])->name('admin.progress-chart');
 		Route::get('/admin/exercises', [CrudController::class, 'exercises'])->name('admin.exercises');

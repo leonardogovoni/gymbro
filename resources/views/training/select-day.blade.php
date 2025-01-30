@@ -11,13 +11,13 @@
 	@if ($grouped_exercises == null)
 		<div class="blue-alert max-w-5xl mx-auto mt-4">
 			<x-mdi-exclamation-thick class="h-5 me-2" />
-			<p>Non hai creato nessuna scheda. <a href="{{ route('workout_plans.list') }}"><b>Premi qui per andare alla pagina delle schede e crearne una.</b></a></p>
+			<p>Non hai creato nessuna scheda. <a href="{{ route('workout-plans.list') }}"><b>Premi qui per andare alla pagina delle schede e crearne una.</b></a></p>
 		</div>
 	<!-- C'è una shceda attiva, ma non contiene esercizi -->
 	@elseif ($grouped_exercises->isEmpty())
 		<div class="blue-alert max-w-5xl mx-auto mt-4">
 			<x-mdi-exclamation-thick class="h-5 me-2" />
-			<p>La scheda attiva non contiene esercizi. <a href="{{ route('workout_plans.edit', $workout_plan_id) }}"><b>Premi qui per modificarla e aggiungerne.</b></a></p>
+			<p>La scheda attiva non contiene esercizi. <a href="{{ route('workout-plans.edit', $workout_plan_id) }}"><b>Premi qui per modificarla e aggiungerne.</b></a></p>
 		</div>
 	<!-- C'è una shceda attiva e contiene esercizi -->
 	@else

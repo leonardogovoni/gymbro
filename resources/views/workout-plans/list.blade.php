@@ -19,7 +19,7 @@
 						</h4>
 
 						<!-- Form -->
-						<form action="{{ route('workout_plans.create') }}" method="POST">
+						<form action="{{ route('workout-plans.create') }}" method="POST">
 							@csrf
 							<div class="space-y-3">
 								<div>

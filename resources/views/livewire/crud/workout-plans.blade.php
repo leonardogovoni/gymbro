@@ -184,7 +184,7 @@
 				<div class="border-t py-4">
 					<h5 class="inline-flex items-center text-md font-semibold text-gray-500 uppercase dark:text-gray-400 pb-4">Esericizi</h5>
 
-					<livewire:workout_plans.workout-editor :workout_plan="$modal_plan" :reload_days="true" />
+					<livewire:workout-plans.workout-editor :workout_plan="$modal_plan" :reload_days="true" />
 				</div>
 			@endif
 		</div>

@@ -198,7 +198,7 @@
 				@elseif (!$new && $modal_user)
 					<button type="submit" class="primary-button">Aggiorna dati</button>
 
-					<a href="{{ route('admin.workout_plans', ['user_id' => $modal_user->id]) }}">
+					<a href="{{ route('admin.workout-plans', ['user_id' => $modal_user->id]) }}">
 						<button type="button" x-on:click="$wire.edit()" class="secondary-button">Mostra schede</button>
 					</a>
 				@endif

@@ -12,7 +12,7 @@ class WorkoutPlansController extends Controller
 	{
 		$workout_plans_count = $request->user()->workout_plans->count();
 
-		return view('workout_plans.list', [
+		return view('workout-plans.list', [
 			'workout_plans_count' => $workout_plans_count
 		]);
 	}
@@ -52,7 +52,7 @@ class WorkoutPlansController extends Controller
 
 	public function edit($id, Request $request)
 	{
-		return view('workout_plans.edit', [
+		return view('workout-plans.edit', [
 			'workout_plan' => $request->user()->workout_plans()->where('id', $id)->firstOrFail()
 		]);
 	}

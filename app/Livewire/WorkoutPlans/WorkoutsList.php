@@ -23,7 +23,7 @@ class WorkoutsList extends Component
 		$workout_plans = $user->workout_plans;
 		$show_delete_modal = false;
 		
-		return view('livewire.workout_plans.workouts-list', [
+		return view('livewire.workout-plans.workouts-list', [
 			'workout_plans' => $workout_plans
 		]);
 	}
@@ -49,7 +49,7 @@ class WorkoutsList extends Component
 			$wp->save();
 		}
 
-		return view('livewire.workout_plans.workouts-list');
+		return view('livewire.workout-plans.workouts-list');
 	}
 
 	public function edit($id)
@@ -84,7 +84,7 @@ class WorkoutsList extends Component
 		// Cancella solo se non è null
 		$workout_plan && $workout_plan->delete();
 
-		return view('livewire.workout_plans.workouts-list');
+		return view('livewire.workout-plans.workouts-list');
 	}
 }
 

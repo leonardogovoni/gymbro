@@ -78,7 +78,7 @@ class WorkoutPlansCrud extends Component
 			->limit(8)
 			->get();
 
-		return view('livewire.crud.workout_plans', [
+		return view('livewire.crud.workout-plans', [
 			'results' => $results
 		]);
 	}

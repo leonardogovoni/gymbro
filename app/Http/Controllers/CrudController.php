@@ -13,9 +13,9 @@ class CrudController extends Controller
 		return view('crud.users');
 	}
 
-	public function workout_plans()
+	public function workoutPlans()
 	{
-		return view('crud.workout_plans');
+		return view('crud.workout-plans');
 	}
 
 	public function progress()

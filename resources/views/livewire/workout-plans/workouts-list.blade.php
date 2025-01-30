@@ -14,7 +14,7 @@
 		<div class="grid gap-4">
 			@foreach ($workout_plans as $workout_plan)
 				<!-- Scheda -->
-				<a href="{{ route('workout_plans.edit', $workout_plan->id) }}">
+				<a href="{{ route('workout-plans.edit', $workout_plan->id) }}">
 					<div class="bg-gray-100 p-4 shadow-sm dark:bg-gray-800 border rounded-lg grid grid-cols-1 gap-2 text-sm hover:bg-hover-50">
 						<!-- Informazioni + pulsanti -->
 						<div class="flex justify-between items-center mb-2">

@@ -15,12 +15,12 @@
 				<!-- Navigation if logged in -->
 				@auth
 					<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-						<x-nav-link :href="route('training.select_day')" :active="request()->routeIs('training.select_day')">
+						<x-nav-link :href="route('training.select-day')" :active="request()->routeIs('training.select-day')">
 							{{ __('Allenamento') }}
 						</x-nav-link>
 					</div>
 					<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-						<x-nav-link :href="route('workout_plans.list')" :active="request()->routeIs('workout_plans.list')">
+						<x-nav-link :href="route('workout-plans.list')" :active="request()->routeIs('workout-plans.list')">
 							{{ __('Schede') }}
 						</x-nav-link>
 					</div>
@@ -99,12 +99,12 @@
 	<div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
 		@auth
 		<div class="pt-2 pb-3 space-y-1">
-			<x-responsive-nav-link :href="route('training.select_day')" :active="request()->routeIs('training.select_day')">
+			<x-responsive-nav-link :href="route('training.select-day')" :active="request()->routeIs('training.select-day')">
 				{{ __('Allenamento') }}
 			</x-responsive-nav-link>
 		</div>
 		<div class="pt-2 pb-3 space-y-1">
-			<x-responsive-nav-link :href="route('workout_plans.list')" :active="request()->routeIs('workout_plans.list')">
+			<x-responsive-nav-link :href="route('workout-plans.list')" :active="request()->routeIs('workout-plans.list')">
 				{{ __('Schede') }}
 			</x-responsive-nav-link>
 		</div>

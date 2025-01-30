@@ -43,7 +43,7 @@ class WorkoutEditor extends Component
 			})
 			->get();
 
-		return view('livewire.workout_plans.workout-editor');
+		return view('livewire.workout-plans.workout-editor');
 	}
 
 	// Eseguito all'inizializzazione del componente
