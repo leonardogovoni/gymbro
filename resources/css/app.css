@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .hero {
-	background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://unsplash.com/photos/qhBpzGubi1I/download?force=true');
+	background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('./../../public/images/home/bg.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
