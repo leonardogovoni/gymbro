@@ -21,7 +21,7 @@ Gymbro migliora l’esperienza sia per i clienti che per gli allenatori: i primi
 
 ## Idea
 
-Gymbro è stato sviluppato come progetto per il corso di Tecnologie Web del corso di laurea in Informatica presso l’Università di Ferrara; l'obiettivo era di ideare una propria startup da vendere come prodotto commerciale. L’applicazione adotta un modello SaaS (Software as a Service): viene venduta in abbonamento alle palestre, che possono così semplificare la gestione dei propri clienti e offrire loro un’esperienza moderna e coinvolgente.
+Gymbro è stato sviluppato come progetto per il corso di Tecnologie Web del corso di laurea in Informatica presso l’Università di Ferrara; l'obiettivo era di ideare una propria startup da vendere come prodotto commerciale. L’applicazione adotta un modello SaaS (Software as a Service): viene venduta in abbonamento alle palestre che possono così semplificare la gestione dei propri clienti e offrire loro un’esperienza moderna.
 
 A supporto di quanto detto la piattaforma include un’interfaccia di amministrazione globale, destinata a chi vende il servizio. Un amministratore ha accesso completo a tutte le palestre e clienti registrati, può aggiungerne di nuove e aggiornare il database degli esercizi disponibili, che potranno poi essere proposti nelle schede.
 
@@ -85,7 +85,7 @@ sudo mysql_secure_installation
 
 La maggior parte dei parametri possono essere lasciati a default, ma è importante configurare una password per l'utente root; questa andrà poi inserita nel file .env al passaggio successivo.
 
-> Non è ideale usare l'utente root in un ambiente production, ma diamo per scontato di essere in fase di testing.
+> Non è ideale usare l'utente root in un ambiente production ma diamo per scontato di essere in fase di testing.
 
 ## Installazione Gymbro
 ```bash
@@ -117,7 +117,7 @@ php artisan serve
 ```
 
 ## Creare utente admin
-Essendo software venduto alle palestre la registrazione diretta da parte degli utenti finali è disattivata. L'utente deve essere registrato da parte della palestra che ha acquistato Gymbro, il software invierà automaticamente le credenziali di accesso all'utente per mail.
+Essendo software venduto alle palestre la registrazione diretta da parte degli utenti finali è disattivata. L'utente deve essere registrato da parte della palestra che ha acquistato Gymbro, il software invierà automaticamente le credenziali di accesso all'utente tramite mail.
 
 A causa di ciò al primo avvio non sarà presente alcun utente ed è necessario crearne uno tramite la console di Laravel. Di seguito sono allegati i comandi per fare ciò; modificate i parametri dell'utente a vostro piacimento.
 
